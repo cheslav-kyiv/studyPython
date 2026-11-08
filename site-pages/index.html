@@ -8,11 +8,12 @@
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #333; background: #f0f2f5; padding: 20px; }
         .container { max-width: 950px; margin: auto; background: #fff; padding: 40px; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); }
         h1, h2, h3 { color: #1a2a6c; margin-top: 1.5em; }
-        .equation { 
-            background: #2d3436; color: #fab1a0; padding: 25px; border-radius: 10px; 
-            font-family: 'Courier New', Courier, monospace; overflow-x: auto; 
+        .equation {
+            background: #2d3436; color: #fab1a0; padding: 25px; border-radius: 10px;
+            font-family: 'Courier New', Courier, monospace; overflow-x: auto;
             margin: 25px 0; font-size: 1.2em; border-left: 6px solid #e17055; text-align: left;
         }
+        .equation .c { color: #b2bec3; font-size: 0.8em; }
         table { width: 100%; border-collapse: collapse; margin: 30px 0; background: #fff; }
         th, td { border: 1px solid #ddd; padding: 15px; text-align: center; }
         th { background: #f8f9fa; }
@@ -20,20 +21,36 @@
         .author-info { font-style: italic; color: #666; text-align: center; margin-bottom: 40px; }
         .img-placeholder { border: 2px dashed #ccc; padding: 20px; text-align: center; color: #777; margin: 20px 0; }
         img { max-width: 100%; height: auto; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); margin: 10px 0; }
-        
-        .theory-diagram {
-    display: block;
-    max-width: 800px; /* Обмежуємо ширину для великих екранів */
-    margin: 40px auto; /* Центруємо */
-    border-radius: 12px;
-    box-shadow: 0 10px 20px rgba(0,0,0,0.15); /* М'яка тінь для об'єму */
-    border: 1px solid #e0e0e0; /* Тонка рамка для чіткості */
-    transition: transform 0.3s ease;
-}
 
-.theory-diagram:hover {
-    transform: scale(1.02); /* Легке збільшення при наведенні для інтерактивності */
-}
+        .theory-diagram {
+            display: block;
+            max-width: 800px;
+            margin: 40px auto;
+            border-radius: 12px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+            border: 1px solid #e0e0e0;
+            transition: transform 0.3s ease;
+        }
+        .theory-diagram:hover { transform: scale(1.02); }
+
+        /* Статуси перевірки (як у науковому повідомленні) */
+        .status-note { background: #f8f9fa; border: 1px solid #ddd; border-radius: 10px; padding: 15px 20px; margin: 20px 0; font-size: 0.95em; }
+        .revised { background: #fdf2f1; padding: 25px 30px; border-left: 6px solid #a8322d; margin: 30px 0; border-radius: 0 8px 8px 0; }
+        .revised h3 { margin-top: 0; color: #a8322d; }
+        .revised ul { margin: 0; padding-left: 1.2em; }
+        .revised li { margin: 8px 0; }
+        .b { display: inline-block; white-space: nowrap; font-size: 0.8em; font-weight: 600; padding: 1px 8px; border-radius: 999px; }
+        .g { color: #1e7a3c; background: #e5f3e9; }
+        .y { color: #8a6400; background: #fbf1d6; }
+        .r { color: #a8322d; background: #f8e3e1; }
+        .btn { text-decoration: none; color: #1a2a6c; font-weight: bold; padding: 10px 20px; border: 2px solid #1a2a6c; border-radius: 8px; display: inline-block; }
+        .btn.main { background: #1a2a6c; color: #fff; }
+        @media (max-width: 640px) {
+            body { padding: 8px; }
+            .container { padding: 20px 16px; }
+            .equation { font-size: 1em; padding: 18px; }
+            th, td { padding: 10px 8px; }
+        }
     </style>
 </head>
 <body>
@@ -42,37 +59,53 @@
     <h1>Динамічна модель Всесвіту на основі ПЧК</h1>
     <p class="author-info">Автор: Вячеслав Арещенко. Теоретична модель просторово-часового континууму.</p>
 
-    <h2>1. Математичне обґрунтування фундаментальних констант</h2>
-    <p>Модель виводить фундаментальні константи безпосередньо з геометрії та динамічного тиску ПЧК:</p>
-    
-    <div class="equation">
-        e = 2 * α * Ls / Le ≈ 1.607 × 10⁻¹⁹ C<br>
-        e = 2 * α * Le / (π² * Lo) ≈ 1.601 × 10⁻¹⁹ C<br>
-        α (Константа тонкої структури) ≈ 0.00731
+    <div class="status-note">
+        <strong>Стан перевірки (листопад 2026).</strong> Модель систематично звірено з відомими даними і фундаментальними законами.
+        Позначки: <span class="b g">🟢 узгоджується з даними</span> <span class="b y">🟡 гіпотеза / інтерпретація</span> <span class="b r">🔴 переглядається</span>.
+        Подробиці — у <a href="pchk-verification.html">повному звіті</a>.
     </div>
 
-    <h2>2. Механіка протона: бульбашкова модель</h2>
-    <p>Протон — це стабільний солітон (бульбашка) у ПЧК. Його радіус <code>Rp</code> не є сталим — він є функцією локального тиску ПЧК.</p>
-    
-    
-    <img src="img/pp.png" alt="Протон та електрон як бульбашки в ПЧК">
+    <h2>1. Квант дії і структура ПЧК</h2>
+    <p>ПЧК складається з двох вкладених кубічних підґраток («сітка в сітці»). Така будова збігається з ґраткою Йі (Yee, 1966) — стандартною схемою для рівнянь Максвелла, де поле E живе на одній підґратці, а B — на іншій. <span class="b g">🟢</span></p>
+    <p>Комірка ПЧК — комірка Стоні. Вона містить рівно один квант дії: <span class="b g">🟢</span></p>
 
     <div class="equation">
-        P = k_e * e² / L⁴
+        h = m<sub>S</sub> · c · l<sub>S</sub><br>
+        l<sub>S</sub> = 1.18880 × 10⁻³³ м<br>
+        m<sub>S</sub> = √α · m<sub>P</sub> = 1.8592 × 10⁻⁹ кг<br>
+        α (стала тонкої структури) = 0.0072973525643 = 1/137.036
     </div>
 
+    <p>Коливання двох підґраток у квадратурі (A ∝ cos ωt, B ∝ sin ωt) математично еквівалентні внутрішньому обертанню. Звідси — ħ, знак заряду (напрямок обертання), античастинки і спін 1/2. <span class="b g">🟢</span> <span class="b y">🟡 інтерпретація</span></p>
+
+    <h3>Перевірка на відомих даних</h3>
     <table>
         <thead>
-            <tr><th>Система</th><th>Радіус протона (Rₚ), м</th><th>Тиск ПЧК (P), Па</th></tr>
+            <tr><th>Що перевірено</th><th>Результат</th><th>Статус</th></tr>
         </thead>
         <tbody>
-            <tr><td>Атом водню</td><td>8.775 * 10⁻¹⁶</td><td>3.882 * 10³²</td></tr>
-            <tr><td>Мюонний водень</td><td>8.4 * 10⁻¹⁶</td><td>4.632 * 10³²</td></tr>
+            <tr><td>Відхилення світла біля Сонця (ε = μ = 1 + 2GM/(rc²))</td><td>1.75″; відношення до ньютонівського 2.004</td><td><span class="b g">🟢</span></td></tr>
+            <tr><td>Атом водню: рівновага притягання і квантового тиску</td><td>r = a₀; енергія −13.606 еВ</td><td><span class="b g">🟢</span></td></tr>
+            <tr><td>Дисперсія ґратки → хвилі де Бройля</td><td>λ = h/(γmv); сповільнення часу 1/γ</td><td><span class="b g">🟢</span></td></tr>
+            <tr><td>Сповільнення часу біля маси</td><td>GPS: +45.7 мкс/добу</td><td><span class="b g">🟢</span></td></tr>
+            <tr><td>Темна енергія: розширення лінзи ПЧК</td><td>w<sub>a</sub> узгоджується з DESI DR2 у межах ~1σ</td><td><span class="b g">🟢</span> <span class="b y">🟡</span></td></tr>
         </tbody>
     </table>
 
+    <h2>2. Механіка протона: бульбашкова модель</h2>
+    <p>Протон — це стабільний солітон (бульбашка) у ПЧК. Конденсація пар протон + електрон з нейтрального ПЧК пояснює точну рівність їхніх зарядів і відсутність антиматерії у Всесвіті. <span class="b g">🟢</span></p>
+
+    <img src="img/pp.png" alt="Протон та електрон як бульбашки в ПЧК">
+
+    <p>Модель передбачає, що протон абсолютно стабільний. Це перевірить детектор Hyper-Kamiokande (чутливість ~10³⁵ років, запуск ~2027–2028).</p>
+
+    <div class="theory-section">
+        <h3 style="margin-top:0">Відкрите питання: радіус протона</h3>
+        <p style="margin-bottom:0">Виміряний радіус протона — 0.84 фм. Простий закон R = m/K дає 0.608 фм. Пояснити різницю з механіки ПЧК — одне із завдань наступного етапу. <span class="b y">🟡</span></p>
+    </div>
+
     <h2>3. Створення ПЧК</h2>
-    
+
     <img src="img/vsesvit.png" alt="Створення просторово-частового континууму">
 
     <h2>4. Есхатологія ПЧК: Анізотропне згортання</h2>
@@ -87,24 +120,34 @@
     </div>
 
     <h2>5. Структура Мультиверсу</h2>
-    
+
     <img src="cos.png" alt="Схема мультиверсу та взаємодія структур">
     <p>Схема відображає взаємодію сутностей BM A та BM B, які створюють наш Всесвіт, а також "Ось Зла" як фундаментальну асиметрію.</p>
-    
-    <div style="text-align: center; margin-top: 50px;">
-        <a href="j.html" style="text-decoration: none; color: #1a2a6c; font-weight: bold; padding: 10px 20px; border: 2px solid #1a2a6c; border-radius: 8px;">Перейти до НАУКОВЕ ПОВІДОМЛЕННЯ</a>
-    </div>
-    
-    <div style="text-align: center; margin-top: 50px;">
-        <a href="pchk.html" style="text-decoration: none; color: #1a2a6c; font-weight: bold; padding: 10px 20px; border: 2px solid #1a2a6c; border-radius: 8px;">Перейти до НАУКОВЕ ПОВІДОМЛЕННЯ 2026</a>
+
+    <div class="revised">
+        <h3>🔴 Переглянуто після перевірки (листопад 2026)</h3>
+        <p>Ці твердження з попередньої версії сторінки не пройшли перевірку і зараз переформульовуються:</p>
+        <ul>
+            <li><strong>e = 2·α·L<sub>s</sub>/L<sub>e</sub> ≈ 1.607 × 10⁻¹⁹ Кл</strong> та <strong>e = 2·α·L<sub>e</sub>/(π²·L₀)</strong> — дають правильне число в SI, але залежать від людських одиниць (кулон, метр). Фізична мета — вивести безрозмірну сталу α з механіки ґратки.</li>
+            <li><strong>α ≈ 0.00731</strong> — неточно; правильне значення 0.0072973525643 (1/137.036).</li>
+            <li><strong>Радіус протона залежить від тиску ПЧК</strong> (8.775 × 10⁻¹⁶ м у водні, 8.4 × 10⁻¹⁶ м у мюонному водні) — не підтверджується: більшість нових вимірювань звичайного водню теж дає ~0.84 фм.</li>
+        </ul>
     </div>
 
     <div style="text-align: center; margin-top: 50px;">
-        <a href="pchk-verification.html" style="text-decoration: none; color: #1a2a6c; font-weight: bold; padding: 10px 20px; border: 2px solid #1a2a6c; border-radius: 8px;">Перейти до СТАНУ ПЕРЕВІРКИ МОДЕЛІ (листопад 2026)</a>
+        <a href="pchk-verification.html" class="btn main">Перейти до СТАНУ ПЕРЕВІРКИ МОДЕЛІ (листопад 2026)</a>
     </div>
 
-    <div style="text-align: center; margin-top: 50px;">
-        <a href="universum.html" style="text-decoration: none; color: #1a2a6c; font-weight: bold; padding: 10px 20px; border: 2px solid #1a2a6c; border-radius: 8px;">Перейти до англійської версії</a>
+    <div style="text-align: center; margin-top: 30px;">
+        <a href="j.html" class="btn">Перейти до НАУКОВЕ ПОВІДОМЛЕННЯ</a>
+    </div>
+
+    <div style="text-align: center; margin-top: 30px;">
+        <a href="pchk.html" class="btn">Перейти до НАУКОВЕ ПОВІДОМЛЕННЯ 2026</a>
+    </div>
+
+    <div style="text-align: center; margin-top: 30px;">
+        <a href="universum.html" class="btn">Перейти до англійської версії</a>
     </div>
 </div>
 
