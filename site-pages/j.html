@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>НАУКОВЕ ПОВІДОМЛЕННЯ: Концепція динамічних перпендикулярних структур ПЧК</title>
+    <meta name="description" content="Перше наукове повідомлення В. Арещенка про модель ПЧК. Архівна версія з позначками статусу і виправленнями за результатами перевірки листопада 2026.">
+    <meta name="author" content="Вячеслав Арещенко">
+
+<!-- MathJax для формул (версію закріплено) -->
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3.2.2/es5/tex-mml-chtml.js"></script>
+
+    <style>
+        body { margin: 0; background-color: #ffffff; }
+
+        .paper-body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            line-height: 1.7;
+            color: #2c3e50;
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #ffffff;
+        }
+
+        .top-nav { font-size: 14px; margin-bottom: 18px; }
+        .top-nav a { color: #3498db; text-decoration: none; margin-right: 14px; }
+        .top-nav a:hover { text-decoration: underline; }
+
+        .paper-header {
+            border-bottom: 3px solid #2c3e50;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+
+        .paper-title {
+            font-size: 26px;
+            font-weight: 800;
+            color: #1a252f;
+            text-transform: uppercase;
+            line-height: 1.3;
+            margin-bottom: 15px;
+        }
+
+        .author-card {
+            background-color: #f8f9fa;
+            border-left: 4px solid #3498db;
+            padding: 15px 20px;
+            margin-top: 15px;
+            border-radius: 0 8px 8px 0;
+        }
+
+        .author-name { font-size: 18px; font-weight: 700; color: #2c3e50; margin: 0 0 5px 0; }
+        .author-contacts { font-size: 14px; color: #7f8c8d; margin: 0; }
+        .author-contacts a { color: #3498db; text-decoration: none; }
+        .author-contacts a:hover { text-decoration: underline; }
+
+        h2 {
+            font-size: 20px;
+            color: #2c3e50;
+            border-bottom: 1px solid #ecf0f1;
+            padding-bottom: 8px;
+            margin-top: 35px;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        p { margin-bottom: 18px; text-align: justify; }
+
+        .equation-box {
+            background-color: #f4f6f7;
+            border: 1px solid #e1e8ed;
+            border-radius: 6px;
+            padding: 15px;
+            margin: 20px 0;
+            text-align: center;
+            font-size: 18px;
+            overflow-x: auto;
+        }
+
+        .figure-box { margin: 30px 0; text-align: center; }
+        .figure-box img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            border: 1px solid #dcdde1;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+        .figure-caption {
+            font-size: 14px;
+            color: #57606f;
+            margin-top: 12px;
+            font-style: italic;
+            line-height: 1.5;
+            padding: 0 10px;
+        }
+
+        .highlight-box {
+            background-color: #eef7fc;
+            border-left: 4px solid #2980b9;
+            padding: 15px 20px;
+            margin: 20px 0;
+            border-radius: 0 6px 6px 0;
+        }
+
+        .conclusions-box {
+            background-color: #f9f9f9;
+            border: 1px solid #dcdde1;
+            padding: 25px;
+            border-radius: 8px;
+            margin-top: 40px;
+        }
+
+        /* Статус перевірки (листопад 2026) */
+        .archive-banner {
+            background: #fff7ed;
+            border: 1px solid #fed7aa;
+            border-left: 5px solid #f97316;
+            border-radius: 0 8px 8px 0;
+            padding: 16px 20px;
+            margin: 0 0 28px;
+            color: #7c2d12;
+        }
+        .archive-banner p { margin: 0 0 8px; text-align: left; }
+        .archive-banner p:last-child { margin-bottom: 0; }
+        .archive-banner a { color: #c2410c; font-weight: 700; }
+
+        .b {
+            display: inline-block; white-space: nowrap; font-size: 13px; font-weight: 700;
+            padding: 0 8px; border-radius: 999px; line-height: 1.7; margin: 1px 0;
+            font-style: normal;
+        }
+        .g { color: #166534; background: #dcfce7; }
+        .y { color: #854d0e; background: #fef3c7; }
+        .r { color: #b91c1c; background: #fee2e2; }
+
+        .erratum {
+            background: #fdf2f2;
+            border-left: 4px solid #b91c1c;
+            border-radius: 0 6px 6px 0;
+            padding: 12px 18px;
+            margin: -8px 0 22px;
+            font-size: 15px;
+        }
+        .erratum p { margin: 0 0 8px; text-align: left; }
+        .erratum p:last-child { margin-bottom: 0; }
+        .erratum .equation-box { background: #fff; margin: 10px 0; font-size: 16px; }
+
+        .note-ok {
+            background: #f0fdf4;
+            border-left: 4px solid #16a34a;
+            border-radius: 0 6px 6px 0;
+            padding: 12px 18px;
+            margin: -8px 0 22px;
+            font-size: 15px;
+        }
+        .note-ok p { margin: 0; text-align: left; }
+
+        .errata-list { padding-left: 20px; }
+        .errata-list li { margin: 8px 0; }
+
+        .back-row { text-align: center; margin: 40px 0 10px; display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
+        .back-row a {
+            text-decoration: none; color: #1a2a6c; font-weight: bold; padding: 10px 20px;
+            border: 2px solid #1a2a6c; border-radius: 8px;
+        }
+
+        @media (max-width: 600px) {
+            .paper-body { padding: 12px; }
+            .paper-title { font-size: 20px; }
+            h2 { font-size: 17px; }
+            p { text-align: left; }
+            .equation-box { font-size: 15px; padding: 10px; }
+            .figure-caption { font-size: 13px; }
+        }
+    </style>
+</head>
+<body>
+
+<article class="paper-body">
+
+    <nav class="top-nav" aria-label="Навігація сайтом">
+        <a href="index.html">← На головну</a>
+        <a href="pchk-verification.html">Стан перевірки моделі (листопад 2026)</a>
+        <a href="universum.html" hreflang="en">English</a>
+    </nav>
+
+    <div class="archive-banner">
+        <p><strong>Архівна версія.</strong> Це перше наукове повідомлення про модель ПЧК, написане до систематичної перевірки 3–8 листопада 2026 року. Текст автора збережено; біля тверджень додано позначки статусу, а виявлені помилки виправлено або відмічено.</p>
+        <p>Позначки: <span class="b g">🟢 узгоджується з даними</span> <span class="b y">🟡 гіпотеза / інтерпретація</span> <span class="b r">🔴 помилка або залежність від людських одиниць</span></p>
+        <p>Актуальний стан моделі: <a href="pchk-verification.html">«Динамічна модель Всесвіту на основі ПЧК: стан перевірки»</a>.</p>
+    </div>
+
+    <header class="paper-header">
+        <h1 class="paper-title">Наукове повідомлення: Концепція динамічних перпендикулярних структур ПЧК та геометричне об'єднання взаємодій</h1>
+
+        <div class="author-card">
+            <p class="author-name">Автор: Вячеслав Іванович Арещенко (м. Київ, Україна)</p>
+            <p class="author-contacts">
+                <strong>Контакти для наукової дискусії:</strong>
+                <a href="mailto:avi.kyiv.ukraine@gmail.com">avi.kyiv.ukraine@gmail.com</a> | +380685986828<br>
+                <strong>Офіційна публікація:</strong> <a href="https://areshchenko.viacheslav.uaguides.com/" target="_blank" rel="noopener">areshchenko.viacheslav.uaguides.com</a>
+            </p>
+        </div>
+    </header>
+
+    <section>
+        <h2>Вступ та актуальність</h2>
+        <p>Сучасна теоретична фізика не має загальноприйнятого об'єднання загальної теорії відносності (гравітації) з квантовою теорією. Додатково, космологічні спостереження фіксують аномалії («Вісь Зла», баріонна асиметрія, змінна темна енергія за даними DESI), для яких немає єдиного механістичного пояснення.</p>
+        <p>У даній роботі пропонується модель, де простір-час (ПЧК) розглядається як динамічне середовище, сформоване взаємодією двох просторових структур (сіток) <i>i</i> та <i>j</i>. Фізичний зміст у ній мають лише безрозмірні співвідношення, які не залежать від людських одиниць виміру (принцип універсальності).</p>
+    </section>
+
+    <section>
+        <h2>1. Фундаментальні постулати та динаміка ПЧК</h2>
+        <p>Простір-час є зоною геометричного перетину двох первинних багатовимірних сутностей (Хмар <i>i</i> та <i>j</i>). Фронт їхнього зустрічного тиску та дифузії може проявлятися в реліктовому випромінюванні як аномалія «Вісь Зла». <span class="b y">🟡</span></p>
+
+        <div class="erratum">
+            <p><strong>Уточнення (листопад 2026).</strong> Аналіз карт Planck SMICA і WMAP ILC показав: аномалію краще описують коливальні моди ободу асиметричної лінзи перетину (m = ±l для l = 2, 3; p ≈ 0,01, або ≈ 0,04 з поправкою на перебір), а не одна вісь лобового зіткнення (p = 0,10). У даних Planck PR4 вирівнювання слабшає до ≈ 2σ. Тому це можливий слід взаємодії структур, а не спостережне підтвердження.</p>
+        </div>
+
+        <figure class="figure-box">
+            <img src="CMB.png" alt="Анізотропія реліктового випромінювання Всесвіту (карта Planck)">
+            <figcaption class="figure-caption"><strong>Рис. 1.</strong> Карта анізотропії реліктового випромінювання (CMB). Виділена орієнтація температурних флуктуацій на найбільших масштабах («Вісь Зла») у моделі ПЧК інтерпретується як можливий слід анізотропної взаємодії первинних структур.</figcaption>
+        </figure>
+
+        <p>Хвильові процеси у ПЧК описуються коливаннями двох сіток. Швидкості передачі збудження в них не є рівними (\(c_i \neq c_j\)), а макроскопічна швидкість світла у вакуумі є їхнім середнім геометричним: <span class="b g">🟢</span></p>
+
+        <div class="equation-box">
+            \[ \mathbf{c = \sqrt{c_i \cdot c_j}} \]
+        </div>
+
+        <div class="note-ok">
+            <p><strong>Розвиток моделі (листопад 2026).</strong> У пізнішому формулюванні сітки — дві вкладені кубічні підґратки типу CsCl (вузли однієї в центрах комірок іншої). Така структура збігається з ґраткою Йі (Yee, 1966), де поле E живе на одній підґратці, а B — на іншій; \(c = \sqrt{v_1 v_2}\) і \(Z_0 = \sqrt{\mu_0/\varepsilon_0}\) — її тотожності.</p>
+        </div>
+
+        <p>Темп зміни структури цих сіток визначає фізичний плин часу. <span class="b y">🟡</span></p>
+    </section>
+
+    <section>
+        <h2>2. Реформа системи одиниць та калібрування констант</h2>
+        <p>Робота виходить з того, що одиниці СІ (Кулони, Ампери, Генрі) є людською домовленістю. У геометрії ПЧК магнітна стала \(\mu_0\) набуває механічної розмірності лінійного натягу сітки (кг·м):</p>
+
+        <div class="equation-box">
+            \[ \mathbf{\mu_0 = \frac{\pi^2 \cdot m_S \cdot 1\text{ м}}{2 \cdot \alpha}} \]
+        </div>
+        <p><i>(де \(m_S = 1.85921 \times 10^{-9} \text{ кг}\) — маса Стоні, \(\alpha\) — стала тонкої структури).</i> <span class="b r">🔴</span></p>
+
+        <div class="erratum">
+            <p><strong>Виправлення.</strong> Формула дає 1.25728 × 10⁻⁶, а не 1.25664 × 10⁻⁶: розходження 5.1 × 10⁻⁴, у 50 разів більше за похибку вимірювань. Крім того, вона містить «1 м» — людську одиницю. Точна формула без метра:</p>
+            <div class="equation-box">
+                \[ \mu_0 = \frac{m_S \cdot L_e}{e}, \qquad L_e = \frac{4\pi\sqrt{\alpha}\, l_P}{e} \]
+            </div>
+        </div>
+
+        <p>Вводиться константа гравітаційного натягу сітки \(\mu_\gamma\) (м/кг), яка відображає лінійну піддатливість вакууму до викривлення масою: <span class="b g">🟢</span></p>
+
+        <div class="equation-box">
+            \[ \mathbf{\mu_\gamma = \frac{4\pi G}{c^2} = \frac{4\pi \cdot l_P}{m_P} \approx 9.332 \times 10^{-27} \text{ м/кг}} \]
+        </div>
+
+        <figure class="figure-box">
+            <img src="BH.jpg" alt="Моделювання гравітаційного викривлення простору-часу">
+            <figcaption class="figure-caption"><strong>Рис. 2.</strong> Візуалізація деформації континууму простору-часу масивним об'єктом. Модель ілюструє механічну піддатливість сітки вакууму та геометричний зміст константи гравітаційного натягу \(\mu_\gamma\).</figcaption>
+        </figure>
+
+        <p>Площа фундаментального осередку простору \(L_e^2\) пов'язує електромагнітний та гравітаційний натяги: <span class="b g">🟢 тотожність</span></p>
+
+        <div class="equation-box">
+            \[ \mathbf{L_e^2 = \mu_0 \cdot \mu_\gamma} \]
+        </div>
+
+        <div class="erratum">
+            <p><strong>Уточнення.</strong> Співвідношення виконується точно, але числове значення \(L_e \approx 1.0829 \times 10^{-16}\) м залежить від того, скільки елементарних зарядів містить кулон. У природних одиницях \(L_e^2 = 4\pi l_P^2\), тобто \(L_e = 2\sqrt{\pi}\, l_P \approx 5.73 \times 10^{-35}\) м — площа сфери радіусом \(l_P\).</p>
+        </div>
+
+        <p>З цього раніше виводилося значення елементарного заряду:</p>
+
+        <div class="equation-box">
+            \[ \mathbf{e = \frac{2 \cdot \alpha \cdot L_e}{\pi^2 \cdot 1 \text{ м}}} \]
+        </div>
+
+        <div class="erratum">
+            <p><span class="b r">🔴</span> <strong>Виправлення.</strong> У першій версії було вказано \(e \approx 1.50742 \times 10^{-19}\) — це арифметична помилка: формула дає \(1.6014 \times 10^{-19}\) (з \(L_e = 1.0829 \times 10^{-16}\) м). Головне ж те, що формула містить «1 м», тому результат не безрозмірний і змінюється при переході до інших одиниць. Число \(1.602 \times 10^{-19}\) — це домовленість СІ про кулон. Універсальне безрозмірне число заряду — \(\alpha = 1/137.036\); фізична мета — вивести саме \(\alpha\) з механіки ґратки.</p>
+        </div>
+    </section>
+
+    <section>
+        <h2>3. Хвильовий дуалізм: Імпеданс та адмітанс вакууму</h2>
+        <p>Множенням просторової тотожності на \(c^2\) отримується співвідношення потоку площі ПЧК (\(\text{м}^4/\text{с}^2\)): <span class="b g">🟢 тотожність</span></p>
+
+        <div class="equation-box">
+            \[ \mathbf{c^2 \cdot L_e^2 = (c \cdot \mu_0) \cdot (c \cdot \mu_\gamma)} \]
+        </div>
+
+        <p>Добуток \(\mathbf{c \cdot \mu_0} = Z_0 = 376.73\) Ом визначено як <strong>Електромагнітний Імпеданс</strong> (хвильовий опір сітки <i>i</i>), що відповідає за інертність та квантову дію вакууму.</p>
+        <p>Добуток \(\mathbf{c \cdot \mu_\gamma} = Z_g \approx 2.798 \times 10^{-18}\) м²/(кг·с) визначено як <strong>Гравітаційний Адмітанс</strong> (хвильова провідність сітки <i>j</i>), що відповідає за кінематичну проникність маси. <span class="b y">🟡 інтерпретація</span></p>
+        <p>Ідеальний резонанс опору однієї сітки та провідності іншої забезпечує безперешкодне поширення хвиль у континуумі. <span class="b y">🟡</span></p>
+
+        <div class="note-ok">
+            <p><strong>Розвиток моделі.</strong> Наступний вирішальний крок — вивести \(\alpha = Z_0/(2R_K)\) як відношення опорів двох підґраток. Якщо це вдасться, модель вперше передбачить фундаментальну сталу.</p>
+        </div>
+    </section>
+
+    <section>
+        <h2>4. Елементарний магнітний момент (Магнетон Бора)</h2>
+        <p>Магнітний момент у даній системі описує секторіальну швидкість закручування простору навколо частинки і виражається через відношення масштабів ПЧК до радіуса електрона \(R\):</p>
+
+        <div class="equation-box">
+            \[ \mathbf{\mu_B = \frac{c \cdot L_e \cdot l_S}{4\pi \cdot R}} \]
+        </div>
+        <p><i>(де \(l_S = \frac{2\pi \cdot l_P}{\sqrt{\alpha}} = 1.18880 \times 10^{-33} \text{ м}\) — довжина Стоні, вона ж довжина Комптона маси Стоні).</i> <span class="b r">🔴</span></p>
+
+        <div class="erratum">
+            <p><strong>Виправлення.</strong> У першій версії вказано \(\mu_B \approx 1.0126 \times 10^{-26}\) м²/с і \(l_S \approx 1.18903 \times 10^{-33}\) м — обидва числа хибні. З \(R = 3.3115 \times 10^{-19}\) м формула дає \(9.274 \times 10^{-24}\), тобто числове значення магнетона Бора в Дж/Тл. Але \(R\) підібрано так, щоб отримати масу електрона (розділ 5), тому збіг є тотожністю, а не незалежним виведенням, і залежить від числа кулонів.</p>
+        </div>
+    </section>
+
+    <section>
+        <h2>5. Структура матерії та мікроскопічна рівновага сил</h2>
+        <p>Маса частинки пов'язується з її просторовим радіусом \(R\): \(M = e \cdot m_S \cdot (R/L_e)\). Для електрона при \(R = 3.3115 \times 10^{-19} \text{ м}\) формула дає \(M_e \approx 9.109 \times 10^{-31} \text{ кг}\). <span class="b r">🔴</span></p>
+
+        <div class="erratum">
+            <p><strong>Виправлення.</strong> \(R\) не виміряно, а обчислено з відомої маси електрона, тому формула відтворює масу за побудовою (коло в міркуванні). Абсолютний радіус залежить від числа кулонів; з універсальним зарядом він менший за довжину Планка. Крім того, \(m/R = \text{const}\) застосовне лише до маси спокою: \(R = \gamma R_0\) дало б ~66 фм на LEP, де електрон точковий.</p>
+        </div>
+
+        <p>Електрична та гравітаційна сили пов'язані через велике число Дірака (\(N_D\)), виражене через відношення мас: <span class="b g">🟢 тотожність</span></p>
+
+        <div class="equation-box">
+            \[ \mathbf{F_e = F_g \cdot N_D, \quad \text{де } N_D = \frac{m_S^2}{m_p \cdot m_e} \approx 2.2687 \times 10^{39}} \]
+        </div>
+        <p><i>Для будь-якої пари зарядів \(F = G \cdot m_S^2/r^2\); у першій версії було 2.2704 × 10³⁹.</i></p>
+
+        <div class="highlight-box">
+            <p><strong>Природа Нейтрона:</strong> Нейтрон за своєю фізичною суттю є збудженою тимчасовою «тісною парою» протона та електрона — новою структурою, а не їхнім механічним поєднанням. На надмалих відстанях коливання сіток <i>i</i> та <i>j</i> макроскопічно компенсують одне одного, роблячи нейтрон нейтральним. <span class="b y">🟡</span></p>
+            <p style="margin-bottom:0">Утворення і розпад нейтрона вимагають нейтрино: \(p^+ + e^- \to n^0 + \nu_e\), \(n^0 \to p^+ + e^- + \bar{\nu}_e\); \(m_n - m_p - m_e = +0.782\) МеВ. Без нейтрино не зберігаються лептонне число і спін. <span class="b g">🟢</span></p>
+        </div>
+
+        <p><strong>Стабільність атома водню:</strong> Електрон не падає на ядро завдяки просторовій силі виштовхування (аналогу сили Архімеда) \(F_A\), яка виникає через градієнт об'ємного тиску вакууму \(P_u\):</p>
+
+        <div class="equation-box">
+            \[ \mathbf{F_e + F_g = F_A, \quad \text{де } F_A = \frac{4}{3}\pi \cdot M \cdot (\nu_i \cdot \nu_j) \cdot R^2} \]
+        </div>
+        <p>Геометрія атома (борівський радіус) є точкою цієї механічної рівноваги. <span class="b y">🟡</span></p>
+
+        <div class="note-ok">
+            <p><strong>Перевірена форма (листопад 2026)</strong> <span class="b g">🟢</span>. Формулу для \(F_A\) з частотами \(\nu_i, \nu_j\) ще не виведено. Перевірено інший запис тієї ж ідеї: якщо енергія стиснення \(\hbar^2/(2mr^2)\) зберігається як тиск у сфері Комптона, сила \(F = -V\nabla P = \hbar^2/(m r^3)\). Вона точно дорівнює притяганню \(\alpha\hbar c/r^2\) при \(r = a_0\) (обидві 8.23872 × 10⁻⁸ Н), енергія рівноваги −13.606 еВ. Гравітація тут нехтовно мала (\(F_g/F_e \approx 4 \times 10^{-40}\)). Цей крок еквівалентний стандартному квантовомеханічному розрахунку: він показує узгодженість картини, але не замінює квантову механіку.</p>
+        </div>
+    </section>
+
+    <section class="conclusions-box">
+        <h2>Висновки та космологічні наслідки</h2>
+        <p>Модель ПЧК пов'язує квантову дію з гравітаційною геометрією мовою двох сіток. Частина її співвідношень виконується точно, але більшість із них — тотожності, які переписують відомі зв'язки між сталими, а не незалежні виведення. Формули, що містять кулон або «1 м», потребують переформулювання; головне відкрите завдання — вивести \(\alpha\) і масштаб \(L_e\) з механіки ґратки.</p>
+        <p>Модель описує циклічний Всесвіт, де фінальний колапс простору у Велику Чорну Діру та її наступний розпад автор пов'язує з законом життя вільного нейтрона (~14,6 хв, або ~879 с, за внутрішнім годинником). <span class="b y">🟡 гіпотеза, механізм ще не виведено</span></p>
+    </section>
+
+    <section>
+        <h2>Виправлення (8 листопада 2026)</h2>
+        <ul class="errata-list">
+            <li>\(e\): арифметична помилка 1.50742 → 1.6014 × 10⁻¹⁹; формула залежить від «1 м» і не дає безрозмірного заряду.</li>
+            <li>\(\mu_0\): формула з «1 м» дає 1.25728 × 10⁻⁶ (розходження 5.1 × 10⁻⁴); додано точну формулу без метра.</li>
+            <li>\(\mu_B\): хибне число 1.0126 × 10⁻²⁶ м²/с; формула відтворює 9.274 × 10⁻²⁴ лише як тотожність.</li>
+            <li>\(l_S\): 1.18903 → 1.18880 × 10⁻³³ м; \(N_D\): 2.2704 → 2.2687 × 10³⁹; \(M_e\): 9.1121 → 9.109 × 10⁻³¹ кг; \(\mu_\gamma\) округлено до 9.332 × 10⁻²⁷.</li>
+            <li>Радіус \(R\) і формулу маси позначено як підібрані (коло в міркуванні).</li>
+            <li>Додано нейтрино в реакції утворення і розпаду нейтрона.</li>
+            <li>«Вісь Зла»: «експериментально фіксується / спостережне підтвердження» замінено на «можливий слід», з результатами аналізу CMB.</li>
+            <li>Прибрано твердження «верифікується з точністю понад 99,9 %», «усуває постулативний характер квантової механіки» і згадку про Хабблівське напруження, яку модель поки не пояснює.</li>
+            <li>Час життя нейтрона уточнено: ~14,6 хв (~879 с).</li>
+            <li>Технічне: виправлено адресу сайту, закріплено версію MathJax, прибрано зайві символи після кінця документа, додано навігацію.</li>
+        </ul>
+    </section>
+
+    <div class="back-row">
+        <a href="index.html">← На головну</a>
+        <a href="pchk-verification.html">СТАН ПЕРЕВІРКИ МОДЕЛІ (листопад 2026)</a>
+    </div>
+
+</article>
+
+</body>
+</html>
