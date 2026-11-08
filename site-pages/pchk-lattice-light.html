@@ -1,0 +1,456 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Ґратка ПЧК і світло</title>
+<meta name="description" content="Інтерактивна 3D-візуалізація моделі ПЧК: маса змінює ε і μ двох підґраток (ґратка Йі), і світло заломлюється, як у лінзі. Відхилення 2× ньютонівського, затримка Шапіро, відсутність відбиття.">
+<meta name="author" content="Вячеслав Арещенко">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: full-bleed 3D lattice stage on the left, a narrow instrument panel on the right; stacks on phones. Single deliberate dark theme (space). */
+:root{
+  --void:#05060d;
+  --panel:#0c0f1c;
+  --line:#1d2340;
+  --ink:#e6e9f7;
+  --muted:#8c93b5;
+  --latA:#5fd4ff;   /* lattice A: E, epsilon */
+  --latB:#ff7ad9;   /* lattice B: B, mu */
+  --ray:#ffe08a;
+  --ok:#5be3a3;
+  --warn:#f2c14e;
+  --bad:#ff7a7a;
+  --f-display:"Chakra Petch","Segoe UI",system-ui,sans-serif;
+  --f-body:"IBM Plex Sans","Segoe UI",system-ui,sans-serif;
+  --f-mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0}
+body{background:var(--void);color:var(--ink);font-family:var(--f-body);font-size:14px;line-height:1.5}
+.app{display:grid;grid-template-columns:minmax(0,1fr) 360px;height:100%}
+.stage{position:relative;min-width:0;min-height:0;overflow:hidden}
+#gl{display:block;width:100%;height:100%;touch-action:none;cursor:grab}
+.legend{position:absolute;left:max(16px,env(safe-area-inset-left,0px));top:16px;display:flex;flex-direction:column;gap:6px;pointer-events:none}
+.legend h1{font-family:var(--f-display);font-weight:600;font-size:13px;letter-spacing:.22em;text-transform:uppercase;color:var(--latA);margin:0}
+.legend p{margin:0;color:var(--muted);max-width:44ch;font-size:13px}
+.key{display:flex;gap:14px;flex-wrap:wrap;font-family:var(--f-mono);font-size:12px;color:var(--muted)}
+.key span{display:inline-flex;align-items:center;gap:6px}
+.sw{width:18px;height:3px;border-radius:2px;display:inline-block}
+.hint{position:absolute;bottom:12px;left:0;right:0;text-align:center;font-size:12px;color:var(--muted);pointer-events:none;padding-inline:16px}
+.hint b{color:var(--ink);font-weight:500}
+
+.panel{background:var(--panel);border-left:1px solid var(--line);overflow-y:auto;padding-block:18px 24px;padding-left:max(18px,env(safe-area-inset-left,0px));padding-right:max(18px,env(safe-area-inset-right,0px));display:flex;flex-direction:column;gap:20px;min-width:0}
+.panel h2{font-family:var(--f-display);font-weight:600;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin:0 0 10px}
+.sitenav{display:flex;gap:8px;flex-wrap:wrap;font-size:13px}
+.sitenav a{color:var(--ink);text-decoration:none;border:1px solid var(--line);border-radius:6px;padding:5px 10px}
+.sitenav a:hover{border-color:var(--latA)}
+.ctl{display:flex;flex-direction:column;gap:4px;margin-bottom:12px}
+.ctl label{display:flex;justify-content:space-between;gap:8px;font-size:13px}
+.ctl output{font-family:var(--f-mono);color:var(--ink);font-variant-numeric:tabular-nums}
+.ctl small{color:var(--muted);font-size:12px}
+input[type=range]{width:100%;accent-color:var(--latA)}
+#delta{accent-color:var(--latB)}
+.row{display:flex;gap:8px;flex-wrap:wrap}
+button{font:500 13px var(--f-body);color:var(--void);background:var(--ray);border:0;border-radius:6px;padding:8px 14px;cursor:pointer}
+button.ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+button:focus-visible,input:focus-visible,a:focus-visible{outline:2px solid var(--latA);outline-offset:2px}
+.check{display:flex;align-items:center;gap:8px;font-size:13px;margin-top:4px}
+
+.read{display:grid;grid-template-columns:1fr auto;gap:6px 12px;font-size:13px;margin:0}
+.read dt{color:var(--muted)}
+.read dd{margin:0;font-family:var(--f-mono);font-variant-numeric:tabular-nums;text-align:right}
+.big{font-family:var(--f-mono);font-size:26px;color:var(--ray);line-height:1.1}
+.ratio{font-size:12px;color:var(--muted)}
+.chip{display:inline-block;font-family:var(--f-mono);font-size:11px;padding:1px 7px;border-radius:999px;border:1px solid currentColor;margin-right:6px;vertical-align:1px}
+.c-ok{color:var(--ok)}.c-warn{color:var(--warn)}.c-bad{color:var(--bad)}
+.note{font-size:12.5px;color:var(--muted);margin:6px 0 0;max-width:60ch}
+.note b{color:var(--ink);font-weight:500}
+.facts{display:flex;flex-direction:column;gap:8px;font-size:12.5px}
+.facts p{margin:0}
+.foot{font-size:11.5px;color:var(--muted);border-top:1px solid var(--line);padding-top:12px}
+.foot a{color:var(--latA)}
+.nogl{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:24px;text-align:center;color:var(--muted)}
+
+@media (max-width:820px){
+  .app{grid-template-columns:1fr;grid-template-rows:62vh auto;height:auto}
+  html,body{height:auto}
+  .panel{border-left:0;border-top:1px solid var(--line);overflow:visible}
+}
+</style>
+</head>
+<body>
+
+<div class="app">
+  <div class="stage">
+    <canvas id="gl" aria-label="Тривимірна модель двох вкладених ґраток ПЧК, маси та променя світла"></canvas>
+    <div class="legend">
+      <h1>ПЧК · ґратка Йі</h1>
+      <p>Маса не прогинає простір у «яму». Вона змінює властивості двох підґраток, ε і μ, і світло заломлюється, як у лінзі.</p>
+      <div class="key">
+        <span><i class="sw" style="background:var(--latA)"></i>ґратка A · E · ε</span>
+        <span><i class="sw" style="background:var(--latB)"></i>ґратка B · B · μ</span>
+        <span><i class="sw" style="background:var(--ray)"></i>промінь ПЧК</span>
+        <span><i class="sw" style="background:#8c93b5"></i>ньютонівський</span>
+      </div>
+    </div>
+    <div class="hint"><b>Тягніть</b> масу, щоб перемістити · <b>тягніть</b> простір, щоб обертати · <b>колесо</b> — масштаб</div>
+  </div>
+
+  <aside class="panel">
+    <nav class="sitenav" aria-label="Навігація сайтом">
+      <a href="index.html">← На головну</a>
+      <a href="pchk.html">Стан перевірки моделі</a>
+      <a href="universum.html" hreflang="en">English</a>
+    </nav>
+
+    <section>
+      <h2>Параметри</h2>
+      <div class="ctl">
+        <label for="k">Маса, k = 2GM/c² <output id="kOut"></output></label>
+        <input id="k" type="range" min="0" max="0.8" step="0.01" value="0.35">
+      </div>
+      <div class="ctl">
+        <label for="z0">Прицільна відстань b <output id="bOut"></output></label>
+        <input id="z0" type="range" min="0.8" max="10" step="0.1" value="3">
+        <small>у кроках ґратки, до центру маси</small>
+      </div>
+      <div class="ctl">
+        <label for="delta">Асиметрія ε / μ, δ <output id="dOut"></output></label>
+        <input id="delta" type="range" min="-0.9" max="0.9" step="0.05" value="0">
+        <small>δ = 0: маса змінює обидві підґратки однаково</small>
+      </div>
+      <div class="row">
+        <button id="fire" type="button">Пустити хвильовий пакет</button>
+        <button id="reset" class="ghost" type="button">Скинути</button>
+      </div>
+      <label class="check"><input id="newt" type="checkbox" checked> Показати ньютонівський промінь</label>
+    </section>
+
+    <section>
+      <h2>Відхилення світла</h2>
+      <div class="big" id="angSim">—</div>
+      <div class="ratio" id="ratio"></div>
+      <dl class="read" style="margin-top:10px">
+        <dt>Формула точкової маси, 2k/b</dt><dd id="angGR">—</dd>
+        <dt>Ньютон, k/b</dt><dd id="angN">—</dd>
+        <dt>Затримка Шапіро, ∫(n−1)ds</dt><dd id="shap">—</dd>
+        <dt>Імпеданс Z/Z₀ = √(μ/ε)</dt><dd id="imp">—</dd>
+        <dt>Відбиття R (оцінка зверху)</dt><dd id="refl">—</dd>
+      </dl>
+      <p class="note">n = √(ε·μ). Поки δ = 0, імпеданс скрізь дорівнює вакуумному, і гравітаційне поле не відбиває світло. Змініть δ: промінь майже не зміниться, а відбиття з'явиться.</p>
+    </section>
+
+    <section>
+      <h2>Статус тверджень</h2>
+      <div class="facts">
+        <p><span class="chip c-ok">🟢</span>Середовище з n(r) = 1 + 2GM/(rc²) і ε = μ = n дає точне відхилення ОТО: 1,75″ біля краю Сонця, удвічі більше за ньютонівське 0,875″.</p>
+        <p><span class="chip c-ok">🟢</span>Те саме середовище дає затримку Шапіро. Cassini (2003): γ − 1 = (2,1 ± 2,3)×10⁻⁵.</p>
+        <p><span class="chip c-warn">🟡</span>Що маса в ПЧК змінює ε і μ ґраток саме так і однаково, ще не виведено з моделі. Це завдання для автора.</p>
+        <p><span class="chip c-warn">🟡</span>δ ≠ 0 передбачає відбиття світла гравітаційним полем. Його не спостерігають, тож це обмеження на модель.</p>
+      </div>
+      <p class="note">Масштаби умовні. Для Сонця k/b ≈ 4×10⁻⁶, тут k/b ~ 0,1, щоб вигин було видно. Межа R_s ≪ b, як у реальному світі, відповідає малим k.</p>
+    </section>
+
+    <div class="foot">
+      Модель: Вячеслав Арещенко. Візуалізація: Claude (ШІ-асистент, Anthropic).<br>
+      Ідея сітки навіяна пеном <a href="https://github.com/Guillhermm/web-ai-experiments" target="_blank" rel="noopener">Curved Spacetime</a> (Guillhermm, MIT). Код написано заново.
+    </div>
+  </aside>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script>
+'use strict';
+const $ = id => document.getElementById(id);
+const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+// ---------- physics ----------
+const HALF = 20, SOFT = 0.5, X0 = -22, X1 = 22, DS = 0.04;
+const S = { k: 0.35, z0: 3, delta: 0, mx: 0, mz: 0 };
+S.z0abs = () => S.mz + S.z0;
+
+function fr(x, z){ const dx = x - S.mx, dz = z - S.mz; return 1 / Math.sqrt(dx*dx + dz*dz + SOFT*SOFT); }
+function epsAt(x, z, f=1){ return 1 + f*(1 + S.delta) * S.k * fr(x,z); }
+function muAt(x, z, f=1){ return 1 + f*(1 - S.delta) * S.k * fr(x,z); }
+function nAt(x, z, f=1){ return Math.sqrt(epsAt(x,z,f) * muAt(x,z,f)); }
+
+function trace(f){
+  // ray equation d/ds(n t) = grad n, start parallel to +x
+  let x = X0, z = S.z0abs(), tx = 1, tz = 0;
+  const pts = [[x,z]]; let shap = 0, rmin = 1e9, pmin = [x,z];
+  const h = 0.01;
+  for (let i = 0; i < 4000; i++){
+    const n = nAt(x,z,f);
+    const gx = (nAt(x+h,z,f) - nAt(x-h,z,f)) / (2*h);
+    const gz = (nAt(x,z+h,f) - nAt(x,z-h,f)) / (2*h);
+    const gt = gx*tx + gz*tz;
+    tx += DS * (gx - gt*tx) / n; tz += DS * (gz - gt*tz) / n;
+    const L = Math.hypot(tx, tz); tx /= L; tz /= L;
+    x += DS * tx; z += DS * tz;
+    shap += (n - 1) * DS;
+    const r = Math.hypot(x - S.mx, z - S.mz); if (r < rmin){ rmin = r; pmin = [x,z]; }
+    pts.push([x,z]);
+    if (x > X1 || Math.abs(z) > 30 || x < X0 - 2) break;
+  }
+  return { pts, angle: Math.atan2(-tz, tx), shap, pmin };
+}
+
+if (typeof THREE === 'undefined' || !THREE.OrbitControls){
+  document.querySelector('.stage').insertAdjacentHTML('beforeend', '<div class="nogl">Не вдалося завантажити бібліотеку 3D-графіки. Перевірте з\'єднання та оновіть сторінку.</div>');
+  throw new Error('three.js not loaded');
+}
+
+// ---------- three.js scene ----------
+const canvas = $('gl');
+const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+renderer.setClearColor(0x05060d, 1);
+const scene = new THREE.Scene();
+scene.fog = new THREE.Fog(0x05060d, 30, 70);
+const camera = new THREE.PerspectiveCamera(45, 1, 0.1, 200);
+camera.position.set(-6, 24, 28);
+const controls = new THREE.OrbitControls(camera, canvas);
+controls.enableDamping = true; controls.maxPolarAngle = 1.48; controls.minDistance = 10; controls.maxDistance = 70;
+controls.target.set(0, 0, 0);
+
+// background stars
+{
+  const g = new THREE.BufferGeometry(), N = 900, p = new Float32Array(N*3);
+  for (let i = 0; i < N; i++){
+    const u = Math.random()*2-1, th = Math.random()*Math.PI*2, r = 90;
+    p[i*3] = r*Math.sqrt(1-u*u)*Math.cos(th); p[i*3+1] = Math.abs(r*u)*0.9 + 5; p[i*3+2] = r*Math.sqrt(1-u*u)*Math.sin(th);
+  }
+  g.setAttribute('position', new THREE.BufferAttribute(p, 3));
+  scene.add(new THREE.Points(g, new THREE.PointsMaterial({ color: 0x8c93b5, size: 0.35, sizeAttenuation: true, fog: false })));
+}
+
+function dotTexture(){
+  const c = document.createElement('canvas'); c.width = c.height = 64;
+  const x = c.getContext('2d'), gr = x.createRadialGradient(32,32,0,32,32,32);
+  gr.addColorStop(0,'rgba(255,255,255,1)'); gr.addColorStop(0.35,'rgba(255,255,255,.8)'); gr.addColorStop(1,'rgba(255,255,255,0)');
+  x.fillStyle = gr; x.fillRect(0,0,64,64);
+  return new THREE.CanvasTexture(c);
+}
+const DOT = dotTexture();
+
+// lattice builder: nodes on (i+off, j+off)
+function makeLattice(off, count, baseColor, yBase){
+  const N = count, nodes = [];
+  for (let i = 0; i < N; i++) for (let j = 0; j < N; j++) nodes.push([-HALF + off + i, -HALF + off + j]);
+  const segs = [];
+  for (let i = 0; i < N; i++) for (let j = 0; j < N; j++){
+    const a = i*N + j;
+    if (i < N-1) segs.push(a, (i+1)*N + j);
+    if (j < N-1) segs.push(a, a + 1);
+  }
+  const lineGeo = new THREE.BufferGeometry();
+  const lp = new Float32Array(segs.length*3), lc = new Float32Array(segs.length*3);
+  lineGeo.setAttribute('position', new THREE.BufferAttribute(lp, 3));
+  lineGeo.setAttribute('color', new THREE.BufferAttribute(lc, 3));
+  const lines = new THREE.LineSegments(lineGeo, new THREE.LineBasicMaterial({ vertexColors: true, transparent: true, opacity: 0.55 }));
+  const ptGeo = new THREE.BufferGeometry();
+  const pp = new Float32Array(nodes.length*3), pc = new Float32Array(nodes.length*3);
+  ptGeo.setAttribute('position', new THREE.BufferAttribute(pp, 3));
+  ptGeo.setAttribute('color', new THREE.BufferAttribute(pc, 3));
+  const pts = new THREE.Points(ptGeo, new THREE.PointsMaterial({ size: 0.42, map: DOT, vertexColors: true, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending }));
+  scene.add(lines, pts);
+  return { N, nodes, segs, lp, lc, pp, pc, lineGeo, ptGeo, base: new THREE.Color(baseColor), y: yBase, disp: new Float32Array(nodes.length*3) };
+}
+const latA = makeLattice(0, 41, 0x5fd4ff, 0);
+const latB = makeLattice(0.5, 40, 0xff7ad9, 0.02);
+
+function fade(x, z){ const r = Math.max(Math.abs(x), Math.abs(z)); return Math.max(0, Math.min(1, (HALF + 0.5 - r) / 4)); }
+
+const tmpC = new THREE.Color(), white = new THREE.Color(1,1,1), hot = new THREE.Color(0xffe08a);
+function updateLattice(L, propFn){
+  const { nodes, segs, lp, lc, pp, pc, disp, base, y } = L;
+  const nodeCol = new Float32Array(nodes.length*3);
+  for (let i = 0; i < nodes.length; i++){
+    const [x, z] = nodes[i];
+    const v = propFn(x, z) - 1;                // epsilon-1 or mu-1
+    const t = Math.min(1, v * 1.6);
+    tmpC.copy(base).lerp(white, t*0.75);
+    if (v > 0.45) tmpC.lerp(hot, Math.min(1, (v-0.45)*1.2));
+    const w = fade(x, z) * (0.35 + 0.65*Math.min(1, 0.25 + t));
+    nodeCol[i*3] = tmpC.r*w; nodeCol[i*3+1] = tmpC.g*w; nodeCol[i*3+2] = tmpC.b*w;
+    pp[i*3] = x + disp[i*3]; pp[i*3+1] = y + disp[i*3+1]; pp[i*3+2] = z + disp[i*3+2];
+    pc[i*3] = nodeCol[i*3]; pc[i*3+1] = nodeCol[i*3+1]; pc[i*3+2] = nodeCol[i*3+2];
+  }
+  for (let s = 0; s < segs.length; s++){
+    const a = segs[s];
+    lp[s*3] = pp[a*3]; lp[s*3+1] = pp[a*3+1]; lp[s*3+2] = pp[a*3+2];
+    lc[s*3] = nodeCol[a*3]; lc[s*3+1] = nodeCol[a*3+1]; lc[s*3+2] = nodeCol[a*3+2];
+  }
+  L.lineGeo.attributes.position.needsUpdate = true; L.lineGeo.attributes.color.needsUpdate = true;
+  L.ptGeo.attributes.position.needsUpdate = true; L.ptGeo.attributes.color.needsUpdate = true;
+}
+
+// mass
+const massGroup = new THREE.Group(); scene.add(massGroup);
+const massMesh = new THREE.Mesh(new THREE.SphereGeometry(0.6, 32, 24), new THREE.MeshBasicMaterial({ color: 0xffe9b8 }));
+massMesh.position.y = 0.6; massGroup.add(massMesh);
+const glow = new THREE.Sprite(new THREE.SpriteMaterial({ map: DOT, color: 0xffb84d, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending }));
+glow.position.y = 0.6; massGroup.add(glow);
+
+// source
+const src = new THREE.Sprite(new THREE.SpriteMaterial({ map: DOT, color: 0xffe08a, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending }));
+src.scale.set(1.6,1.6,1); scene.add(src);
+
+// rays
+const rayGeo = new THREE.BufferGeometry(), rayLine = new THREE.Line(rayGeo, new THREE.LineBasicMaterial({ color: 0xffe08a }));
+const nGeo = new THREE.BufferGeometry(), nLine = new THREE.Line(nGeo, new THREE.LineDashedMaterial({ color: 0x8c93b5, dashSize: 0.5, gapSize: 0.35 }));
+scene.add(rayLine, nLine);
+const RAY_Y = 0.25;
+function setLine(geo, pts){
+  const a = new Float32Array(pts.length*3);
+  pts.forEach((p,i) => { a[i*3] = p[0]; a[i*3+1] = RAY_Y; a[i*3+2] = p[1]; });
+  geo.setAttribute('position', new THREE.BufferAttribute(a, 3));
+  geo.computeBoundingSphere();
+}
+
+// wave packet
+const pulse = new THREE.Sprite(new THREE.SpriteMaterial({ map: DOT, color: 0xffffff, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending }));
+pulse.scale.set(1.4,1.4,1); pulse.visible = false; scene.add(pulse);
+const P = { on: false, idx: 0, frac: 0, phase: 0 };
+let RAY = null, NRAY = null;
+
+// ---------- readouts ----------
+const deg = r => (r*180/Math.PI);
+function fmtDeg(r){ return deg(r).toFixed(2).replace('.', ',') + '°'; }
+function recompute(){
+  RAY = trace(1);
+  NRAY = trace(0.5);        // n = 1 + k/(2r): Newtonian corpuscle, half deflection
+  setLine(rayGeo, RAY.pts);
+  setLine(nGeo, NRAY.pts); nLine.computeLineDistances();
+  nLine.visible = $('newt').checked;
+  massGroup.position.set(S.mx, 0, S.mz);
+  const sc = 1.2 + S.k*7; glow.scale.set(sc, sc, 1);
+  massMesh.scale.setScalar(0.5 + S.k*0.9);
+  massGroup.visible = S.k > 0.001;
+  src.position.set(X0, RAY_Y, S.z0abs());
+
+  const b = S.z0;
+  const gr = 2*S.k/b, nw = S.k/b;
+  $('kOut').textContent = S.k.toFixed(2).replace('.', ',');
+  $('bOut').textContent = b.toFixed(1).replace('.', ',');
+  $('dOut').textContent = (S.delta >= 0 ? '+' : '') + S.delta.toFixed(2).replace('.', ',');
+  $('angSim').textContent = fmtDeg(RAY.angle);
+  $('angGR').textContent = fmtDeg(gr);
+  $('angN').textContent = fmtDeg(nw);
+  const rN = NRAY.angle > 1e-6 ? (RAY.angle / NRAY.angle) : NaN;
+  $('ratio').textContent = isFinite(rN) ? `ПЧК / Ньютон = ${rN.toFixed(2).replace('.', ',')} (ОТО дає 2,00 у слабкому полі)` : 'Маса нульова: світло йде прямо';
+  $('shap').textContent = RAY.shap.toFixed(3).replace('.', ',') + ' клітинки / c';
+  const [px, pz] = RAY.pmin, e = epsAt(px,pz), m = muAt(px,pz), Z = Math.sqrt(m/e), R = ((Z-1)/(Z+1))**2;
+  $('imp').textContent = Z.toFixed(4).replace('.', ',');
+  const re = $('refl'); re.textContent = R < 1e-9 ? '0' : R.toExponential(1).replace('.', ',');
+  re.className = R < 1e-9 ? 'c-ok' : 'c-bad';
+}
+
+// ---------- wave packet motion ----------
+const SPEED = 7;  // lattice cells per second in vacuum
+const LAMBDA = 0.9, WL = 1.1, WP = 1.6, AMP = 0.55;
+function stepPulse(dt){
+  if (!P.on || !RAY) return null;
+  const pts = RAY.pts;
+  let left = SPEED * dt;
+  while (left > 0 && P.idx < pts.length - 1){
+    const [x, z] = pts[P.idx];
+    const n = nAt(x, z);
+    const need = DS * n * (1 - P.frac);    // time-equivalent distance: local speed c/n
+    if (left >= need){ left -= need; P.idx++; P.frac = 0; }
+    else { P.frac += left / (DS * n); left = 0; }
+  }
+  if (P.idx >= pts.length - 1){ P.on = false; pulse.visible = false; return null; }
+  const a = pts[P.idx], b2 = pts[Math.min(P.idx+1, pts.length-1)];
+  const cx = a[0] + (b2[0]-a[0])*P.frac, cz = a[1] + (b2[1]-a[1])*P.frac;
+  let tx = b2[0]-a[0], tz = b2[1]-a[1]; const L = Math.hypot(tx,tz) || 1; tx/=L; tz/=L;
+  return { cx, cz, tx, tz };
+}
+function applyWave(L, w, mode){
+  const { nodes, disp } = L; disp.fill(0);
+  if (!w) return;
+  for (let i = 0; i < nodes.length; i++){
+    const dx = nodes[i][0] - w.cx, dz = nodes[i][1] - w.cz;
+    if (Math.abs(dx) > 5 || Math.abs(dz) > 5) continue;
+    const lon = dx*w.tx + dz*w.tz, per = -dx*w.tz + dz*w.tx;
+    const env = Math.exp(-(lon*lon)/(WL*WL) - (per*per)/(WP*WP));
+    const n = nAt(nodes[i][0], nodes[i][1]);
+    const osc = Math.cos(2*Math.PI*lon*n/LAMBDA);   // wavelength shrinks by n inside the medium
+    const d = AMP * env * osc;
+    if (mode === 'E'){ disp[i*3+1] = d * 1.6; }                      // E: transverse, out of plane
+    else { disp[i*3] = -w.tz * d; disp[i*3+2] = w.tx * d; }          // B: transverse, in plane
+  }
+}
+function fire(){ P.on = true; P.idx = 0; P.frac = 0; pulse.visible = true; }
+
+// ---------- interaction ----------
+const ray = new THREE.Raycaster(), ndc = new THREE.Vector2(), plane = new THREE.Plane(new THREE.Vector3(0,1,0), 0), hit = new THREE.Vector3();
+let dragging = false;
+function setNdc(e){ const r = canvas.getBoundingClientRect(); ndc.set(((e.clientX-r.left)/r.width)*2-1, -((e.clientY-r.top)/r.height)*2+1); ray.setFromCamera(ndc, camera); }
+canvas.addEventListener('pointerdown', e => {
+  setNdc(e);
+  const hitMass = ray.intersectObject(massMesh).length > 0;
+  let near = false;
+  if (!hitMass && ray.ray.intersectPlane(plane, hit)) near = Math.hypot(hit.x - S.mx, hit.z - S.mz) < 1.4;
+  if (hitMass || near){ dragging = true; controls.enabled = false; canvas.setPointerCapture(e.pointerId); canvas.style.cursor = 'grabbing'; e.stopImmediatePropagation(); }
+}, true);
+canvas.addEventListener('pointermove', e => {
+  if (!dragging) return;
+  setNdc(e);
+  if (ray.ray.intersectPlane(plane, hit)){
+    S.mx = Math.max(-16, Math.min(16, hit.x)); S.mz = Math.max(-14, Math.min(14, hit.z));
+    S.z0 = Math.max(0.8, Math.min(10, S.z0)); recompute(); dirty = true;
+  }
+});
+function endDrag(){ if (dragging){ dragging = false; controls.enabled = true; canvas.style.cursor = 'grab'; } }
+canvas.addEventListener('pointerup', endDrag); canvas.addEventListener('pointercancel', endDrag);
+
+let dirty = true;
+$('k').addEventListener('input', e => { S.k = +e.target.value; recompute(); dirty = true; });
+$('z0').addEventListener('input', e => { S.z0 = +e.target.value; recompute(); dirty = true; });
+$('delta').addEventListener('input', e => { S.delta = +e.target.value; recompute(); dirty = true; });
+$('newt').addEventListener('change', () => { nLine.visible = $('newt').checked; });
+$('fire').addEventListener('click', fire);
+$('reset').addEventListener('click', () => {
+  Object.assign(S, { k: 0.35, z0: 3, delta: 0, mx: 0, mz: 0 });
+  $('k').value = 0.35; $('z0').value = 3; $('delta').value = 0;
+  recompute(); dirty = true;
+});
+
+// ---------- resize + loop ----------
+function resize(){
+  const r = canvas.parentElement.getBoundingClientRect();
+  renderer.setSize(r.width, r.height, false);
+  camera.aspect = r.width / Math.max(1, r.height); camera.updateProjectionMatrix();
+}
+new ResizeObserver(resize).observe(canvas.parentElement);
+resize();
+recompute();
+
+let last = performance.now(), idle = 0;
+function loop(now){
+  const dt = Math.min(0.05, (now - last) / 1000); last = now;
+  const w = stepPulse(dt);
+  if (w){ pulse.position.set(w.cx, RAY_Y + 0.2, w.cz); }
+  else if (!reduceMotion){ idle += dt; if (idle > 1.4){ idle = 0; fire(); } }
+  if (w || dirty){
+    applyWave(latA, w, 'E'); applyWave(latB, w, 'B');
+    updateLattice(latA, (x,z) => epsAt(x,z));
+    updateLattice(latB, (x,z) => muAt(x,z));
+    dirty = !!w;
+  }
+  const t = now/1000; glow.material.opacity = 0.75 + 0.15*Math.sin(t*2.1);
+  controls.update();
+  renderer.render(scene, camera);
+  requestAnimationFrame(loop);
+}
+if (!reduceMotion) fire();
+requestAnimationFrame(loop);
+</script>
+
+</body>
+</html>
