@@ -12,37 +12,33 @@
 <meta property="og:locale" content="uk_UA">
 <style>
 :root{
-  --bg:#fbfaf7; --surface:#ffffff; --surface-2:#f3f1ec; --text:#1d1d1b; --muted:#5c5a55;
-  --line:#dedad2; --accent:#1f6fd1; --accent-soft:#e6effb;
+  --bg:#f0f2f5; --surface:#ffffff; --surface-2:#f8f9fa; --text:#333333; --muted:#666666;
+  --line:#dddddd; --accent:#1a2a6c; --accent-soft:#e8ebf5; --gold:#d6b465; --gold-bg:#fffaf0;
+  --eq-bg:#2d3436; --eq-fg:#fab1a0; --eq-border:#e17055;
   --green:#1e7a3c; --green-bg:#e5f3e9; --yellow:#8a6400; --yellow-bg:#fbf1d6;
   --red:#a8322d; --red-bg:#f8e3e1; --blue:#1f5fa8; --blue-bg:#e3edf9;
-  --radius:10px; --maxw:960px;
-  --font:"Inter",system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
-  --mono:ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace;
-}
-@media (prefers-color-scheme: dark){
-  :root{
-    --bg:#16171a; --surface:#1e2024; --surface-2:#25282d; --text:#ecebe7; --muted:#a6a39c;
-    --line:#363940; --accent:#6aa7f0; --accent-soft:#1d2d42;
-    --green:#7fd197; --green-bg:#1b3324; --yellow:#e8c46a; --yellow-bg:#3a3018;
-    --red:#f0928b; --red-bg:#3e2220; --blue:#8bb8f0; --blue-bg:#1c2b40;
-  }
+  --radius:10px;
+  --font:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;
 }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{margin:0;background:var(--bg);color:var(--text);font:16px/1.65 var(--font);-webkit-text-size-adjust:100%}
-.wrap{max-width:var(--maxw);margin:0 auto;padding:0 16px}
+body{margin:0;background:var(--bg);color:var(--text);font:16px/1.6 var(--font);padding:20px;-webkit-text-size-adjust:100%}
+.container{max-width:950px;margin:auto;background:var(--surface);padding:40px;border-radius:16px;box-shadow:0 10px 30px rgba(0,0,0,.08)}
+@media (max-width:640px){body{padding:8px}.container{padding:20px 16px}}
+.wrap{padding:0}
+h1,h2,h3{color:var(--accent)}
+.home{display:inline-block;margin-bottom:1rem;text-decoration:none;font-weight:600}
 a{color:var(--accent)}
 h1,h2,h3{line-height:1.25;margin:0}
 h1{font-size:clamp(1.6rem,4vw,2.3rem);letter-spacing:-.01em}
 h2{font-size:1.45rem;margin:2.6rem 0 .8rem;padding-top:.4rem;scroll-margin-top:16px}
 h3{font-size:1.1rem;margin:1.6rem 0 .5rem}
 p{margin:.6rem 0}
-.meta{color:var(--muted);margin-top:.6rem}
+.meta{color:var(--muted);margin-top:.6rem;font-style:italic}
 
 /* header */
-.hero{padding:2.6rem 0 1.6rem;border-bottom:1px solid var(--line)}
-.kicker{display:inline-block;font-size:.8rem;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);margin-bottom:.6rem}
+.hero{padding:0 0 1.4rem;border-bottom:1px solid var(--line);text-align:center}
+.kicker{display:inline-block;font-size:.8rem;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--gold);margin-bottom:.6rem}
 
 /* toc */
 .toc{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:1rem 1.2rem;margin:1.6rem 0}
@@ -52,11 +48,11 @@ p{margin:.6rem 0}
 @media (max-width:640px){.toc ol{columns:1}}
 
 /* abstract */
-.abstract{background:var(--surface);border:1px solid var(--line);border-left:4px solid var(--accent);border-radius:var(--radius);padding:1.1rem 1.3rem}
+.abstract{background:var(--surface-2);border:1px solid var(--line);border-left:6px solid var(--accent);border-radius:var(--radius);padding:1.1rem 1.3rem}
 .abstract p strong{color:var(--text)}
 
 /* callouts */
-.note{background:var(--surface-2);border-radius:var(--radius);padding:.9rem 1.1rem;margin:1rem 0}
+.note{background:var(--gold-bg);border-left:6px solid var(--gold);border-radius:0 8px 8px 0;padding:1rem 1.3rem;margin:1.2rem 0}
 
 /* status badges */
 .b{display:inline-block;white-space:nowrap;font-size:.8rem;font-weight:600;padding:.08rem .5rem;border-radius:999px;line-height:1.5}
@@ -83,7 +79,7 @@ td:last-child{white-space:nowrap}
 }
 
 /* formulas */
-.formula{font-family:"Cambria Math","STIX Two Math","Times New Roman",serif;font-size:1.15rem;background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:.9rem 1rem;margin:1rem 0;text-align:center;overflow-x:auto;white-space:nowrap}
+.formula{font-family:"Courier New",Courier,monospace;font-size:1.1rem;background:var(--eq-bg);color:var(--eq-fg);border-left:6px solid var(--eq-border);border-radius:10px;padding:1.1rem 1.4rem;margin:1.4rem 0;overflow-x:auto;white-space:nowrap}
 .formula .sep{display:inline-block;width:1.6rem}
 i.v{font-family:"Cambria Math","STIX Two Math","Times New Roman",serif}
 
@@ -112,15 +108,19 @@ i.v{font-family:"Cambria Math","STIX Two Math","Times New Roman",serif}
 .concl{padding-left:1.3rem}
 .concl li{margin:.5rem 0}
 
-footer{border-top:1px solid var(--line);margin-top:3rem;padding:1.6rem 0 2.4rem;color:var(--muted);font-size:.92rem}
+footer{border-top:1px solid var(--line);margin-top:3rem;padding:1.6rem 0 0;color:var(--muted);font-size:.92rem}
 .refs li{margin:.3rem 0}
 .top{display:inline-block;margin-top:1rem}
+.btn-row{text-align:center;margin-top:2.4rem;display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
+.btn{text-decoration:none;color:var(--accent);font-weight:bold;padding:10px 20px;border:2px solid var(--accent);border-radius:8px}
 </style>
 </head>
 <body>
+<div class="container">
 
 <header class="hero">
   <div class="wrap">
+    <a class="home" href="index.html">← На головну</a><br>
     <span class="kicker">Наукове повідомлення · робочий звіт</span>
     <h1>Динамічна модель Всесвіту на основі ПЧК: стан перевірки</h1>
     <p class="meta">Автор моделі: <strong>Вячеслав Арещенко</strong> · <time datetime="2026-11-08">8 листопада 2026</time></p>
@@ -468,9 +468,16 @@ footer{border-top:1px solid var(--line);margin-top:3rem;padding:1.6rem 0 2.4rem;
     <li>Вимірювання радіуса протона (CREMA 2010/2013; Beyer 2017; Fleurbaey 2018; Bezginov 2019; PRad 2019; Grinin 2020; Brandt 2022) — значення в робочих документах наведено з пам'яті, звірити.</li>
   </ul>
   <p>Робочі документи з усіма розрахунками (проєкт «Наукові дослідження та роздуми»): підсумок 3.11; світло і маса, проникності, ґратка/хмари/час (5.11); частинки (6.11); квант дії (8.11); скрипт аналізу реліктового випромінювання <code>pchk_cmb_test.py</code>.</p>
-  <p>© 2026 Вячеслав Арещенко · <a class="top" href="#">↑ Нагору</a></p>
+  <div class="btn-row">
+    <a class="btn" href="index.html">← На головну</a>
+    <a class="btn" href="pchk.html">НАУКОВЕ ПОВІДОМЛЕННЯ 2026</a>
+    <a class="btn" href="#">↑ Нагору</a>
+  </div>
+  <p style="text-align:center;margin-top:1.6rem">© 2026 Вячеслав Арещенко</p>
 </div>
 </footer>
+
+</div>
 
 </body>
 </html>
