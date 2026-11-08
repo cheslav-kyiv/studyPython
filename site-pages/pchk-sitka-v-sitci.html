@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ПЧК: сітка в сітці</title>
+<meta name="author" content="Вячеслав Арещенко">
+<meta name="description" content="Інтерактивна 3D-модель двох вкладених кубічних ґраток просторово-часового континууму (ПЧК): коливання вузлів і обмін енергією між ґратками.">
+<style>
+:root{
+  --bg:#ffffff;--surface:#f4f3ef;--text:#1f1f1d;--text-2:#5f5e5a;--muted:#8a8984;
+  --border:rgba(0,0,0,.14);--border-strong:rgba(0,0,0,.28);--accent:#185FA5;
+  --radius:8px;--red:#E24B4A;--green:#1D9E75;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#1b1b1a;--surface:#262624;--text:#ecebe6;--text-2:#b4b2a9;--muted:#888780;
+    --border:rgba(255,255,255,.14);--border-strong:rgba(255,255,255,.3);--accent:#85B7EB;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#1b1b1a;--surface:#262624;--text:#ecebe6;--text-2:#b4b2a9;--muted:#888780;
+  --border:rgba(255,255,255,.14);--border-strong:rgba(255,255,255,.3);--accent:#85B7EB;
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.6}
+main{max-width:760px;margin:0 auto;padding:24px 16px 40px}
+h1{font-size:22px;font-weight:500;margin:0 0 4px}
+.lead{font-size:14px;color:var(--text-2);margin:0 0 16px}
+button{font:inherit;font-size:13px;color:var(--text);background:transparent;border:.5px solid var(--border-strong);border-radius:var(--radius);padding:6px 12px;cursor:pointer}
+button:hover{background:var(--surface)}
+button:active{transform:scale(.98)}
+button.on{border-color:var(--accent);color:var(--accent)}
+input[type=range]{accent-color:var(--accent)}
+.btns{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+.row{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--text-2)}
+.row label{min-width:150px}
+.row span{min-width:36px;font-weight:500;color:var(--text)}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:6px 20px}
+.hint{font-size:12px;color:var(--muted);text-align:center}
+.dot{display:inline-block;width:10px;height:10px;border-radius:50%;vertical-align:-1px}
+canvas{display:block;width:100%}
+#c{height:min(420px,100vw);cursor:grab;touch-action:none}
+#e{height:100px;margin-top:6px}
+footer{margin-top:24px;font-size:12px;color:var(--muted)}
+.sitenav{display:flex;flex-wrap:wrap;gap:8px 16px;font-size:13px;margin-bottom:18px}
+.sitenav a{color:var(--accent);text-decoration:none}
+.sitenav a:hover{text-decoration:underline}
+.info{background:var(--surface);border-radius:var(--radius);padding:12px 16px;margin-top:18px;font-size:13px;color:var(--text-2)}
+.info p{margin:0 0 8px}.info p:last-child{margin:0}
+.info ol{margin:6px 0 0;padding-left:20px}
+.info b{color:var(--text);font-weight:500}
+.st{display:inline-block;font-size:12px;font-weight:600;padding:0 8px;border-radius:999px;background:#fef3c7;color:#854d0e}
+.st.g{background:#dcfce7;color:#166534}
+</style>
+</head>
+<body>
+<main>
+<nav class="sitenav" aria-label="Навігація сайтом">
+  <a href="index.html">← На головну</a>
+  <a href="pchk.html">Стан перевірки моделі</a>
+  <a href="pchk-lattice-light.html">Ґратка ПЧК і світло (3D)</a>
+  <a href="universum.html" hreflang="en">English</a>
+</nav>
+<h1>ПЧК: сітка в сітці</h1>
+<p class="lead">Дві вкладені кубічні ґратки: кожен зелений вузол стоїть у центрі червоної комірки, і навпаки. Вузли коливаються біля положення рівноваги, а ґратки обмінюються енергією. Кристалографічно це структура типу CsCl: дві прості кубічні ґратки, зсунуті на півдіагоналі куба. Саме таку будову має ґратка Йі, у якій поле E живе на одній підґратці, а B на іншій.</p>
+
+<div class="btns" style="margin-top:0">
+  <button id="m2" class="on">Одна комірка: 1 + 1</button>
+  <button id="m3">Розширена ґратка: 3×3×3 + 3×3×3</button>
+  <button id="vTop">Вид зверху</button>
+  <button id="v3d">3D вид</button>
+</div>
+
+<canvas id="c" aria-label="Тривимірна модель двох вкладених ґраток"></canvas>
+<div class="hint">Перетягніть, щоб повернути ґратку</div>
+
+<div class="btns">
+  <button id="bR">Розширити червону комірку</button>
+  <button id="bG">Стиснути зелену комірку</button>
+  <button id="bN">Тепловий шум</button>
+  <button id="bA">Автообертання: увімк.</button>
+  <button id="bZ">Скинути</button>
+</div>
+
+<div class="grid2">
+  <div class="row"><label for="wR">Власна частота ω червоної</label><input type="range" id="wR" min="0.3" max="3" step="0.1" value="1.2" style="flex:1"><span id="wRo">1.2</span></div>
+  <div class="row"><label for="wG">Власна частота ω зеленої</label><input type="range" id="wG" min="0.3" max="3" step="0.1" value="1.2" style="flex:1"><span id="wGo">1.2</span></div>
+  <div class="row"><label for="kc">Сила зв'язку між ґратками</label><input type="range" id="kc" min="0" max="1" step="0.02" value="0.15" style="flex:1"><span id="kco">0.15</span></div>
+  <div class="row"><label for="gm">Загасання</label><input type="range" id="gm" min="0" max="0.2" step="0.005" value="0" style="flex:1"><span id="gmo">0</span></div>
+</div>
+
+<div style="margin-top:14px;font-size:13px;color:var(--text-2);display:flex;gap:16px;align-items:center;flex-wrap:wrap">
+  <span>Енергія ґраток у часі</span>
+  <span><span class="dot" style="background:var(--red)"></span> червона <b id="eR" style="font-weight:500;color:var(--text)">0%</b></span>
+  <span><span class="dot" style="background:var(--green)"></span> зелена <b id="eG" style="font-weight:500;color:var(--text)">0%</b></span>
+</div>
+<canvas id="e" aria-label="Графік енергії двох ґраток"></canvas>
+
+<div class="info">
+  <p><b>Що спробувати</b></p>
+  <ol>
+    <li>Рівні частоти й «Розширити червону комірку»: енергія із запізненням перетікає в зелену ґратку й повертається назад. На графіку це биття.</li>
+    <li>Різні частоти, наприклад 1.2 і 2.5: червона ґратка «дзвенить» сама, зелена майже не відгукується. Обмін енергією потребує резонансу.</li>
+    <li>«Вид зверху» під час коливань: видно, як тривимірний рух виглядає у двовимірній проєкції.</li>
+  </ol>
+</div>
+<div class="info">
+  <p><span class="st g">🟢</span> Геометрія «сітка в сітці» (CsCl) збігається з ґраткою Йі, стандартною схемою для рівнянь Максвелла.</p>
+  <p><span class="st">🟡</span> Зв'язки тут — лінійні пружини, а частоти й сила зв'язку умовні. Це ілюстрація ідеї обміну енергією між підґратками, а не розрахунок: справжні жорсткості зв'язків у ПЧК ще треба вивести з моделі.</p>
+</div>
+
+<footer>Модель: Вячеслав Арещенко, «Динамічна модель Всесвіту на основі ПЧК». Візуалізація створена за допомогою ШІ (Claude). Зв'язки моделі — лінійні пружини; це спрощення для наочності.</footer>
+</main>
+
+<script>
+(function(){
+const C=document.getElementById('c'),X=C.getContext('2d'),E=document.getElementById('e'),EX=E.getContext('2d');
+const RED='#E24B4A',GRN='#1D9E75',dpr=window.devicePixelRatio||1;
+let W,H,EW,EH,nodes=[],bonds=[],stubs=[],hist=[],auto=true,ay=0.6,ax=-0.35,tAx=null,tAy=null,N=2,a=120,g0=0;
+const P={wR:1.2,wG:1.2,kc:0.15,gm:0},K=1.2;
+const css=n=>getComputedStyle(document.documentElement).getPropertyValue(n).trim();
+function size(){W=C.clientWidth;H=C.clientHeight;C.width=W*dpr;C.height=H*dpr;X.setTransform(dpr,0,0,dpr,0,0);
+EW=E.clientWidth;EH=E.clientHeight;E.width=EW*dpr;E.height=EH*dpr;EX.setTransform(dpr,0,0,dpr,0,0)}
+const id=(t,i,j,k)=>(t?g0:0)+(i*N+j)*N+k;
+function build(){nodes=[];bonds=[];stubs=[];hist=[];
+  a=(N===2?120:80)*Math.min(1,W/440);const o=-((N-1)*a+a/2)/2;
+  [0,1].forEach(t=>{if(t)g0=nodes.length;const s=t?a/2:0;
+    for(let i=0;i<N;i++)for(let j=0;j<N;j++)for(let k=0;k<N;k++){const p=[o+s+i*a,o+s+j*a,o+s+k*a];nodes.push({t,p0:p.slice(),p:p.slice(),v:[0,0,0]})}
+    for(let i=0;i<N;i++)for(let j=0;j<N;j++)for(let k=0;k<N;k++){const n=id(t,i,j,k);
+      if(i<N-1)bonds.push([n,id(t,i+1,j,k),t]);if(j<N-1)bonds.push([n,id(t,i,j+1,k),t]);if(k<N-1)bonds.push([n,id(t,i,j,k+1),t]);
+      [[i,0,-1,0],[i,N-1,1,0],[j,0,-1,1],[j,N-1,1,1],[k,0,-1,2],[k,N-1,1,2]].forEach(s=>{if(s[0]===s[1])stubs.push([n,s[3],s[2]])})}});
+  for(let r=0;r<g0;r++)for(let g=g0;g<nodes.length;g++){const p=nodes[r].p0,q=nodes[g].p0;if(Math.hypot(p[0]-q[0],p[1]-q[1],p[2]-q[2])<a*0.9)bonds.push([g,r,2])}
+  bonds.forEach(b=>{const p=nodes[b[0]].p0,q=nodes[b[1]].p0;b[3]=Math.hypot(q[0]-p[0],q[1]-p[1],q[2]-p[2])})}
+function step(dt){
+  nodes.forEach(n=>{const w=n.t?P.wG:P.wR;n.f=[0,1,2].map(d=>-w*w*(n.p[d]-n.p0[d])-P.gm*n.v[d])});
+  bonds.forEach(b=>{const p=nodes[b[0]],q=nodes[b[1]],d=[0,1,2].map(i=>q.p[i]-p.p[i]),L=Math.hypot(...d)||1,k=b[2]===2?P.kc:K,f=k*(L-b[3]);for(let i=0;i<3;i++){const fi=f*d[i]/L;p.f[i]+=fi;q.f[i]-=fi}});
+  nodes.forEach(n=>{for(let i=0;i<3;i++){n.v[i]+=n.f[i]*dt;n.p[i]+=n.v[i]*dt}})}
+function energy(){const e=[0,0];
+  nodes.forEach(n=>{const w=n.t?P.wG:P.wR;let s=0,u=0;for(let i=0;i<3;i++){s+=n.v[i]**2;u+=(n.p[i]-n.p0[i])**2}e[n.t]+=0.5*s+0.5*w*w*u});
+  bonds.forEach(b=>{const p=nodes[b[0]].p,q=nodes[b[1]].p,L=Math.hypot(q[0]-p[0],q[1]-p[1],q[2]-p[2]),k=b[2]===2?P.kc:K,u=0.5*k*(L-b[3])**2;if(b[2]===2){e[0]+=u/2;e[1]+=u/2}else e[b[2]]+=u});return e}
+function proj(p){const cy=Math.cos(ay),sy=Math.sin(ay),cx=Math.cos(ax),sx=Math.sin(ax);
+  const x=p[0]*cy+p[2]*sy,z=-p[0]*sy+p[2]*cy,y=p[1];const y2=y*cx-z*sx,z2=y*sx+z*cx;const D=560,s=D/(D+z2);return{x:W/2+x*s,y:H/2+y2*s,s,z:z2}}
+function wave(A,B,col,w,amp,ra,rb){const dx=B.x-A.x,dy=B.y-A.y,L=Math.hypot(dx,dy);if(L<ra+rb+2)return;const ux=dx/L,uy=dy/L;X.beginPath();X.strokeStyle=col;X.lineWidth=w;const n=26;for(let s=0;s<=n;s++){const t=s/n,d=ra+(L-ra-rb)*t,o=amp*Math.sin(t*Math.PI*4);const x=A.x+ux*d-uy*o,y=A.y+uy*d+ux*o;s?X.lineTo(x,y):X.moveTo(x,y)}X.stroke()}
+function draw(){X.clearRect(0,0,W,H);const pr=nodes.map(n=>proj(n.p));const R=(N===2?15:11)*Math.min(1,W/440);
+  const mut=css('--muted')||'#999';
+  if(P.kc>0){X.setLineDash([3,4]);X.globalAlpha=0.2+P.kc*0.45;bonds.forEach(b=>{if(b[2]!==2)return;const A=pr[b[0]],B=pr[b[1]];X.beginPath();X.strokeStyle=mut;X.lineWidth=1;X.moveTo(A.x,A.y);X.lineTo(B.x,B.y);X.stroke()});X.setLineDash([]);X.globalAlpha=1}
+  stubs.forEach(s=>{const n=nodes[s[0]],q=n.p.slice();q[s[1]]+=s[2]*a*0.3;const A=pr[s[0]],B=proj(q);X.globalAlpha=0.5;X.beginPath();X.strokeStyle=n.t?GRN:RED;X.lineWidth=2*A.s;X.moveTo(A.x+(B.x-A.x)*0.4,A.y+(B.y-A.y)*0.4);X.lineTo(B.x,B.y);X.stroke();X.globalAlpha=1});
+  bonds.forEach(b=>{if(b[2]===2)return;const A=pr[b[0]],B=pr[b[1]],sc=(A.s+B.s)/2;X.globalAlpha=Math.max(0.35,Math.min(1,0.5+0.7*(sc-0.8)));wave(A,B,b[2]?GRN:RED,2.3*sc,3*sc,R*A.s,R*B.s);X.globalAlpha=1});
+  nodes.map((n,i)=>i).sort((i,j)=>pr[j].z-pr[i].z).forEach(i=>{const P2=pr[i];X.beginPath();X.arc(P2.x,P2.y,R*P2.s,0,7);X.fillStyle=nodes[i].t?GRN:RED;X.fill()})}
+function drawE(){EX.clearRect(0,0,EW,EH);EX.strokeStyle=css('--border')||'#ddd';EX.lineWidth=1;EX.beginPath();EX.moveTo(0,EH-.5);EX.lineTo(EW,EH-.5);EX.stroke();
+  let mx=1e-9;hist.forEach(h=>{mx=Math.max(mx,h[0],h[1])});
+  [0,1].forEach(k=>{EX.beginPath();EX.strokeStyle=k?GRN:RED;EX.lineWidth=2;hist.forEach((h,i)=>{const x=i/399*EW,y=EH-4-(h[k]/mx)*(EH-10);i?EX.lineTo(x,y):EX.moveTo(x,y)});EX.stroke()});
+  const l=hist[hist.length-1];if(l){const s=l[0]+l[1];document.getElementById('eR').textContent=s>1e-6?Math.round(100*l[0]/s)+'%':'0%';document.getElementById('eG').textContent=s>1e-6?Math.round(100*l[1]/s)+'%':'0%'}}
+function loop(){for(let i=0;i<6;i++)step(0.02);hist.push(energy());if(hist.length>400)hist.shift();
+  if(tAx!==null){ax+=(tAx-ax)*0.08;ay+=(tAy-ay)*0.08;if(Math.abs(tAx-ax)+Math.abs(tAy-ay)<0.002){ax=tAx;ay=tAy;tAx=null}}else if(auto&&!drag)ay+=0.003;
+  draw();drawE();requestAnimationFrame(loop)}
+function cell(t){const ids=[];for(let i=0;i<2;i++)for(let j=0;j<2;j++)for(let k=0;k<2;k++)ids.push(id(t,i,j,k));return ids}
+function kick(t,s){const ids=cell(t),c=[0,1,2].map(d=>ids.reduce((q,i)=>q+nodes[i].p0[d],0)/8);ids.forEach(i=>{const n=nodes[i],d=[0,1,2].map(q=>n.p0[q]-c[q]),L=Math.hypot(...d);for(let q=0;q<3;q++)n.p[q]+=s*d[q]/L})}
+let drag=false,lx=0,ly=0;
+C.addEventListener('pointerdown',e=>{drag=true;tAx=null;lx=e.clientX;ly=e.clientY;C.style.cursor='grabbing';C.setPointerCapture(e.pointerId)});
+C.addEventListener('pointermove',e=>{if(!drag)return;ay+=(e.clientX-lx)*0.01;ax=Math.max(-1.5,Math.min(1.5,ax-(e.clientY-ly)*0.01));lx=e.clientX;ly=e.clientY});
+const up=()=>{drag=false;C.style.cursor='grab'};C.addEventListener('pointerup',up);C.addEventListener('pointercancel',up);
+const bA=document.getElementById('bA');const setAuto=v=>{auto=v;bA.textContent='Автообертання: '+(auto?'увімк.':'вимк.')};bA.onclick=()=>setAuto(!auto);
+document.getElementById('vTop').onclick=()=>{setAuto(false);ay=((ay+Math.PI)%(2*Math.PI)+2*Math.PI)%(2*Math.PI)-Math.PI;tAx=0;tAy=0};
+document.getElementById('v3d').onclick=()=>{tAx=-0.35;tAy=0.6};
+const m2=document.getElementById('m2'),m3=document.getElementById('m3');
+const setMode=n=>{N=n;m2.classList.toggle('on',n===2);m3.classList.toggle('on',n===3);build();kick(0,n===2?18:16)};
+m2.onclick=()=>setMode(2);m3.onclick=()=>setMode(3);
+document.getElementById('bR').onclick=()=>kick(0,18);
+document.getElementById('bG').onclick=()=>kick(1,-18);
+document.getElementById('bN').onclick=()=>nodes.forEach(n=>{for(let q=0;q<3;q++)n.v[q]+=(Math.random()-.5)*12});
+document.getElementById('bZ').onclick=()=>build();
+['wR','wG','kc','gm'].forEach(k=>{const el=document.getElementById(k),o=document.getElementById(k+'o');el.oninput=()=>{P[k]=+el.value;o.textContent=String(+(+el.value).toFixed(3))}});
+size();build();kick(0,18);loop();
+let rt;window.addEventListener('resize',()=>{clearTimeout(rt);rt=setTimeout(()=>{size();build();kick(0,18)},150)});
+})();
+</script>
+</body>
+</html>
