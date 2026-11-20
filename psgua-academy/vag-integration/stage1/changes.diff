@@ -1,0 +1,157 @@
+--- index.html (до)
++++ index.html (після)
+@@ -65,7 +65,9 @@
+         <a href="#certificate" class="hover:text-vagblue">Сертифікат</a>
+         <a href="#propose" class="hover:text-vagblue">Спікерам</a>
+         <a href="#faq" class="hover:text-vagblue">FAQ</a>
++        <a href="#academy" class="text-emerald-700 hover:text-vagblue">Академія</a>
+       </div>
++      <a href="#academy" class="hidden sm:inline lg:hidden ml-auto text-sm font-bold text-emerald-700 hover:text-vagblue whitespace-nowrap">Курси</a>
+       <a href="#register" class="bg-vagblue text-white px-4 sm:px-5 py-2.5 rounded-full text-sm font-bold hover:bg-vaggreen transition whitespace-nowrap">Зареєструватися</a>
+     </div>
+   </nav>
+@@ -247,6 +249,17 @@
+       </form>
+     </section>
+ 
++    <!-- ===== АКАДЕМІЯ ВАГ: курси (дані — academy-links.js) ===== -->
++    <section id="academy" class="bg-emerald-50 border-y border-emerald-100" aria-labelledby="academyTitle">
++      <div class="max-w-7xl mx-auto px-4 sm:px-6 py-16">
++        <p class="text-emerald-700 font-bold uppercase tracking-widest text-xs mb-3">Академія ВАГ</p>
++        <h2 id="academyTitle" class="text-3xl md:text-4xl font-extrabold text-slate-950 mb-3">Поглибте знання: онлайн-курси Академії</h2>
++        <p class="text-slate-600 max-w-3xl mb-8">Вебінар — це знайомство з темою. Курс Академії — системне навчання з модулями, тестом, сертифікатом про завершення курсу та цифровим бейджем. Навчання проходить на окремій платформі Академії у вашому темпі.</p>
++        <div id="academyList" class="grid md:grid-cols-3 gap-5"></div>
++        <a id="academyAll" href="https://academy.psgua.com/" class="inline-block mt-8 bg-vagblue text-white px-6 py-3 rounded-xl font-bold hover:bg-vaggreen transition">Усі курси Академії →</a>
++      </div>
++    </section>
++
+     <!-- ===== ПРОПОЗИЦІЯ ВЕБІНАРУ (для спікерів) ===== -->
+     <section id="propose" class="bg-slate-100 border-y border-slate-200" aria-labelledby="proposeTitle">
+       <div class="max-w-5xl mx-auto px-4 sm:px-6 py-16 grid md:grid-cols-2 gap-10 items-start">
+@@ -286,6 +299,7 @@
+         <details class="bg-white border border-slate-100 rounded-2xl p-6"><summary class="font-extrabold text-vagblue cursor-pointer">Чи можна зайти в ефір без реєстрації?</summary><p class="text-slate-600 mt-3">Ні. Після реєстрації ви отримуєте персональне посилання на ефір — у листі-підтвердженні та в нагадуваннях. Будь ласка, не пересилайте його іншим: колегам краще зареєструватися самостійно. Якщо лист загубився, на сторінці ефіру можна запросити посилання ще раз.</p></details>
+         <details class="bg-white border border-slate-100 rounded-2xl p-6"><summary class="font-extrabold text-vagblue cursor-pointer">Скільки коштує участь?</summary><p class="text-slate-600 mt-3">Вартість вказана в картці кожного вебінару. Якщо там написано «Вартість уточнюється», умови ще погоджуються — зареєструйтеся, і ми повідомимо вас до початку.</p></details>
+         <details class="bg-white border border-slate-100 rounded-2xl p-6"><summary class="font-extrabold text-vagblue cursor-pointer">Що засвідчує сертифікат?</summary><p class="text-slate-600 mt-3">Електронний сертифікат участі засвідчує, що ви були присутні на вебінарі, і зазначає його тривалість. Це не документ про підвищення кваліфікації, якщо інше прямо не вказано в описі вебінару. Кожен сертифікат має номер, справжність якого можна <a href="verify.html" class="underline text-vagblue">перевірити на сайті</a>.</p></details>
++        <details class="bg-white border border-slate-100 rounded-2xl p-6"><summary class="font-extrabold text-vagblue cursor-pointer">Чим сертифікат вебінару відрізняється від сертифіката Академії?</summary><p class="text-slate-600 mt-3">Сертифікат вебінару засвідчує <b>участь</b> в ефірі (номер виду VAG-2026-…). Сертифікат <a href="#academy" class="underline text-vagblue">Академії ВАГ</a> видається за <b>завершення курсу</b>: після всіх модулів і підсумкового тесту, а в поглибленому курсі — ще й практичного завдання з експертною оцінкою. Це різні документи з різними номерами.</p></details>
+         <details class="bg-white border border-slate-100 rounded-2xl p-6"><summary class="font-extrabold text-vagblue cursor-pointer">Хто отримує сертифікат?</summary><p class="text-slate-600 mt-3">Учасники, присутні на ефірі. Подайте заявку в розділі «Сертифікат» із кодовим словом, озвученим під час вебінару.</p></details>
+         <details class="bg-white border border-slate-100 rounded-2xl p-6"><summary class="font-extrabold text-vagblue cursor-pointer">Чи можна брати участь, якщо я ще не гід?</summary><p class="text-slate-600 mt-3">Так. Вебінари відкриті для всіх, хто цікавиться професією гіда, туризмом і культурною спадщиною.</p></details>
+         <details class="bg-white border border-slate-100 rounded-2xl p-6"><summary class="font-extrabold text-vagblue cursor-pointer">Як ви використовуєте мої дані?</summary><p class="text-slate-600 mt-3">Лише для організації вашої участі: реєстрація, листи щодо вебінару, сертифікат. Анонси надсилаємо тільки тим, хто окремо на це погодився. Докладно — у <a href="privacy.html" class="underline text-vagblue">Політиці приватності</a>.</p></details>
+@@ -305,6 +319,7 @@
+         <ul class="space-y-1">
+           <li><a href="privacy.html" class="hover:text-vagblue underline">Політика приватності</a></li>
+           <li><a href="verify.html" class="hover:text-vagblue underline">Перевірка сертифіката</a></li>
++          <li><a href="https://academy.psgua.com/" class="hover:text-vagblue underline">Академія ВАГ — онлайн-курси</a></li>
+           <li><a href="#faq" class="hover:text-vagblue underline">Поширені запитання</a></li>
+           <li><a href="https://uaguides.com/" class="hover:text-vagblue underline">uaguides.com</a></li>
+         </ul>
+@@ -343,6 +358,7 @@
+ 
+ <script src="webinars-data.js?v=2026-10-18b"></script>
+ <script src="schedule-loader.js?v=2"></script>
++<script src="academy-links.js?v=2026-11-20"></script>
+ <script>
+ /* CONFIG і WEBINARS — у файлі webinars-data.js (спільний зі студією room.html) */
+ 
+@@ -559,6 +575,7 @@
+       ${(w.outcomes || []).length ? `<div class="mb-4"><p class="text-xs font-bold uppercase tracking-widest text-slate-500 mb-1">Ви зможете</p><ul class="text-sm text-slate-700 space-y-0.5">${w.outcomes.slice(0, 3).map(o => `<li>✔ ${esc(o)}</li>`).join('')}</ul></div>` : ''}
+       <div class="flex flex-wrap gap-2 mb-4 mt-auto">${priceBadge(w)}${recordingBadge(w)}</div>
+       <p class="text-sm text-slate-500 mb-5">🎤 ${esc(w.speaker)}${w.speakerRole ? ` <span class="text-slate-400">• ${esc(w.speakerRole)}</span>` : ''}</p>
++      ${courseHint(w, 'mb-4')}
+       <div class="flex gap-2">
+         ${st === 'live'
+           ? `<a href="#live" class="flex-1 text-center bg-red-600 text-white py-3 rounded-xl font-bold hover:bg-red-700">До ефіру</a>`
+@@ -617,6 +634,30 @@
+ /* =====================================================================
+    8. АРХІВ
+    ===================================================================== */
++/* ---------- Академія ВАГ (дані — academy-links.js; без файлу блок просто не показується) ---------- */
++function courseHint(w, cls) {
++  if (typeof academyCourseFor !== 'function') return '';
++  const c = academyCourseFor(w);
++  if (!c) return '';
++  return `<a href="${esc(c.url)}" class="${cls || ''} block text-sm rounded-xl bg-emerald-50 border border-emerald-100 px-4 py-3 text-emerald-900 hover:bg-emerald-100"><b>📚 Поглибити тему:</b> курс Академії «${esc(c.title)}» →</a>`;
++}
++function renderAcademy() {
++  const box = $('#academyList');
++  if (!box) return;
++  if (typeof ACADEMY === 'undefined') { $('#academy').classList.add('hidden'); return; }
++  $('#academyAll').href = ACADEMY.url;
++  box.innerHTML = ACADEMY.courses.map(c => `
++    <article class="bg-white rounded-3xl border border-emerald-100 p-6 flex flex-col">
++      <div class="flex flex-wrap gap-2 mb-3">${badge(c.code, 'bg-slate-100 text-slate-700')}${c.status === 'open' ? badge('Запис відкрито', 'bg-emerald-100 text-emerald-800') : badge('Незабаром', 'bg-amber-100 text-amber-800')}</div>
++      <h3 class="font-extrabold text-lg text-vagblue mb-1">${esc(c.title)}</h3>
++      <p class="text-sm font-bold text-slate-500 mb-3">${esc(c.audience)}</p>
++      <p class="text-sm text-slate-600 mb-5">${esc(c.summary)}</p>
++      ${c.status === 'open' && c.url
++        ? `<a href="${esc(c.url)}" class="mt-auto text-center bg-vaggreen text-white py-3 rounded-xl font-bold hover:bg-vagblue transition">Про курс і запис →</a>`
++        : `<span class="mt-auto text-center bg-slate-100 text-slate-500 py-3 rounded-xl font-bold">Курс готується</span>`}
++    </article>`).join('');
++}
++
+ function renderArchive() {
+   const past = WEBINARS.filter(w => statusOf(w) === 'past').sort((a, b) => startOf(b) - startOf(a));
+   $('#archiveEmpty').classList.toggle('hidden', past.length > 0);
+@@ -630,6 +671,7 @@
+         ${w.materialsUrl ? `<a href="${esc(w.materialsUrl)}" target="_blank" rel="noopener" class="border border-slate-300 px-4 py-2 rounded-lg font-bold">📎 Матеріали</a>` : ''}
+         <a href="#certificate" data-cert="${esc(w.id)}" class="border border-slate-300 px-4 py-2 rounded-lg font-bold">📜 Сертифікат</a>
+       </div>
++      ${courseHint(w, 'mt-4')}
+     </article>`).join('');
+ }
+ 
+@@ -663,6 +705,8 @@
+     : `${registerBtn(w, 'flex-1 py-3 rounded-xl')}
+        <a href="${esc(gcalUrl(w))}" target="_blank" rel="noopener" class="text-center border border-slate-200 px-5 py-3 rounded-xl font-bold hover:bg-slate-50">📅 Google Календар</a>
+        <button type="button" data-ics="${esc(w.id)}" class="border border-slate-200 px-5 py-3 rounded-xl font-bold hover:bg-slate-50">⬇️ .ics</button>`;
++  const course = courseHint(w, 'w-full mt-1');
++  if (course) $('#dlgActions').insertAdjacentHTML('beforeend', course);
+   dlg.showModal();
+ }
+ dlg.addEventListener('click', e => { if (e.target === dlg) dlg.close(); });
+@@ -795,7 +839,7 @@
+ }
+ 
+ // Розклад: спершу остання збережена копія (миттєво), потім свіжий з Google-таблиці
+-function renderEverything() { renderChips(); renderAll(); renderOrg(); renderJsonLd(); }
++function renderEverything() { renderChips(); renderAll(); renderOrg(); renderJsonLd(); renderAcademy(); }
+ (async () => {
+   if (applyCachedSchedule()) renderEverything();
+   else {
+--- verify.html (до)
++++ verify.html (після)
+@@ -41,10 +41,11 @@
+   </main>
+ 
+   <footer class="border-t border-slate-200 bg-white">
+-    <div class="max-w-3xl mx-auto px-4 sm:px-6 py-6 text-sm text-slate-500">© Всеукраїнська асоціація гідів</div>
++    <div class="max-w-3xl mx-auto px-4 sm:px-6 py-6 text-sm text-slate-500 flex flex-wrap justify-between gap-3"><span>© Всеукраїнська асоціація гідів</span><a href="https://academy.psgua.com/" class="underline hover:text-vagblue">Академія ВАГ — онлайн-курси</a></div>
+   </footer>
+ 
+   <script src="webinars-data.js?v=2026-10-19c"></script>
++  <script src="academy-links.js?v=2026-11-20"></script>
+   <script>
+     const $ = s => document.querySelector(s);
+     const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+@@ -55,7 +56,11 @@
+       $('#vId').value = id;
+       const out = $('#vResult');
+       if (!/^VAG-\d{4}-[A-Z0-9]{6}$/.test(id)) {
+-        out.innerHTML = box('bg-amber-50 border-amber-200', '<p class="font-bold text-amber-900">Невірний формат номера.</p><p class="text-amber-900 text-sm mt-1">Приклад: VAG-2026-K7M2QX</p>');
++        const acad = (typeof ACADEMY !== 'undefined') ? ACADEMY : { url: 'https://academy.psgua.com/', verifyUrl: '' };
++        out.innerHTML = box('bg-amber-50 border-amber-200', '<p class="font-bold text-amber-900">Це не номер сертифіката вебінару.</p><p class="text-amber-900 text-sm mt-1">Номери сертифікатів учасників вебінарів мають вигляд VAG-2026-K7M2QX.</p>' +
++          '<p class="text-amber-900 text-sm mt-3"><b>Це сертифікат курсу Академії ВАГ?</b> Такі сертифікати видаються за завершення курсу, мають інший код і перевіряються ' +
++          (acad.verifyUrl ? '<a class="underline font-bold" href="' + esc(acad.verifyUrl) + '">на сайті Академії</a>' : 'на сайті Академії') +
++          ' або за запитом на <a class="underline" href="mailto:info@uaguides.com">info@uaguides.com</a>.</p>');
+         return;
+       }
+       if (!CONFIG.FORM_ENDPOINT) {
+--- room.html (до)
++++ room.html (після)
+@@ -262,6 +262,7 @@
+         <a id="byeCert" href="index.html#certificate" class="bg-vaggreen text-white font-bold px-6 py-3 rounded-xl">📜 Отримати сертифікат</a>
+         <button id="byeRejoin" type="button" class="border border-line px-6 py-3 rounded-xl font-bold">↩ Повернутися в ефір</button>
+       </div>
++      <p class="text-slate-400 text-sm mt-8">Хочете заглибитися в тему? <a href="index.html#academy" class="text-emerald-400 underline font-bold">Онлайн-курси Академії ВАГ →</a></p>
+     </div>
+   </section>
+ 
