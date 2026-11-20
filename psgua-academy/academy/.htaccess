@@ -1,0 +1,47 @@
+# =========================================================
+# academy.psgua.com — статичний сайт (Apache, ADM.TOOLS)
+# =========================================================
+Options -Indexes
+DirectoryIndex index.html
+ErrorDocument 404 /404.html
+AddDefaultCharset UTF-8
+AddType application/json .json
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # 1) HTTPS + без www
+  RewriteCond %{HTTPS} !=on [OR]
+  RewriteCond %{HTTP_HOST} ^www\. [NC]
+  RewriteRule ^ https://academy.psgua.com%{REQUEST_URI} [R=301,L]
+
+  # 2) Архів Moodle недоступний з вебу (дублює захист нижче)
+  RewriteRule ^_legacy_moodle_backup(/|$) - [F,L]
+
+  # 3) Старі URL Moodle -> головна Академії (301, без query string)
+  #    Каталог курсів Moodle
+  RewriteRule ^course(/.*)?$                https://academy.psgua.com/#courses [R=301,L,NE,QSD]
+  #    Логін, кабінет, профіль, адмінка, модулі, файли, API тощо
+  RewriteRule ^(login|my|user|admin|mod|blocks|enrol|grade|calendar|message|badges|pluginfile\.php|webservice|theme|lib|local|auth|cohort|competency|backup|question|report|files|repository|course)(/.*)?$ https://academy.psgua.com/ [R=301,L,QSD]
+  #    Будь-який інший *.php (index.php, view.php, config.php ...)
+  RewriteRule \.php$ https://academy.psgua.com/ [R=301,L,QSD]
+</IfModule>
+
+# Заборона службових файлів
+<FilesMatch "(^\.|\.(sql|bak|log|ini|sh|zip|tar|gz)$)">
+  Require all denied
+</FilesMatch>
+
+# Безпека та кешування
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()"
+  <FilesMatch "\.(css|js|png|svg|ico|woff2?)$">
+    Header set Cache-Control "public, max-age=604800"
+  </FilesMatch>
+  <FilesMatch "\.(html|json|xml|txt)$">
+    Header set Cache-Control "no-cache"
+  </FilesMatch>
+</IfModule>
