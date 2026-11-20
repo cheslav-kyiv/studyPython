@@ -1,23 +1,23 @@
 /* =========================================================
-   Академія ПСТГУ — Vanilla JS (без залежностей і збірки)
+   Академія ГС «ВАГ» — Vanilla JS (без залежностей і збірки)
    - каталог курсів з data/courses.json + фільтр за напрямами
    - сторінка курсу (?id=...): акордеон модулів, прогрес у localStorage
-   - валідація форм; відправка на endpoint або mailto:office@psgua.com
+   - валідація форм; відправка на endpoint або mailto (CONFIG.EMAIL)
    ========================================================= */
 (function () {
   'use strict';
 
   var CONFIG = {
     DATA_URL: 'data/courses.json',
-    EMAIL: 'office@psgua.com',
+    EMAIL: 'info@uaguides.com', // ПОТРЕБУЄ ПІДТВЕРДЖЕННЯ: адреса для заявок Академії ГС «ВАГ»
     // Залиште порожнім, щоб використовувати mailto.
     // Або вкажіть URL (напр. Google Apps Script / Formspree / власний PHP),
     // що приймає POST application/json і повертає 2xx.
     FORM_ENDPOINT: '',
-    STORAGE_PREFIX: 'pstgu-academy:progress:'
+    STORAGE_PREFIX: 'vag-academy:progress:'
   };
 
-  var STATUS_LABELS = { open: 'Набір відкрито', planned: 'Готується', closed: 'Набір закрито' };
+  var STATUS_LABELS = { open: 'Набір відкрито', waitlist: 'Прийом заявок', planned: 'Готується', closed: 'Набір закрито' };
 
   /* ---------- helpers ---------- */
   function $(sel, root) { return (root || document).querySelector(sel); }
@@ -28,6 +28,7 @@
       .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
   }
   function hoursLabel(n) {
+    if (n == null) return 'тривалість уточнюється';
     var m10 = n % 10, m100 = n % 100;
     if (m10 === 1 && m100 !== 11) return n + ' година';
     if (m10 >= 2 && m10 <= 4 && (m100 < 12 || m100 > 14)) return n + ' години';
@@ -86,7 +87,7 @@
       '<span class="status status--' + esc(c.status) + '">' + esc(STATUS_LABELS[c.status] || c.status) + '</span></div>' +
       '<h3><a href="' + href + '">' + esc(c.title) + '</a></h3>' +
       '<p class="course-card__summary">' + esc(c.summary) + '</p>' +
-      '<div class="meta"><span class="tag">⏱ ' + esc(hoursLabel(c.duration_hours)) + '</span>' +
+      '<div class="meta">' + (c.duration_hours ? '<span class="tag">⏱ ' + esc(hoursLabel(c.duration_hours)) + '</span>' : '') + '<span class="tag">' + esc(c.code || '') + '</span>' +
       '<span class="tag">' + esc(c.level) + '</span><span class="tag">' + esc(c.format) + '</span></div>' +
       '<div class="course-card__footer"><span class="legend">' + esc(c.modules.length) + ' модул' + (c.modules.length === 1 ? 'ь' : (c.modules.length < 5 ? 'і' : 'ів')) + '</span>' +
       '<a class="btn btn--navy btn--sm" href="' + href + '">Програма курсу →</a></div>' +
@@ -127,8 +128,8 @@
       render();
 
       var stat = $('#stat-courses'); if (stat) stat.textContent = courses.length;
-      var statH = $('#stat-hours');
-      if (statH) statH.textContent = courses.reduce(function (s, c) { return s + (c.duration_hours || 0); }, 0);
+      var statM = $('#stat-modules');
+      if (statM) statM.textContent = courses.reduce(function (s, c) { return s + (c.modules || []).length; }, 0);
     }).catch(function () { loadError(list); });
   }
 
@@ -153,10 +154,10 @@
 
   function renderCourse(data, c) {
     var pageUrl = 'https://academy.psgua.com/course.html?id=' + encodeURIComponent(c.id);
-    document.title = c.title + ' | Академія ПСТГУ';
+    document.title = c.title + ' | Академія ГС «ВАГ»';
     var md = document.querySelector('meta[name="description"]'); if (md) md.setAttribute('content', c.summary);
     var canon = document.querySelector('link[rel="canonical"]'); if (canon) canon.setAttribute('href', pageUrl);
-    var ogT = document.querySelector('meta[property="og:title"]'); if (ogT) ogT.setAttribute('content', c.title + ' | Академія ПСТГУ');
+    var ogT = document.querySelector('meta[property="og:title"]'); if (ogT) ogT.setAttribute('content', c.title + ' | Академія ГС «ВАГ»');
     var ogD = document.querySelector('meta[property="og:description"]'); if (ogD) ogD.setAttribute('content', c.summary);
     var ogU = document.querySelector('meta[property="og:url"]'); if (ogU) ogU.setAttribute('content', pageUrl);
 
@@ -172,7 +173,7 @@
         '<span><span class="acc-item__hours">' + (m.hours ? esc(hoursLabel(m.hours)) : '') + '</span> <span class="acc-item__chev" aria-hidden="true">▾</span></span>' +
         '</button></h3>' +
         '<div class="acc-item__panel" id="' + pid + '" role="region" aria-labelledby="' + bid + '"' + (i === 0 ? '' : ' hidden') + '>' +
-        '<h4>Теми</h4><ul>' + (m.topics || []).map(function (t) { return '<li>' + esc(t) + '</li>'; }).join('') + '</ul>' +
+        (m.summary ? '<p style="margin:14px 0 0">' + esc(m.summary) + '</p>' : '') + '<h4>Теми</h4><ul>' + (m.topics || []).map(function (t) { return '<li>' + esc(t) + '</li>'; }).join('') + '</ul>' +
         ((m.materials && m.materials.length) ? '<h4>Матеріали</h4><ul>' + m.materials.map(function (x) {
           return '<li>' + (x.url ? '<a href="' + esc(x.url) + '">' + esc(x.title) + '</a>' : esc(x.title)) + ' <span class="tag">' + esc(x.type) + '</span></li>';
         }).join('') + '</ul><p class="legend" style="margin-top:10px">Матеріали надаються зарахованим слухачам.</p>' : '') +
@@ -190,6 +191,10 @@
       '<p class="legend">Відповідність: ' + esc(c.standard_ref) + '</p>' +
       '<div class="accordion" id="accordion">' + modulesHtml + '</div></section>' +
       '<section aria-labelledby="h-outcomes" style="margin-top:48px"><h2 id="h-outcomes">Результати навчання</h2>' + outcomesHtml + '</section>' +
+      '<section aria-labelledby="h-who" style="margin-top:48px"><h2 id="h-who">Для кого і як оцінюється</h2><ul class="facts">' +
+        '<li><span>Для кого</span><span>' + esc(c.audience || '—') + '</span></li>' +
+        '<li><span>Вхідні вимоги</span><span>' + esc(c.prerequisites || '—') + '</span></li>' +
+        '<li><span>Оцінювання</span><span>' + esc(c.assessment || '—') + '</span></li></ul></section>' +
       '<section aria-labelledby="h-cert" style="margin-top:48px"><h2 id="h-cert">Документ про навчання</h2>' +
       '<div class="card card--flat"><p>' + esc(c.certificate_info) + '</p><a href="certificates.html">Як працює сертифікація →</a></div></section>';
 
@@ -198,6 +203,7 @@
       '<li><span>Рівень</span><span>' + esc(c.level) + '</span></li>' +
       '<li><span>Обсяг</span><span>' + esc(hoursLabel(c.duration_hours)) + '</span></li>' +
       '<li><span>Формат</span><span>' + esc(c.format) + '</span></li>' +
+      '<li><span>Код курсу</span><span>' + esc(c.code || '—') + '</span></li>' +
       '<li><span>Статус</span><span><span class="status status--' + esc(c.status) + '">' + esc(STATUS_LABELS[c.status] || c.status) + '</span></span></li>';
 
     $('#progress-box').innerHTML = '<div class="progress" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" aria-label="Прогрес слухача"><div class="progress__bar" id="progress-bar"></div></div>' +
@@ -215,10 +221,13 @@
       }).join('');
     }
     var cta = $('#enroll-cta');
-    if (cta && c.status !== 'open') {
-      cta.textContent = 'Повідомити про старт набору';
-      var note = $('#enroll-note');
-      if (note) note.textContent = 'Набір на цей курс ще не відкрито — залиште заявку, і ми повідомимо про дати.';
+    var note = $('#enroll-note');
+    if (cta && c.status === 'planned') {
+      cta.textContent = 'Повідомити про старт курсу';
+      if (note) note.textContent = 'Курс ще готується — залиште заявку, і ми повідомимо, коли він стартує.';
+    } else if (cta && c.status === 'waitlist') {
+      cta.textContent = 'Залишити заявку';
+      if (note) note.textContent = 'Онлайн-платформа курсів зараз переїжджає. Залиште заявку — ми надішлемо доступ, щойно навчання відкриється.';
     }
   }
 
@@ -317,7 +326,7 @@
     var subject = isEnroll ? 'Заявка на навчання: ' + (p.course_title || p.course || '') : 'Запит на перевірку документа № ' + (p.cert_number || '');
     var lines = isEnroll ? [
       'Курс: ' + (p.course_title || p.course), 'ПІБ: ' + p.name, 'Email: ' + p.email, 'Телефон: ' + (p.phone || '—'),
-      'Член ПСТГУ: ' + (p.member || '—'), 'Коментар: ' + (p.comment || '—'), '', 'Надіслано з academy.psgua.com'
+      'Член ВАГ: ' + (p.member || '—'), 'Коментар: ' + (p.comment || '—'), '', 'Надіслано з academy.psgua.com'
     ] : [
       'Номер документа: ' + p.cert_number, 'ПІБ власника: ' + p.holder, 'Дата видачі: ' + (p.issued || '—'),
       'Хто запитує: ' + p.requester, 'Email для відповіді: ' + p.email, '', 'Надіслано з academy.psgua.com/certificates.html'

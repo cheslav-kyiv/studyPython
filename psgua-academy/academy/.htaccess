@@ -18,13 +18,21 @@ AddType application/json .json
   # 2) Архів Moodle недоступний з вебу (дублює захист нижче)
   RewriteRule ^_legacy_moodle_backup(/|$) - [F,L]
 
-  # 3) Старі URL Moodle -> головна Академії (301, без query string)
-  #    Каталог курсів Moodle
-  RewriteRule ^course(/.*)?$                https://academy.psgua.com/#courses [R=301,L,NE,QSD]
+  # 3) Старі URL Moodle. 302 (тимчасово), бо Moodle може повернутися на цей домен.
+  #    Конкретні курси: старий Moodle id -> сторінка курсу (див. data/courses.json, legacy_moodle_id)
+  RewriteCond %{QUERY_STRING} (^|&)id=2(&|$)
+  RewriteRule ^(course/view|enrol/index)\.php$ https://academy.psgua.com/course.html?id=utga-g01 [R=302,L]
+  RewriteCond %{QUERY_STRING} (^|&)id=6(&|$)
+  RewriteRule ^(course/view|enrol/index)\.php$ https://academy.psgua.com/course.html?id=utga-g02 [R=302,L]
+  RewriteCond %{QUERY_STRING} (^|&)id=3(&|$)
+  RewriteRule ^(course/view|enrol/index)\.php$ https://academy.psgua.com/course.html?id=utga-h01 [R=302,L]
+  #    Реєстрація та каталог -> заявка / каталог
+  RewriteRule ^login/signup\.php$ https://academy.psgua.com/#enroll [R=302,L,NE,QSD]
+  RewriteRule ^course(/.*)?$ https://academy.psgua.com/#courses [R=302,L,NE,QSD]
   #    Логін, кабінет, профіль, адмінка, модулі, файли, API тощо
-  RewriteRule ^(login|my|user|admin|mod|blocks|enrol|grade|calendar|message|badges|pluginfile\.php|webservice|theme|lib|local|auth|cohort|competency|backup|question|report|files|repository|course)(/.*)?$ https://academy.psgua.com/ [R=301,L,QSD]
+  RewriteRule ^(login|my|user|admin|mod|blocks|enrol|grade|calendar|message|badges|pluginfile\.php|webservice|theme|lib|local|auth|cohort|competency|backup|question|report|files|repository|course)(/.*)?$ https://academy.psgua.com/ [R=302,L,QSD]
   #    Будь-який інший *.php (index.php, view.php, config.php ...)
-  RewriteRule \.php$ https://academy.psgua.com/ [R=301,L,QSD]
+  RewriteRule \.php$ https://academy.psgua.com/ [R=302,L,QSD]
 </IfModule>
 
 # Заборона службових файлів
