@@ -9,7 +9,7 @@
 
   var CONFIG = {
     DATA_URL: 'data/courses.json',
-    EMAIL: 'info@uaguides.com', // ПОТРЕБУЄ ПІДТВЕРДЖЕННЯ: адреса для заявок Академії ГС «ВАГ»
+    EMAIL: 'info@uaguides.com', // адреса для заявок Академії ГС «ВАГ»
     // Залиште порожнім, щоб використовувати mailto.
     // Або вкажіть URL (напр. Google Apps Script / Formspree / власний PHP),
     // що приймає POST application/json і повертає 2xx.
