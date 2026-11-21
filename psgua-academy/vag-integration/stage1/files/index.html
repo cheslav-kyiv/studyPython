@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="uk" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Вебінари ВАГ | Розклад, реєстрація та ефір</title>
+  <meta name="description" content="Розклад вебінарів Всеукраїнської асоціації гідів: реєстрація, кімната ефіру, архів записів, сертифікати та інструменти для організаторів." />
+  <meta name="author" content="Всеукраїнська асоціація гідів" />
+  <meta property="og:title" content="Вебінари ВАГ | Розклад та реєстрація" />
+  <meta property="og:description" content="Професійні онлайн-вебінари для туристичних гідів, екскурсоводів та фахівців сфери туризму." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://webinars.uaguides.com/" />
+  <meta property="og:site_name" content="Вебінари ВАГ" />
+  <meta property="og:locale" content="uk_UA" />
+  <meta property="og:image" content="https://webinars.uaguides.com/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Вебінари Всеукраїнської асоціації гідів" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="canonical" href="https://webinars.uaguides.com/" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { jakarta: ['Plus Jakarta Sans', 'sans-serif'] },
+          colors: { vagblue: '#0f2f5f', vaggreen: '#10b981', vaglight: '#f8fafc' }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    .glass { background: rgba(255,255,255,.82); backdrop-filter: blur(14px); }
+    :focus-visible { outline: 3px solid #10b981; outline-offset: 2px; border-radius: 6px; }
+    dialog::backdrop { background: rgba(15,47,95,.55); backdrop-filter: blur(3px); }
+    .field { margin-top:.5rem; width:100%; padding:.9rem 1rem; border-radius:.75rem; border:1px solid #e2e8f0; color:#1e293b; background:#fff; }
+    .field:focus { outline:none; box-shadow:0 0 0 3px rgba(16,185,129,.45); }
+    .chip[aria-pressed="true"] { background:#0f2f5f; color:#fff; border-color:#0f2f5f; }
+    @media (prefers-reduced-motion: reduce) { html { scroll-behavior:auto; } * { transition:none !important; animation:none !important; } }
+  </style>
+</head>
+
+<body class="bg-vaglight text-slate-800">
+  <a href="#main" class="sr-only focus:not-sr-only focus:fixed focus:top-3 focus:left-3 focus:z-[100] bg-vagblue text-white px-4 py-2 rounded-lg">Перейти до змісту</a>
+
+
+  <!-- ===== НАВІГАЦІЯ ===== -->
+  <nav class="sticky top-0 z-50 border-b border-slate-200 glass" aria-label="Головна навігація">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex justify-between items-center gap-4">
+      <a href="#" class="text-xl sm:text-2xl font-extrabold text-vagblue tracking-tighter">ВАГ <span class="text-vaggreen">WEBINARS</span></a>
+      <div class="hidden lg:flex items-center gap-6 text-sm font-semibold text-slate-600">
+        <a href="#schedule" class="hover:text-vagblue">Розклад</a>
+        <a href="#live" class="hover:text-vagblue">Ефір</a>
+        <a href="#archive" class="hover:text-vagblue">Архів</a>
+        <a href="#certificate" class="hover:text-vagblue">Сертифікат</a>
+        <a href="#propose" class="hover:text-vagblue">Спікерам</a>
+        <a href="#faq" class="hover:text-vagblue">FAQ</a>
+        <a href="#academy" class="text-emerald-700 hover:text-vagblue">Академія</a>
+      </div>
+      <a href="#academy" class="hidden sm:inline lg:hidden ml-auto text-sm font-bold text-emerald-700 hover:text-vagblue whitespace-nowrap">Курси</a>
+      <a href="#register" class="bg-vagblue text-white px-4 sm:px-5 py-2.5 rounded-full text-sm font-bold hover:bg-vaggreen transition whitespace-nowrap">Зареєструватися</a>
+    </div>
+  </nav>
+
+  <main id="main">
+
+    <!-- ===== HERO + НАЙБЛИЖЧИЙ ВЕБІНАР ===== -->
+    <header class="relative overflow-hidden">
+      <div class="absolute inset-0 bg-gradient-to-br from-blue-50 via-white to-emerald-50" aria-hidden="true"></div>
+      <div class="relative max-w-7xl mx-auto px-4 sm:px-6 py-16 md:py-24 grid lg:grid-cols-2 gap-12 items-center">
+        <div>
+          <span class="inline-flex bg-emerald-100 text-emerald-800 px-4 py-2 rounded-full font-bold tracking-widest uppercase text-xs">Всеукраїнська асоціація гідів</span>
+          <h1 class="text-4xl md:text-6xl font-extrabold text-slate-950 mt-6 mb-6 leading-tight">
+            Вебінари для гідів: <span class="text-blue-700">розклад, ефір і сертифікати</span> в одному місці
+          </h1>
+          <p class="text-lg md:text-xl text-slate-600 max-w-2xl mb-9">
+            Оберіть тему, зареєструйтеся, приєднайтеся до ефіру в один клік і отримайте сертифікат ВАГ після участі.
+          </p>
+          <ol class="grid sm:grid-cols-4 gap-3 text-sm" aria-label="Як взяти участь">
+            <li class="bg-white border border-slate-200 rounded-2xl p-4"><b class="block text-vagblue">1. Оберіть</b>тему з розкладу</li>
+            <li class="bg-white border border-slate-200 rounded-2xl p-4"><b class="block text-vagblue">2. Зареєструйтеся</b>і додайте в календар</li>
+            <li class="bg-white border border-slate-200 rounded-2xl p-4"><b class="block text-vagblue">3. Приєднайтеся</b>до ефіру</li>
+            <li class="bg-white border border-slate-200 rounded-2xl p-4"><b class="block text-vagblue">4. Отримайте</b>сертифікат</li>
+          </ol>
+        </div>
+
+        <div id="nextCard" class="bg-white rounded-3xl shadow-2xl shadow-blue-100 border border-slate-100 p-7 md:p-9" aria-live="polite">
+          <!-- заповнюється скриптом -->
+        </div>
+      </div>
+    </header>
+
+    <!-- ===== РОЗКЛАД ===== -->
+    <section id="schedule" class="max-w-7xl mx-auto px-4 sm:px-6 py-16" aria-labelledby="schedTitle">
+      <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-8">
+        <div>
+          <p class="text-emerald-700 font-bold uppercase tracking-widest text-xs mb-3">Розклад</p>
+          <h2 id="schedTitle" class="text-3xl md:text-4xl font-extrabold text-slate-950">Найближчі вебінари</h2>
+          <p class="text-slate-600 mt-2">Час указано за Києвом.</p>
+        </div>
+        <label class="block w-full md:w-80">
+          <span class="sr-only">Пошук вебінару</span>
+          <input id="search" type="search" placeholder="🔎 Пошук за темою або спікером" class="field !mt-0">
+        </label>
+      </div>
+      <div id="topicChips" class="flex flex-wrap gap-2 mb-8" role="group" aria-label="Фільтр за напрямом"></div>
+      <div id="scheduleGrid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+      <p id="scheduleEmpty" class="hidden text-center text-slate-500 py-10">За цим фільтром вебінарів не знайдено.</p>
+    </section>
+
+    <!-- ===== КІМНАТА ЕФІРУ ===== -->
+    <section id="live" class="bg-vagblue text-white" aria-labelledby="liveTitle">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 py-20 grid lg:grid-cols-5 gap-10">
+        <div class="lg:col-span-3" id="liveRoom" aria-live="polite"><!-- скрипт --></div>
+        <aside class="lg:col-span-2 bg-white/10 border border-white/15 rounded-3xl p-7">
+          <h3 class="font-extrabold text-xl mb-4">Правила ефіру</h3>
+          <ul class="space-y-3 text-blue-100 text-sm">
+            <li>🎙️ Мікрофон вимкнений, поки модератор не надасть слово.</li>
+            <li>💬 Запитання пишіть у чат — модератор передасть їх спікеру.</li>
+            <li>🔤 У Google Meet можна ввімкнути субтитри (кнопка «CC»).</li>
+            <li>🔑 Запишіть <b class="text-white">кодове слово</b>, яке озвучать під час ефіру, — воно потрібне для сертифіката.</li>
+            <li>⏺️ Вебінар може записуватися (див. картку вебінару). Якщо не бажаєте потрапити до запису, залишайте камеру й мікрофон вимкненими та пишіть запитання в чат. Умови — у <a href="privacy.html" class="underline text-white">Політиці приватності</a>.</li>
+            <li>🤝 Поважаємо колег: без реклами та офтопу в чаті.</li>
+          </ul>
+        </aside>
+      </div>
+    </section>
+
+    <!-- ===== РЕЄСТРАЦІЯ ===== -->
+    <section id="register" class="max-w-3xl mx-auto px-4 sm:px-6 py-20" aria-labelledby="regTitle">
+      <div class="text-center mb-9">
+        <p class="text-emerald-700 font-bold uppercase tracking-widest text-xs mb-3">Реєстрація</p>
+        <h2 id="regTitle" class="text-3xl md:text-4xl font-extrabold text-slate-950 mb-4">Забронюйте місце</h2>
+        <p class="text-slate-600">Після реєстрації ви зможете одразу додати подію в календар. Посилання на ефір надійде на email перед початком.</p>
+      </div>
+
+      <form id="regForm" class="bg-white p-6 md:p-8 rounded-3xl shadow-xl border border-slate-100 space-y-4" novalidate>
+        <input type="hidden" name="type" value="registration">
+        <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" class="hidden">
+        <label class="block"><span class="text-slate-700 text-sm font-bold">Вебінар *</span>
+          <select name="webinarId" id="regWebinar" required class="field"></select></label>
+        <div class="grid md:grid-cols-2 gap-4">
+          <label class="block"><span class="text-slate-700 text-sm font-bold">Ім’я та прізвище *</span>
+            <input type="text" name="name" required autocomplete="name" placeholder="Олена Петренко" class="field"></label>
+          <label class="block"><span class="text-slate-700 text-sm font-bold">Email *</span>
+            <input type="email" name="email" required autocomplete="email" placeholder="name@example.com" class="field"></label>
+        </div>
+        <div class="grid md:grid-cols-2 gap-4">
+          <label class="block"><span class="text-slate-700 text-sm font-bold">Телефон / месенджер</span>
+            <input type="tel" name="phone" autocomplete="tel" placeholder="+380..." class="field"></label>
+          <label class="block"><span class="text-slate-700 text-sm font-bold">Професійний статус</span>
+            <select name="role" class="field">
+              <option>Туристичний гід</option><option>Екскурсовод</option><option>Музейний працівник</option>
+              <option>Викладач / студент</option><option>Туроператор</option><option>Представник громади</option><option>Інше</option>
+            </select></label>
+        </div>
+        <label class="block"><span class="text-slate-700 text-sm font-bold">Потреби доступності</span>
+          <select name="accessibility" class="field">
+            <option value="">Не потрібно</option><option>Субтитри</option><option>Переклад жестовою мовою</option>
+            <option>Матеріали заздалегідь (для екранного зчитувача)</option><option>Інше — опишу в коментарі</option>
+          </select></label>
+        <label class="block"><span class="text-slate-700 text-sm font-bold">Запитання до спікера</span>
+          <textarea name="message" rows="3" placeholder="Що вам важливо розібрати?" class="field"></textarea></label>
+        <label class="flex gap-3 items-start text-sm text-slate-600">
+          <input type="checkbox" name="consent" required class="mt-1 w-5 h-5 accent-emerald-600 shrink-0">
+          <span>Я ознайомився(-лася) з <a href="privacy.html" target="_blank" class="text-vagblue font-bold underline">Політикою приватності</a> і надаю ГС «Всеукраїнська асоціація гідів» згоду на обробку моїх персональних даних для організації участі у вебінарі (реєстрація, лист-підтвердження, нагадування, сертифікат). *</span>
+        </label>
+        <label class="flex gap-3 items-start text-sm text-slate-600">
+          <input type="checkbox" name="marketing" class="mt-1 w-5 h-5 accent-emerald-600 shrink-0">
+          <span>Хочу отримувати анонси нових вебінарів ВАГ. Необов’язково, відписатися можна будь-коли.</span>
+        </label>
+        <button type="submit" class="w-full bg-vaggreen text-white p-4 rounded-xl font-extrabold hover:bg-emerald-600 transition">Зареєструватися</button>
+        <p class="form-msg text-sm text-center" role="status"></p>
+      </form>
+
+      <div id="regSuccess" class="hidden bg-emerald-50 border border-emerald-200 rounded-3xl p-8 text-center" tabindex="-1">
+        <div class="text-5xl mb-3" aria-hidden="true">✅</div>
+        <h3 class="text-2xl font-extrabold text-vagblue mb-2">Ви зареєстровані!</h3>
+        <p id="regSuccessText" class="text-slate-600 mb-6"></p>
+        <div class="flex flex-col sm:flex-row gap-3 justify-center">
+          <a id="regGcal" target="_blank" rel="noopener" class="bg-vagblue text-white px-6 py-3 rounded-xl font-bold hover:bg-vaggreen">📅 Google Календар</a>
+          <button id="regIcs" type="button" class="bg-white border border-slate-200 px-6 py-3 rounded-xl font-bold hover:bg-slate-50">⬇️ Файл .ics</button>
+          <button id="regAgain" type="button" class="text-slate-600 underline px-4 py-3">Ще одна реєстрація</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== АРХІВ ===== -->
+    <section id="archive" class="bg-white border-y border-slate-200" aria-labelledby="archTitle">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 py-16">
+        <p class="text-emerald-700 font-bold uppercase tracking-widest text-xs mb-3">Архів</p>
+        <h2 id="archTitle" class="text-3xl md:text-4xl font-extrabold text-slate-950 mb-8">Записи та матеріали</h2>
+        <div id="archiveList" class="grid md:grid-cols-2 gap-5"></div>
+        <p id="archiveEmpty" class="hidden text-slate-500">Записи з’являться тут після перших вебінарів.</p>
+      </div>
+    </section>
+
+    <!-- ===== СЕРТИФІКАТ ===== -->
+    <section id="certificate" class="max-w-7xl mx-auto px-4 sm:px-6 py-20 grid lg:grid-cols-2 gap-12" aria-labelledby="certTitle">
+      <div>
+        <p class="text-emerald-700 font-bold uppercase tracking-widest text-xs mb-3">Сертифікат</p>
+        <h2 id="certTitle" class="text-3xl md:text-4xl font-extrabold text-slate-950 mb-4">Отримайте підтвердження участі</h2>
+        <p class="text-slate-600 mb-6">Електронний сертифікат участі видається учасникам, які були присутні на ефірі, і зазначає тривалість вебінару. Для перевірки введіть кодове слово, яке озвучили під час вебінару, і залиште короткий відгук.</p>
+        <ul class="space-y-3 text-slate-600">
+          <li class="flex gap-3"><span aria-hidden="true">📜</span> Електронний сертифікат (PDF) надходить на email протягом 5 робочих днів.</li>
+          <li class="flex gap-3"><span aria-hidden="true">🔑</span> Без кодового слова заявку перевіряють вручну за списком присутніх.</li>
+          <li class="flex gap-3"><span aria-hidden="true">⭐</span> Ваш відгук допомагає нам покращувати програму.</li>
+          <li class="flex gap-3"><span aria-hidden="true">🔎</span> <span>Кожен сертифікат має унікальний номер. <a href="verify.html" class="text-vagblue font-bold underline">Перевірити справжність сертифіката</a></span></li>
+        </ul>
+      </div>
+
+      <form id="certForm" class="bg-white p-6 md:p-8 rounded-3xl shadow-xl border border-slate-100 space-y-4" novalidate>
+        <input type="hidden" name="type" value="certificate">
+        <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" class="hidden">
+        <label class="block"><span class="text-slate-700 text-sm font-bold">Вебінар *</span>
+          <select name="webinarId" id="certWebinar" required class="field"></select></label>
+        <div class="grid md:grid-cols-2 gap-4">
+          <label class="block"><span class="text-slate-700 text-sm font-bold">ПІБ для сертифіката *</span>
+            <input type="text" name="name" required class="field" placeholder="Як має бути в сертифікаті"></label>
+          <label class="block"><span class="text-slate-700 text-sm font-bold">Email *</span>
+            <input type="email" name="email" required autocomplete="email" class="field"></label>
+        </div>
+        <label class="block"><span class="text-slate-700 text-sm font-bold">Кодове слово з ефіру</span>
+          <input type="text" name="codeword" class="field" autocomplete="off"></label>
+        <fieldset>
+          <legend class="text-slate-700 text-sm font-bold mb-2">Оцінка вебінару *</legend>
+          <div class="flex gap-2" id="ratingGroup">
+            <!-- 1..5 -->
+          </div>
+        </fieldset>
+        <label class="block"><span class="text-slate-700 text-sm font-bold">Що було найкориснішим?</span>
+          <textarea name="feedback" rows="3" class="field"></textarea></label>
+        <label class="flex gap-3 items-start text-sm text-slate-600">
+          <input type="checkbox" name="consent" required class="mt-1 w-5 h-5 accent-emerald-600 shrink-0">
+          <span>Надаю згоду на обробку моїх персональних даних для видачі сертифіката згідно з <a href="privacy.html" target="_blank" class="text-vagblue font-bold underline">Політикою приватності</a>. Розумію, що за номером сертифіката на сторінці перевірки буде видно ПІБ, назву й дату вебінару. *</span>
+        </label>
+        <button type="submit" class="w-full bg-vagblue text-white p-4 rounded-xl font-extrabold hover:bg-vaggreen transition">Подати заявку на сертифікат</button>
+        <p class="form-msg text-sm text-center" role="status"></p>
+      </form>
+    </section>
+
+    <!-- ===== АКАДЕМІЯ ВАГ: курси (дані — academy-links.js) ===== -->
+    <section id="academy" class="bg-emerald-50 border-y border-emerald-100" aria-labelledby="academyTitle">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 py-16">
+        <p class="text-emerald-700 font-bold uppercase tracking-widest text-xs mb-3">Академія ВАГ</p>
+        <h2 id="academyTitle" class="text-3xl md:text-4xl font-extrabold text-slate-950 mb-3">Поглибте знання: онлайн-курси Академії</h2>
+        <p class="text-slate-600 max-w-3xl mb-8">Вебінар — це знайомство з темою. Курс Академії — системне навчання з модулями, тестом, сертифікатом про завершення курсу та цифровим бейджем. Навчання проходить на окремій платформі Академії у вашому темпі.</p>
+        <div id="academyList" class="grid md:grid-cols-3 gap-5"></div>
+        <a id="academyAll" href="https://academy.psgua.com/" class="inline-block mt-8 bg-vagblue text-white px-6 py-3 rounded-xl font-bold hover:bg-vaggreen transition">Усі курси Академії →</a>
+      </div>
+    </section>
+
+    <!-- ===== ПРОПОЗИЦІЯ ВЕБІНАРУ (для спікерів) ===== -->
+    <section id="propose" class="bg-slate-100 border-y border-slate-200" aria-labelledby="proposeTitle">
+      <div class="max-w-5xl mx-auto px-4 sm:px-6 py-16 grid md:grid-cols-2 gap-10 items-start">
+        <div>
+          <p class="text-emerald-700 font-bold uppercase tracking-widest text-xs mb-3">Спікерам</p>
+          <h2 id="proposeTitle" class="text-3xl font-extrabold text-slate-950 mb-4">Хочете провести вебінар для гідів?</h2>
+          <p class="text-slate-600">Запропонуйте тему й результати, яких досягнуть учасники. Команда ВАГ розгляне пропозицію та зв’яжеться з вами.</p>
+        </div>
+        <form id="proposalForm" class="bg-white rounded-3xl border border-slate-200 p-6 space-y-4" novalidate>
+              <input type="hidden" name="type" value="proposal">
+        <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true" class="hidden">
+              <h3 class="font-extrabold text-vagblue text-lg">Запропонувати вебінар</h3>
+              <p class="text-sm text-slate-500">Хочете виступити спікером? Опишіть тему — ми зв’яжемося з вами.</p>
+              <label class="block"><span class="text-slate-700 text-sm font-bold">Ім’я *</span><input name="name" required class="field"></label>
+              <label class="block"><span class="text-slate-700 text-sm font-bold">Email *</span><input type="email" name="email" required class="field"></label>
+              <label class="block"><span class="text-slate-700 text-sm font-bold">Тема *</span><input name="topic" required class="field"></label>
+              <label class="block"><span class="text-slate-700 text-sm font-bold">Що учасники вмітимуть після вебінару?</span><textarea name="outcomes" rows="3" class="field"></textarea></label>
+              <label class="flex gap-3 items-start text-xs text-slate-600">
+                <input type="checkbox" name="consent" required class="mt-0.5 w-4 h-4 accent-emerald-600 shrink-0">
+                <span>Згода на обробку даних для зв’язку щодо пропозиції (<a href="privacy.html" target="_blank" class="underline">Політика приватності</a>). *</span>
+              </label>
+              <button type="submit" class="w-full bg-vaggreen text-white p-3 rounded-xl font-bold hover:bg-emerald-600">Надіслати пропозицію</button>
+              <p class="form-msg text-sm text-center" role="status"></p>
+            </form>
+      </div>
+    </section>
+
+    <!-- ===== FAQ ===== -->
+    <section id="faq" class="max-w-4xl mx-auto px-4 sm:px-6 py-16" aria-labelledby="faqTitle">
+      <div class="text-center mb-10">
+        <p class="text-emerald-700 font-bold uppercase tracking-widest text-xs mb-3">FAQ</p>
+        <h2 id="faqTitle" class="text-3xl md:text-4xl font-extrabold text-slate-950">Поширені запитання</h2>
+      </div>
+      <div class="space-y-4">
+        <details class="bg-white border border-slate-100 rounded-2xl p-6"><summary class="font-extrabold text-vagblue cursor-pointer">Як я отримаю посилання на ефір?</summary><p class="text-slate-600 mt-3">Посилання для входу є в листі-підтвердженні, який приходить одразу після реєстрації. Нагадування з посиланням надсилаємо також за добу та за годину до початку. Кнопка «Увійти в ефір» з’являється в розділі «Ефір» за 15 хвилин до старту. Ефір відкривається просто в браузері — встановлювати нічого не потрібно.</p></details>
+        <details class="bg-white border border-slate-100 rounded-2xl p-6"><summary class="font-extrabold text-vagblue cursor-pointer">Чи буде запис?</summary><p class="text-slate-600 mt-3">Це вказано в картці кожного вебінару: «Буде запис», «Без запису» або «Запис — за згодою спікера». Якщо ви не бажаєте, щоб ваше зображення чи голос потрапили до запису, залишайте камеру й мікрофон вимкненими та ставте запитання в чаті. Про початок запису ведучий повідомляє в ефірі. Записи публікуємо в розділі «Архів»; умови використання — у <a href="privacy.html" class="underline text-vagblue">Політиці приватності</a>.</p></details>
+        <details class="bg-white border border-slate-100 rounded-2xl p-6"><summary class="font-extrabold text-vagblue cursor-pointer">Чи можна зайти в ефір без реєстрації?</summary><p class="text-slate-600 mt-3">Ні. Після реєстрації ви отримуєте персональне посилання на ефір — у листі-підтвердженні та в нагадуваннях. Будь ласка, не пересилайте його іншим: колегам краще зареєструватися самостійно. Якщо лист загубився, на сторінці ефіру можна запросити посилання ще раз.</p></details>
+        <details class="bg-white border border-slate-100 rounded-2xl p-6"><summary class="font-extrabold text-vagblue cursor-pointer">Скільки коштує участь?</summary><p class="text-slate-600 mt-3">Вартість вказана в картці кожного вебінару. Якщо там написано «Вартість уточнюється», умови ще погоджуються — зареєструйтеся, і ми повідомимо вас до початку.</p></details>
+        <details class="bg-white border border-slate-100 rounded-2xl p-6"><summary class="font-extrabold text-vagblue cursor-pointer">Що засвідчує сертифікат?</summary><p class="text-slate-600 mt-3">Електронний сертифікат участі засвідчує, що ви були присутні на вебінарі, і зазначає його тривалість. Це не документ про підвищення кваліфікації, якщо інше прямо не вказано в описі вебінару. Кожен сертифікат має номер, справжність якого можна <a href="verify.html" class="underline text-vagblue">перевірити на сайті</a>.</p></details>
+        <details class="bg-white border border-slate-100 rounded-2xl p-6"><summary class="font-extrabold text-vagblue cursor-pointer">Чим сертифікат вебінару відрізняється від сертифіката Академії?</summary><p class="text-slate-600 mt-3">Сертифікат вебінару засвідчує <b>участь</b> в ефірі (номер виду VAG-2026-…). Сертифікат <a href="#academy" class="underline text-vagblue">Академії ВАГ</a> видається за <b>завершення курсу</b>: після всіх модулів і підсумкового тесту, а в поглибленому курсі — ще й практичного завдання з експертною оцінкою. Це різні документи з різними номерами.</p></details>
+        <details class="bg-white border border-slate-100 rounded-2xl p-6"><summary class="font-extrabold text-vagblue cursor-pointer">Хто отримує сертифікат?</summary><p class="text-slate-600 mt-3">Учасники, присутні на ефірі. Подайте заявку в розділі «Сертифікат» із кодовим словом, озвученим під час вебінару.</p></details>
+        <details class="bg-white border border-slate-100 rounded-2xl p-6"><summary class="font-extrabold text-vagblue cursor-pointer">Чи можна брати участь, якщо я ще не гід?</summary><p class="text-slate-600 mt-3">Так. Вебінари відкриті для всіх, хто цікавиться професією гіда, туризмом і культурною спадщиною.</p></details>
+        <details class="bg-white border border-slate-100 rounded-2xl p-6"><summary class="font-extrabold text-vagblue cursor-pointer">Як ви використовуєте мої дані?</summary><p class="text-slate-600 mt-3">Лише для організації вашої участі: реєстрація, листи щодо вебінару, сертифікат. Анонси надсилаємо тільки тим, хто окремо на це погодився. Докладно — у <a href="privacy.html" class="underline text-vagblue">Політиці приватності</a>.</p></details>
+        <details class="bg-white border border-slate-100 rounded-2xl p-6"><summary class="font-extrabold text-vagblue cursor-pointer">Мені потрібні субтитри чи інша адаптація. Що робити?</summary><p class="text-slate-600 mt-3">Вкажіть це в полі «Потреби доступності» під час реєстрації — ми постараємося забезпечити адаптацію або надішлемо матеріали заздалегідь.</p></details>
+      </div>
+    </section>
+  </main>
+
+  <footer class="border-t border-slate-200 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 py-10 grid md:grid-cols-3 gap-8 text-sm text-slate-600">
+      <div>
+        <p class="font-extrabold text-vagblue mb-2" id="orgName">Громадська спілка «Всеукраїнська асоціація гідів»</p>
+        <ul class="space-y-1" id="orgLegal"></ul>
+      </div>
+      <nav aria-label="Корисні посилання">
+        <p class="font-extrabold text-vagblue mb-2">Інформація</p>
+        <ul class="space-y-1">
+          <li><a href="privacy.html" class="hover:text-vagblue underline">Політика приватності</a></li>
+          <li><a href="verify.html" class="hover:text-vagblue underline">Перевірка сертифіката</a></li>
+          <li><a href="https://academy.psgua.com/" class="hover:text-vagblue underline">Академія ВАГ — онлайн-курси</a></li>
+          <li><a href="#faq" class="hover:text-vagblue underline">Поширені запитання</a></li>
+          <li><a href="https://uaguides.com/" class="hover:text-vagblue underline">uaguides.com</a></li>
+        </ul>
+      </nav>
+      <div>
+        <p class="font-extrabold text-vagblue mb-2">Контакти</p>
+        <ul class="space-y-1" id="orgContacts"><li class="text-slate-400">—</li></ul>
+      </div>
+    </div>
+    <div class="border-t border-slate-100">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 py-4 flex justify-between gap-4 text-xs text-slate-500">
+        <p>© <span id="year">2026</span> <span id="orgShort">ГС «ВАГ»</span>. Усі права захищені.</p>
+        <a href="admin.html" rel="nofollow" class="text-slate-400 hover:text-vagblue hover:underline">Для команди</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===== МОДАЛЬНЕ ВІКНО: ДЕТАЛІ ВЕБІНАРУ ===== -->
+  <dialog id="webinarDialog" class="w-[min(720px,calc(100%-2rem))] rounded-3xl p-0 shadow-2xl" aria-labelledby="dlgTitle">
+    <div class="p-6 md:p-8">
+      <div class="flex justify-between items-start gap-4 mb-4">
+        <div id="dlgBadges" class="flex flex-wrap gap-2"></div>
+        <button type="button" data-close class="text-slate-400 hover:text-slate-700 text-2xl leading-none" aria-label="Закрити">×</button>
+      </div>
+      <h3 id="dlgTitle" class="text-2xl md:text-3xl font-extrabold text-vagblue mb-3"></h3>
+      <p id="dlgMeta" class="text-slate-500 font-semibold mb-4"></p>
+      <p id="dlgDesc" class="text-slate-600 mb-6"></p>
+      <div class="grid md:grid-cols-2 gap-6 mb-6">
+        <div><h4 class="font-extrabold text-slate-900 mb-2">Програма</h4><ol id="dlgAgenda" class="list-decimal list-inside space-y-1 text-slate-600 text-sm"></ol></div>
+        <div><h4 class="font-extrabold text-slate-900 mb-2">Після вебінару ви зможете</h4><ul id="dlgOutcomes" class="space-y-1 text-slate-600 text-sm"></ul></div>
+      </div>
+      <div id="dlgSpeaker" class="bg-slate-50 rounded-2xl p-4 mb-6 text-sm"></div>
+      <div id="dlgActions" class="flex flex-col sm:flex-row gap-3"></div>
+    </div>
+  </dialog>
+
+<script src="webinars-data.js?v=2026-10-18b"></script>
+<script src="schedule-loader.js?v=2"></script>
+<script src="academy-links.js?v=2026-11-20"></script>
+<script>
+/* CONFIG і WEBINARS — у файлі webinars-data.js (спільний зі студією room.html) */
+
+/* =====================================================================
+   4. ДОПОМІЖНІ ФУНКЦІЇ
+   ===================================================================== */
+const $ = (s, el = document) => el.querySelector(s);
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const startOf = w => new Date(w.start);
+const endOf = w => new Date(startOf(w).getTime() + w.durationMin * 60000);
+const byId = id => WEBINARS.find(w => w.id === id);
+const DEMO = !CONFIG.FORM_ENDPOINT;
+
+function statusOf(w, now = new Date()) {
+  if (now >= endOf(w)) return 'past';
+  if (now >= startOf(w)) return 'live';
+  return 'upcoming';
+}
+const fmtDate = d => d.toLocaleDateString('uk-UA', { timeZone: CONFIG.TZ, weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+const fmtTime = d => d.toLocaleTimeString('uk-UA', { timeZone: CONFIG.TZ, hour: '2-digit', minute: '2-digit' });
+const fmtShort = d => d.toLocaleDateString('uk-UA', { timeZone: CONFIG.TZ, day: 'numeric', month: 'short' });
+const fmtDur = m => m % 60 ? `${Math.floor(m/60)} год ${m%60} хв` : `${m/60} год`;
+
+function countdown(target) {
+  let s = Math.max(0, Math.floor((target - new Date()) / 1000));
+  const d = Math.floor(s / 86400); s %= 86400;
+  const h = Math.floor(s / 3600); s %= 3600;
+  const m = Math.floor(s / 60);
+  return d > 0 ? `${d} дн ${h} год ${m} хв` : `${h} год ${m} хв`;
+}
+
+const store = {
+  get(k, def) { try { return JSON.parse(localStorage.getItem(k)) ?? def; } catch { return def; } },
+  set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} }
+};
+
+/* Календар: посилання Google Calendar і файл .ics */
+const toUTC = d => d.toISOString().replace(/[-:]/g, '').replace(/\.\d{3}/, '');
+function gcalUrl(w) {
+  const p = new URLSearchParams({
+    action: 'TEMPLATE', text: `Вебінар ВАГ: ${w.title}`,
+    dates: `${toUTC(startOf(w))}/${toUTC(endOf(w))}`,
+    details: `${w.description}\n\nПосилання на ефір надійде на email.\n${CONFIG.SITE_URL}#live`,
+    location: CONFIG.SITE_URL + '#live'
+  });
+  return 'https://calendar.google.com/calendar/render?' + p.toString();
+}
+function downloadIcs(w) {
+  const icsEsc = s => String(s).replace(/([,;\\])/g, '\\$1').replace(/\n/g, '\\n');
+  const ics = [
+    'BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//UTGA//Webinars//UK', 'CALSCALE:GREGORIAN', 'METHOD:PUBLISH',
+    'BEGIN:VEVENT',
+    `UID:${w.id}@webinars.uaguides.com`, `DTSTAMP:${toUTC(new Date())}`,
+    `DTSTART:${toUTC(startOf(w))}`, `DTEND:${toUTC(endOf(w))}`,
+    `SUMMARY:${icsEsc('Вебінар ВАГ: ' + w.title)}`,
+    `DESCRIPTION:${icsEsc(w.description + '\n\n' + CONFIG.SITE_URL + '#live')}`,
+    `URL:${CONFIG.SITE_URL}#live`,
+    'BEGIN:VALARM', 'TRIGGER:-PT30M', 'ACTION:DISPLAY', 'DESCRIPTION:Вебінар ВАГ за 30 хвилин', 'END:VALARM',
+    'END:VEVENT', 'END:VCALENDAR'
+  ].join('\r\n');
+  const a = Object.assign(document.createElement('a'), {
+    href: URL.createObjectURL(new Blob([ics], { type: 'text/calendar;charset=utf-8' })),
+    download: `vag-${w.id}.ics`
+  });
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+}
+
+const badge = (text, cls) => `<span class="text-xs font-bold px-3 py-1 rounded-full ${cls}">${esc(text)}</span>`;
+const statusBadge = st => ({
+  live: badge('● Наживо', 'bg-red-100 text-red-700'),
+  upcoming: badge('Реєстрація відкрита', 'bg-emerald-100 text-emerald-800'),
+  past: badge('Завершено', 'bg-slate-200 text-slate-700')
+}[st]);
+
+/* =====================================================================
+   5. НАЙБЛИЖЧИЙ ВЕБІНАР (HERO)
+   ===================================================================== */
+function nextWebinar() {
+  const now = new Date();
+  return WEBINARS.filter(w => statusOf(w, now) !== 'past' && st8(w) !== 'скасовано').sort((a, b) => startOf(a) - startOf(b))[0];
+}
+
+/* ---------- Статус події (колонка «Статус події» в таблиці) ---------- */
+const st8 = w => w.state || 'реєстрація відкрита';
+const canRegister = w => ['реєстрація відкрита', 'перенесено'].includes(st8(w)) && statusOf(w) !== 'past';
+function stateBadge(w) {
+  return ({ 'анонс': badge('Анонс', 'bg-sky-100 text-sky-800'), 'місць немає': badge('Місць немає', 'bg-slate-200 text-slate-700'),
+            'перенесено': badge('Перенесено', 'bg-amber-100 text-amber-800'), 'скасовано': badge('Скасовано', 'bg-red-100 text-red-700') })[st8(w)] || '';
+}
+function registerBtn(w, cls) {
+  if (canRegister(w)) return `<button type="button" data-register="${esc(w.id)}" class="${cls} bg-vaggreen text-white font-bold hover:bg-emerald-600">Зареєструватися</button>`;
+  const label = { 'анонс': 'Реєстрація скоро', 'місць немає': 'Місць немає', 'скасовано': 'Скасовано' }[st8(w)] || 'Реєстрацію закрито';
+  return `<button type="button" disabled class="${cls} bg-slate-200 text-slate-500 font-bold cursor-not-allowed">${label}</button>`;
+}
+
+/* ---------- Вартість, запис, спікер ---------- */
+function priceText(w) { return String(w.price || '').trim() || 'Вартість уточнюється'; }
+function priceBadge(w) {
+  const t = priceText(w);
+  const free = /безкошт|безоплат/i.test(t) && !/\d/.test(t);
+  return badge('💳 ' + t, free ? 'bg-emerald-100 text-emerald-800' : (w.price ? 'bg-indigo-50 text-indigo-800' : 'bg-slate-100 text-slate-600'));
+}
+function recordingBadge(w) {
+  const v = String(w.recording || '').toLowerCase();
+  if (v.startsWith('так')) return badge('🎥 Буде запис', 'bg-emerald-50 text-emerald-800');
+  if (v.startsWith('ні')) return badge('Без запису', 'bg-slate-100 text-slate-700');
+  if (v.includes('згод')) return badge('Запис — за згодою спікера', 'bg-amber-50 text-amber-800');
+  return '';
+}
+function speakerBlock(w) {
+  const photo = /^https:\/\//i.test(w.speakerPhoto || '') ? `<img src="${esc(w.speakerPhoto)}" alt="${esc(w.speaker)}" loading="lazy" class="w-16 h-16 rounded-2xl object-cover shrink-0">` : `<span class="w-16 h-16 rounded-2xl bg-blue-100 text-blue-700 flex items-center justify-center text-2xl shrink-0" aria-hidden="true">🎤</span>`;
+  const link = /^https?:\/\//i.test(w.speakerUrl || '') ? `<a href="${esc(w.speakerUrl)}" target="_blank" rel="noopener" class="text-vagblue underline font-semibold">Профіль спікера ↗</a>` : '';
+  return `<div class="flex gap-4 items-center">${photo}<div><b class="text-slate-900">${esc(w.speaker)}</b><br><span class="text-slate-500">${esc(w.speakerRole || '')}</span>${link ? '<br>' + link : ''}</div></div>`;
+}
+
+/* ---------- Реквізити організації (аркуш «організація») ---------- */
+function renderOrg() {
+  const o = window.ORG || {};
+  const li = (html) => `<li>${html}</li>`;
+  const ext = (url, label) => url ? li(`<a href="${esc(url)}" target="_blank" rel="noopener" class="hover:text-vagblue underline">${esc(label)}</a>`) : '';
+  $('#orgName').textContent = o.fullName || 'Громадська спілка «Всеукраїнська асоціація гідів»';
+  $('#orgShort').textContent = o.shortName || 'ГС «ВАГ»';
+  $('#orgLegal').innerHTML = [o.edrpou ? li('Код ЄДРПОУ: ' + esc(o.edrpou)) : '', o.address ? li(esc(o.address)) : ''].join('');
+  const contacts = [
+    o.email ? li(`<a href="mailto:${esc(o.email)}" class="hover:text-vagblue underline">${esc(o.email)}</a>`) : '',
+    o.phone ? li(`<a href="tel:${esc(o.phone.replace(/[^\d+]/g, ''))}" class="hover:text-vagblue underline">${esc(o.phone)}</a>`) : '',
+    ext(o.facebook, 'Facebook'), ext(o.instagram, 'Instagram'), ext(o.telegram, 'Telegram'), ext(o.youtube, 'YouTube'), ext(o.linkedin, 'LinkedIn')
+  ].join('');
+  $('#orgContacts').innerHTML = contacts || '<li class="text-slate-400">—</li>';
+}
+
+/* ---------- Структуровані дані для пошукових систем (schema.org/Event) ---------- */
+function renderJsonLd() {
+  const o = window.ORG || {};
+  const org = { '@type': 'Organization', name: o.fullName || 'Всеукраїнська асоціація гідів', url: o.website || 'https://uaguides.com/' };
+  const events = WEBINARS.filter(w => statusOf(w) !== 'past').map(w => {
+    const ev = {
+      '@type': 'Event', name: w.title, description: w.description || w.title,
+      startDate: w.start, endDate: endOf(w).toISOString(),
+      eventAttendanceMode: 'https://schema.org/OnlineEventAttendanceMode',
+      eventStatus: 'https://schema.org/' + ({ 'скасовано': 'EventCancelled', 'перенесено': 'EventRescheduled' }[st8(w)] || 'EventScheduled'),
+      location: { '@type': 'VirtualLocation', url: CONFIG.SITE_URL + studioUrl(w) },
+      image: [CONFIG.SITE_URL + 'og-image.png'], inLanguage: 'uk', url: CONFIG.SITE_URL + '#schedule',
+      organizer: org
+    };
+    if (w.speaker && !/уточню/i.test(w.speaker)) ev.performer = { '@type': 'Person', name: w.speaker };
+    const p = String(w.price || '').trim();
+    if (/безкошт|безоплат/i.test(p) && !/\d/.test(p)) { ev.isAccessibleForFree = true; ev.offers = { '@type': 'Offer', price: 0, priceCurrency: 'UAH', availability: 'https://schema.org/InStock', url: CONFIG.SITE_URL + '#register' }; }
+    else if (/\d/.test(p)) { ev.offers = { '@type': 'Offer', price: Number(p.match(/\d+(?:[.,]\d+)?/)[0].replace(',', '.')), priceCurrency: 'UAH', availability: 'https://schema.org/InStock', url: CONFIG.SITE_URL + '#register' }; }
+    return ev;
+  });
+  let el = document.getElementById('ld-events');
+  if (!el) { el = document.createElement('script'); el.type = 'application/ld+json'; el.id = 'ld-events'; document.head.appendChild(el); }
+  el.textContent = JSON.stringify({ '@context': 'https://schema.org', '@graph': [Object.assign({ '@id': CONFIG.SITE_URL + '#org' }, org)].concat(events) });
+}
+
+function renderNextCard() {
+  const w = nextWebinar(), el = $('#nextCard');
+  if (!w) {
+    el.innerHTML = `<p class="text-sm font-bold text-emerald-700 uppercase tracking-widest mb-3">Розклад оновлюється</p>
+      <h2 class="text-2xl font-extrabold text-vagblue mb-4">Нові вебінари незабаром</h2>
+      <p class="text-slate-600">Перегляньте <a href="#archive" class="underline">архів записів</a> або <a href="#propose" class="underline">запропонуйте тему</a>.</p>`;
+    return;
+  }
+  const st = statusOf(w);
+  el.innerHTML = `
+    <p class="text-sm font-bold ${st === 'live' ? 'text-red-600' : 'text-emerald-700'} uppercase tracking-widest mb-3">${st === 'live' ? '● Зараз в ефірі' : 'Найближчий вебінар'}</p>
+    <h2 class="text-2xl md:text-3xl font-extrabold text-vagblue mb-4">${esc(w.title)}</h2>
+    <div class="grid grid-cols-2 gap-3 mb-6 text-sm">
+      <div class="bg-slate-50 rounded-2xl p-4"><p class="text-xs uppercase tracking-widest text-slate-500 font-bold">Дата</p><p class="font-bold text-slate-900">${esc(fmtShort(startOf(w)))}, ${esc(fmtTime(startOf(w)))}</p></div>
+      <div class="bg-slate-50 rounded-2xl p-4"><p class="text-xs uppercase tracking-widest text-slate-500 font-bold">Тривалість</p><p class="font-bold text-slate-900">${esc(fmtDur(w.durationMin))}</p></div>
+      <div class="bg-slate-50 rounded-2xl p-4"><p class="text-xs uppercase tracking-widest text-slate-500 font-bold">Вартість</p><p class="font-bold text-slate-900">${esc(priceText(w))}</p></div>
+      <div class="bg-slate-50 rounded-2xl p-4"><p class="text-xs uppercase tracking-widest text-slate-500 font-bold">Спікер</p><p class="font-bold text-slate-900">${esc(w.speaker)}</p></div>
+      <div class="bg-slate-50 rounded-2xl p-4 col-span-2"><p class="text-xs uppercase tracking-widest text-slate-500 font-bold">${st === 'live' ? 'До завершення' : 'До початку'}</p><p class="font-extrabold text-slate-900 text-xl" data-countdown="${st === 'live' ? endOf(w).toISOString() : w.start}">${countdown(st === 'live' ? endOf(w) : startOf(w))}</p></div>
+    </div>
+    <div class="flex flex-col sm:flex-row gap-3">
+      ${st === 'live'
+        ? `<a href="#live" class="flex-1 text-center bg-red-600 text-white py-4 rounded-xl font-extrabold hover:bg-red-700">Перейти до ефіру</a>`
+        : registerBtn(w, 'flex-1 py-4 rounded-xl')}
+      <button type="button" data-details="${esc(w.id)}" class="bg-white border border-slate-200 px-6 py-4 rounded-xl font-bold hover:bg-slate-50">Деталі</button>
+    </div>`;
+}
+
+/* =====================================================================
+   6. РОЗКЛАД З ФІЛЬТРАМИ
+   ===================================================================== */
+let activeTopic = 'Усі';
+
+function renderChips() {
+  const topics = ['Усі', ...new Set(WEBINARS.map(w => w.topic))];
+  $('#topicChips').innerHTML = topics.map(t =>
+    `<button type="button" class="chip px-4 py-2 rounded-full border border-slate-300 bg-white text-sm font-semibold hover:border-vagblue" aria-pressed="${t === activeTopic}" data-topic="${esc(t)}">${esc(t)}</button>`
+  ).join('');
+}
+
+function renderSchedule() {
+  const q = $('#search').value.trim().toLowerCase();
+  const list = WEBINARS
+    .filter(w => statusOf(w) !== 'past')
+    .filter(w => activeTopic === 'Усі' || w.topic === activeTopic)
+    .filter(w => !q || (w.title + ' ' + w.speaker + ' ' + w.topic + ' ' + w.description).toLowerCase().includes(q))
+    .sort((a, b) => startOf(a) - startOf(b));
+
+  $('#scheduleEmpty').classList.toggle('hidden', list.length > 0);
+  $('#scheduleGrid').innerHTML = list.map(w => {
+    const s = startOf(w), st = statusOf(w);
+    return `
+    <article class="bg-white rounded-3xl border border-slate-100 shadow-sm hover:shadow-xl hover:shadow-blue-100 transition p-6 flex flex-col">
+      <div class="flex flex-wrap gap-2 mb-4">${stateBadge(w) || statusBadge(st)}${badge(w.topic, 'bg-blue-50 text-blue-800')}${w.level ? badge(w.level, 'bg-slate-100 text-slate-700') : ''}</div>
+      <p class="text-sm font-bold text-slate-500 mb-2"><time datetime="${esc(w.start)}">${esc(fmtShort(s))} • ${esc(fmtTime(s))}</time> • ${esc(fmtDur(w.durationMin))}</p>
+      <h3 class="font-extrabold text-lg text-vagblue mb-2">${esc(w.title)}</h3>
+      <p class="text-slate-600 text-sm mb-3 line-clamp-3">${esc(w.description)}</p>
+      ${(w.outcomes || []).length ? `<div class="mb-4"><p class="text-xs font-bold uppercase tracking-widest text-slate-500 mb-1">Ви зможете</p><ul class="text-sm text-slate-700 space-y-0.5">${w.outcomes.slice(0, 3).map(o => `<li>✔ ${esc(o)}</li>`).join('')}</ul></div>` : ''}
+      <div class="flex flex-wrap gap-2 mb-4 mt-auto">${priceBadge(w)}${recordingBadge(w)}</div>
+      <p class="text-sm text-slate-500 mb-5">🎤 ${esc(w.speaker)}${w.speakerRole ? ` <span class="text-slate-400">• ${esc(w.speakerRole)}</span>` : ''}</p>
+      ${courseHint(w, 'mb-4')}
+      <div class="flex gap-2">
+        ${st === 'live'
+          ? `<a href="#live" class="flex-1 text-center bg-red-600 text-white py-3 rounded-xl font-bold hover:bg-red-700">До ефіру</a>`
+          : registerBtn(w, 'flex-1 py-3 rounded-xl')}
+        <button type="button" data-details="${esc(w.id)}" class="px-4 py-3 rounded-xl border border-slate-200 font-bold hover:bg-slate-50" aria-label="Деталі: ${esc(w.title)}">Деталі</button>
+      </div>
+    </article>`;
+  }).join('');
+}
+
+/* =====================================================================
+   7. КІМНАТА ЕФІРУ
+   ===================================================================== */
+function renderLive() {
+  const w = nextWebinar(), el = $('#liveRoom');
+  const head = `<p class="text-emerald-300 font-bold uppercase tracking-widest text-xs mb-3">Кімната ефіру</p>`;
+  if (!w) {
+    el.innerHTML = head + `<h2 id="liveTitle" class="text-3xl md:text-4xl font-extrabold mb-4">Зараз немає запланованих ефірів</h2><p class="text-blue-100">Слідкуйте за розкладом або перегляньте записи в архіві.</p>`;
+    return;
+  }
+  const st = statusOf(w), now = new Date();
+  const opensAt = new Date(startOf(w).getTime() - CONFIG.JOIN_WINDOW_MIN * 60000);
+  const canJoin = now >= opensAt && st !== 'past';
+
+  let joinBlock;
+  if (w.state === 'скасовано') {
+    joinBlock = `<p class="bg-white/10 rounded-xl p-4 text-blue-100">Вебінар скасовано.</p>`;
+  } else if (canJoin && w.externalLink) {
+    joinBlock = `<p class="bg-white/10 rounded-xl p-4 text-blue-100">Посилання на ефір надіслано зареєстрованим учасникам у листі-підтвердженні та нагадуваннях.</p>`;
+  } else if (canJoin) {
+    joinBlock = `<a href="${esc(studioUrl(w))}" class="inline-flex items-center gap-2 bg-vaggreen text-white px-8 py-4 rounded-xl font-extrabold hover:bg-emerald-600 text-lg">▶ Увійти в ефір</a>
+      <p class="text-sm text-blue-200 mt-3">Найпростіше — відкрити персональне посилання з листа-підтвердження.</p>`;
+  } else {
+    joinBlock = `<p class="bg-white/10 rounded-xl p-4 text-blue-100">Кнопка «Приєднатися» з’явиться о <b class="text-white">${esc(fmtTime(opensAt))}</b> (${esc(fmtShort(opensAt))}) — за ${CONFIG.JOIN_WINDOW_MIN} хв до старту.</p>`;
+  }
+
+  const embed = (st === 'live' && w.youtubeId)
+    ? `<div class="aspect-video rounded-2xl overflow-hidden mt-6 bg-black"><iframe class="w-full h-full" src="https://www.youtube-nocookie.com/embed/${encodeURIComponent(w.youtubeId)}" title="Трансляція: ${esc(w.title)}" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen></iframe></div>`
+    : '';
+
+  el.innerHTML = head + `
+    <div class="flex flex-wrap gap-2 mb-4">${st === 'live' ? badge('● Наживо', 'bg-red-500 text-white') : badge('Очікуємо старт', 'bg-white/15 text-white')}</div>
+    <h2 id="liveTitle" class="text-3xl md:text-4xl font-extrabold mb-3">${esc(w.title)}</h2>
+    <p class="text-blue-100 mb-6">${esc(fmtDate(startOf(w)))}, ${esc(fmtTime(startOf(w)))}–${esc(fmtTime(endOf(w)))} • 🎤 ${esc(w.speaker)}</p>
+    <div class="flex flex-wrap gap-6 mb-6">
+      <div><p class="text-xs uppercase tracking-widest text-blue-200 font-bold">${st === 'live' ? 'До завершення' : 'До початку'}</p>
+      <p class="text-3xl font-extrabold" data-countdown="${st === 'live' ? endOf(w).toISOString() : w.start}">${countdown(st === 'live' ? endOf(w) : startOf(w))}</p></div>
+    </div>
+    ${joinBlock}
+    ${embed}
+    ${st !== 'live' ? `<div class="flex flex-wrap gap-3 mt-6">
+      <a href="${esc(gcalUrl(w))}" target="_blank" rel="noopener" class="bg-white text-vagblue px-5 py-3 rounded-xl font-bold hover:bg-slate-100">📅 Додати в календар</a>
+      <button type="button" data-register="${esc(w.id)}" class="border border-white/40 px-5 py-3 rounded-xl font-bold hover:bg-white/10">Зареєструватися</button></div>` : ''}`;
+}
+
+/* =====================================================================
+   8. АРХІВ
+   ===================================================================== */
+/* ---------- Академія ВАГ (дані — academy-links.js; без файлу блок просто не показується) ---------- */
+function courseHint(w, cls) {
+  if (typeof academyCourseFor !== 'function') return '';
+  const c = academyCourseFor(w);
+  if (!c) return '';
+  return `<a href="${esc(c.url)}" class="${cls || ''} block text-sm rounded-xl bg-emerald-50 border border-emerald-100 px-4 py-3 text-emerald-900 hover:bg-emerald-100"><b>📚 Поглибити тему:</b> курс Академії «${esc(c.title)}» →</a>`;
+}
+function renderAcademy() {
+  const box = $('#academyList');
+  if (!box) return;
+  if (typeof ACADEMY === 'undefined') { $('#academy').classList.add('hidden'); return; }
+  $('#academyAll').href = ACADEMY.url;
+  box.innerHTML = ACADEMY.courses.map(c => `
+    <article class="bg-white rounded-3xl border border-emerald-100 p-6 flex flex-col">
+      <div class="flex flex-wrap gap-2 mb-3">${badge(c.code, 'bg-slate-100 text-slate-700')}${c.status === 'open' ? badge('Запис відкрито', 'bg-emerald-100 text-emerald-800') : badge('Незабаром', 'bg-amber-100 text-amber-800')}</div>
+      <h3 class="font-extrabold text-lg text-vagblue mb-1">${esc(c.title)}</h3>
+      <p class="text-sm font-bold text-slate-500 mb-3">${esc(c.audience)}</p>
+      <p class="text-sm text-slate-600 mb-5">${esc(c.summary)}</p>
+      ${c.status === 'open' && c.url
+        ? `<a href="${esc(c.url)}" class="mt-auto text-center bg-vaggreen text-white py-3 rounded-xl font-bold hover:bg-vagblue transition">Про курс і запис →</a>`
+        : `<span class="mt-auto text-center bg-slate-100 text-slate-500 py-3 rounded-xl font-bold">Курс готується</span>`}
+    </article>`).join('');
+}
+
+function renderArchive() {
+  const past = WEBINARS.filter(w => statusOf(w) === 'past').sort((a, b) => startOf(b) - startOf(a));
+  $('#archiveEmpty').classList.toggle('hidden', past.length > 0);
+  $('#archiveList').innerHTML = past.map(w => `
+    <article class="p-6 rounded-2xl bg-slate-50 border border-slate-100">
+      <p class="text-sm font-bold text-slate-500 mb-1">${esc(fmtShort(startOf(w)))} • ${esc(w.topic)}</p>
+      <h3 class="font-extrabold text-vagblue mb-2">${esc(w.title)}</h3>
+      <p class="text-sm text-slate-600 mb-4">🎤 ${esc(w.speaker)}</p>
+      <div class="flex flex-wrap gap-2 text-sm">
+        ${w.recordingUrl ? `<a href="${esc(w.recordingUrl)}" target="_blank" rel="noopener" class="bg-vagblue text-white px-4 py-2 rounded-lg font-bold">▶ Запис</a>` : `<span class="px-4 py-2 rounded-lg bg-slate-200 text-slate-600">Запис готується</span>`}
+        ${w.materialsUrl ? `<a href="${esc(w.materialsUrl)}" target="_blank" rel="noopener" class="border border-slate-300 px-4 py-2 rounded-lg font-bold">📎 Матеріали</a>` : ''}
+        <a href="#certificate" data-cert="${esc(w.id)}" class="border border-slate-300 px-4 py-2 rounded-lg font-bold">📜 Сертифікат</a>
+      </div>
+      ${courseHint(w, 'mt-4')}
+    </article>`).join('');
+}
+
+/* =====================================================================
+   9. ВИПАДНІ СПИСКИ У ФОРМАХ
+   ===================================================================== */
+function fillSelects() {
+  const opt = w => `<option value="${esc(w.id)}">${esc(fmtShort(startOf(w)))} — ${esc(w.title)}</option>`;
+  const upcoming = WEBINARS.filter(canRegister).sort((a, b) => startOf(a) - startOf(b));
+  const attended = WEBINARS.filter(w => statusOf(w) !== 'upcoming').sort((a, b) => startOf(b) - startOf(a));
+  $('#regWebinar').innerHTML = upcoming.length ? upcoming.map(opt).join('') : '<option value="">Немає відкритих реєстрацій</option>';
+  $('#certWebinar').innerHTML = attended.length ? attended.map(opt).join('') : '<option value="">Поки немає завершених вебінарів</option>';
+}
+
+/* =====================================================================
+   10. МОДАЛЬНЕ ВІКНО
+   ===================================================================== */
+const dlg = $('#webinarDialog');
+function openDetails(id) {
+  const w = byId(id); if (!w) return;
+  const st = statusOf(w);
+  $('#dlgBadges').innerHTML = (stateBadge(w) || statusBadge(st)) + badge(w.topic, 'bg-blue-50 text-blue-800') + (w.level ? badge(w.level, 'bg-slate-100 text-slate-700') : '') + priceBadge(w) + recordingBadge(w);
+  $('#dlgTitle').textContent = w.title;
+  $('#dlgMeta').textContent = `${fmtDate(startOf(w))}, ${fmtTime(startOf(w))}–${fmtTime(endOf(w))} (Київ) • ${fmtDur(w.durationMin)} • ${w.externalLink ? 'онлайн (посилання — у листі після реєстрації)' : 'онлайн-студія ВАГ у браузері'}`;
+  $('#dlgDesc').textContent = w.description;
+  $('#dlgAgenda').innerHTML = agendaTitles(w).map(a => `<li>${esc(a)}</li>`).join('');
+  $('#dlgOutcomes').innerHTML = (w.outcomes || []).map(o => `<li>✔ ${esc(o)}</li>`).join('');
+  $('#dlgSpeaker').innerHTML = speakerBlock(w);
+  $('#dlgActions').innerHTML = st === 'past'
+    ? `<a href="#archive" data-close class="flex-1 text-center bg-vagblue text-white py-3 rounded-xl font-bold">До архіву</a>`
+    : `${registerBtn(w, 'flex-1 py-3 rounded-xl')}
+       <a href="${esc(gcalUrl(w))}" target="_blank" rel="noopener" class="text-center border border-slate-200 px-5 py-3 rounded-xl font-bold hover:bg-slate-50">📅 Google Календар</a>
+       <button type="button" data-ics="${esc(w.id)}" class="border border-slate-200 px-5 py-3 rounded-xl font-bold hover:bg-slate-50">⬇️ .ics</button>`;
+  const course = courseHint(w, 'w-full mt-1');
+  if (course) $('#dlgActions').insertAdjacentHTML('beforeend', course);
+  dlg.showModal();
+}
+dlg.addEventListener('click', e => { if (e.target === dlg) dlg.close(); });
+
+/* =====================================================================
+   11. ВІДПРАВКА ФОРМ
+   ===================================================================== */
+async function submitData(payload) {
+  payload.submittedAt = new Date().toISOString();
+  payload.page = location.href;
+  if (DEMO) {
+    const all = store.get('vag_demo_submissions', []);
+    all.push(payload); store.set('vag_demo_submissions', all);
+    return;
+  }
+  // Google Apps Script не повертає CORS-заголовки для POST, тому no-cors:
+  // відповідь не читається, але дані надходять у таблицю.
+  await fetch(CONFIG.FORM_ENDPOINT, {
+    method: 'POST', mode: 'no-cors',
+    headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+    body: JSON.stringify(payload)
+  });
+}
+
+function bindForm(form, onSuccess) {
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+    const msg = $('.form-msg', form);
+    if (!form.checkValidity()) {
+      form.reportValidity();
+      msg.className = 'form-msg text-sm text-center text-red-600';
+      msg.textContent = 'Будь ласка, заповніть обов’язкові поля.';
+      return;
+    }
+    const data = Object.fromEntries(new FormData(form).entries());
+    form.querySelectorAll('input[type=checkbox][name]').forEach(cb => { data[cb.name] = cb.checked ? 'так' : 'ні'; });
+    if (data.webinarId) data.webinarTitle = byId(data.webinarId)?.title || '';
+    const btn = $('button[type=submit]', form);
+    btn.disabled = true; btn.classList.add('opacity-60');
+    msg.className = 'form-msg text-sm text-center text-slate-500'; msg.textContent = 'Надсилаємо…';
+    try {
+      await submitData(data);
+      msg.textContent = '';
+      onSuccess(data, form, msg);
+    } catch (err) {
+      msg.className = 'form-msg text-sm text-center text-red-600';
+      msg.textContent = 'Не вдалося надіслати. Перевірте з’єднання та спробуйте ще раз.';
+    } finally {
+      btn.disabled = false; btn.classList.remove('opacity-60');
+    }
+  });
+}
+
+let lastRegId = null;
+bindForm($('#regForm'), data => {
+  const w = byId(data.webinarId); lastRegId = w?.id;
+  $('#regForm').classList.add('hidden');
+  const box = $('#regSuccess'); box.classList.remove('hidden');
+  $('#regSuccessText').textContent = w
+    ? `«${w.title}» — ${fmtDate(startOf(w))} о ${fmtTime(startOf(w))}. Посилання на ефір надішлемо на ${data.email}.`
+    : 'Дякуємо за реєстрацію!';
+  if (w) $('#regGcal').href = gcalUrl(w);
+  box.focus();
+  $('#regForm').reset();
+});
+$('#regIcs').addEventListener('click', () => lastRegId && downloadIcs(byId(lastRegId)));
+$('#regAgain').addEventListener('click', () => { $('#regSuccess').classList.add('hidden'); $('#regForm').classList.remove('hidden'); });
+
+bindForm($('#certForm'), (d, form, msg) => {
+  form.reset();
+  msg.className = 'form-msg text-sm text-center text-emerald-700 font-bold';
+  msg.textContent = '✅ Заявку прийнято. Сертифікат надійде на email після перевірки.';
+});
+bindForm($('#proposalForm'), (d, form, msg) => {
+  form.reset();
+  msg.className = 'form-msg text-sm text-center text-emerald-700 font-bold';
+  msg.textContent = '✅ Дякуємо! Ми зв’яжемося з вами.';
+});
+
+/* Рейтинг 1–5 (доступні радіокнопки) */
+$('#ratingGroup').innerHTML = [1,2,3,4,5].map(n => `
+  <label class="cursor-pointer">
+    <input type="radio" name="rating" value="${n}" class="peer sr-only" ${n === 1 ? 'required' : ''}>
+    <span class="flex w-12 h-12 items-center justify-center rounded-xl border border-slate-200 font-bold peer-checked:bg-vagblue peer-checked:text-white peer-focus-visible:ring-2 peer-focus-visible:ring-emerald-400" aria-label="${n} з 5">${n}</span>
+  </label>`).join('');
+
+/* =====================================================================
+   14. ГЛОБАЛЬНІ ОБРОБНИКИ ТА ЗАПУСК
+   ===================================================================== */
+document.addEventListener('click', e => {
+  const t = e.target.closest('[data-register],[data-details],[data-ics],[data-close],[data-topic],[data-cert]');
+  if (!t) return;
+  if (t.dataset.register) {
+    if (dlg.open) dlg.close();
+    $('#regSuccess').classList.add('hidden'); $('#regForm').classList.remove('hidden');
+    $('#regWebinar').value = t.dataset.register;
+    $('#register').scrollIntoView();
+    setTimeout(() => $('#regForm [name=name]').focus({ preventScroll: true }), 400);
+  }
+  if (t.dataset.details) openDetails(t.dataset.details);
+  if (t.dataset.ics) downloadIcs(byId(t.dataset.ics));
+  if (t.hasAttribute('data-close')) dlg.close();
+  if (t.dataset.cert) $('#certWebinar').value = t.dataset.cert;
+  if (t.dataset.topic) { activeTopic = t.dataset.topic; renderChips(); renderSchedule(); }
+});
+$('#search').addEventListener('input', renderSchedule);
+
+function renderAll() { renderNextCard(); renderSchedule(); renderLive(); renderArchive(); fillSelects(); }
+
+// Таймери: щохвилини оновлюємо відлік і статуси (live/past)
+let lastStatus = '';
+setInterval(() => {
+  document.querySelectorAll('[data-countdown]').forEach(el => el.textContent = countdown(new Date(el.dataset.countdown)));
+  const sig = WEBINARS.map(w => statusOf(w)).join() + '|' + (new Date() >= new Date(startOf(nextWebinar() || {start: 0}).getTime() - CONFIG.JOIN_WINDOW_MIN * 60000));
+  if (sig !== lastStatus) {
+    lastStatus = sig;
+    const regVal = $('#regWebinar').value, certVal = $('#certWebinar').value;
+    renderAll();
+    if (byId(regVal)) $('#regWebinar').value = regVal;
+    if (byId(certVal)) $('#certWebinar').value = certVal;
+  }
+}, 30000);
+
+$('#year').textContent = new Date().getFullYear();
+if (DEMO) {   // попередження лише якщо форми справді не підключені (не в статичному HTML)
+  const b = document.createElement('div');
+  b.className = 'bg-amber-100 text-amber-900 text-sm text-center px-4 py-2';
+  b.textContent = '⚠️ Форми тимчасово не підключені: заявки зберігаються лише у вашому браузері.';
+  document.body.prepend(b);
+}
+
+// Розклад: спершу остання збережена копія (миттєво), потім свіжий з Google-таблиці
+function renderEverything() { renderChips(); renderAll(); renderOrg(); renderJsonLd(); renderAcademy(); }
+(async () => {
+  if (applyCachedSchedule()) renderEverything();
+  else {
+    $('#scheduleGrid').innerHTML = '<p class="text-slate-500 col-span-full text-center py-10" role="status">Завантажуємо розклад…</p>';
+    $('#nextCard').innerHTML = '<p class="text-slate-500" role="status">Завантажуємо розклад…</p>';
+  }
+  const source = await loadSchedule();
+  renderEverything();
+  if (source !== 'sheet' && scheduleFromSheetEnabled()) {
+    console.warn('[VAG] Показано розклад з запасного джерела:', source);
+  }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /_legacy_moodle_backup/
+
+Sitemap: https://academy.psgua.com/sitemap.xml

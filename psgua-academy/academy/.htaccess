@@ -1,0 +1,55 @@
+# =========================================================
+# academy.psgua.com — статичний сайт (Apache, ADM.TOOLS)
+# =========================================================
+Options -Indexes
+DirectoryIndex index.html
+ErrorDocument 404 /404.html
+AddDefaultCharset UTF-8
+AddType application/json .json
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # 1) HTTPS + без www
+  RewriteCond %{HTTPS} !=on [OR]
+  RewriteCond %{HTTP_HOST} ^www\. [NC]
+  RewriteRule ^ https://academy.psgua.com%{REQUEST_URI} [R=301,L]
+
+  # 2) Архів Moodle недоступний з вебу (дублює захист нижче)
+  RewriteRule ^_legacy_moodle_backup(/|$) - [F,L]
+
+  # 3) Старі URL Moodle. 302 (тимчасово), бо Moodle може повернутися на цей домен.
+  #    Конкретні курси: старий Moodle id -> сторінка курсу (див. data/courses.json, legacy_moodle_id)
+  RewriteCond %{QUERY_STRING} (^|&)id=2(&|$)
+  RewriteRule ^(course/view|enrol/index)\.php$ https://academy.psgua.com/course.html?id=utga-g01 [R=302,L]
+  RewriteCond %{QUERY_STRING} (^|&)id=6(&|$)
+  RewriteRule ^(course/view|enrol/index)\.php$ https://academy.psgua.com/course.html?id=utga-g02 [R=302,L]
+  RewriteCond %{QUERY_STRING} (^|&)id=3(&|$)
+  RewriteRule ^(course/view|enrol/index)\.php$ https://academy.psgua.com/course.html?id=utga-h01 [R=302,L]
+  #    Реєстрація та каталог -> заявка / каталог
+  RewriteRule ^login/signup\.php$ https://academy.psgua.com/#enroll [R=302,L,NE,QSD]
+  RewriteRule ^course(/.*)?$ https://academy.psgua.com/#courses [R=302,L,NE,QSD]
+  #    Логін, кабінет, профіль, адмінка, модулі, файли, API тощо
+  RewriteRule ^(login|my|user|admin|mod|blocks|enrol|grade|calendar|message|badges|pluginfile\.php|webservice|theme|lib|local|auth|cohort|competency|backup|question|report|files|repository|course)(/.*)?$ https://academy.psgua.com/ [R=302,L,QSD]
+  #    Будь-який інший *.php (index.php, view.php, config.php ...)
+  RewriteRule \.php$ https://academy.psgua.com/ [R=302,L,QSD]
+</IfModule>
+
+# Заборона службових файлів
+<FilesMatch "(^\.|\.(sql|bak|log|ini|sh|zip|tar|gz)$)">
+  Require all denied
+</FilesMatch>
+
+# Безпека та кешування
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()"
+  <FilesMatch "\.(css|js|png|svg|ico|woff2?)$">
+    Header set Cache-Control "public, max-age=604800"
+  </FilesMatch>
+  <FilesMatch "\.(html|json|xml|txt)$">
+    Header set Cache-Control "no-cache"
+  </FilesMatch>
+</IfModule>
