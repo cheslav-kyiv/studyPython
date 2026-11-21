@@ -36,3 +36,9 @@ RedirectMatch 404 /phpunit\.xml
 - **Оновлення Moodle**: `config.php` має права `440`, тож інсталятор не зможе його змінити (це нормально, він і не повинен). `.htaccess` після оновлення зберігається; `privacy/tests/fixtures/logo.png` повертається.
 - `/.git` і `/moodle/` (тека з `landing.php` і `README_moodle.md` від 12.11.2026) повертають 403. Призначення `landing.php` не з'ясоване: якщо сторінка не використовується, її варто прибрати.
 - Пробний MoodleCloud `uaguides-memory` («Маршрути пам'яті») містив лише демо-курс; після 25.11.2026 його можна не продовжувати.
+
+## Пошта та фонові завдання (21.11.2026)
+- **Cron**: на ADM.TOOLS → «Розклад завдань» уже налаштовано `* * * * * /usr/bin/php8.3 /home/uaguides/psgua.com/academy/admin/cli/cron.php`, статус OK. Змін не потрібно.
+- **SMTP**: Moodle надсилає пошту через скриньку `academy@uaguides.com` (сервер `mail.adm.tools:465`, SSL, LOGIN; noreplyaddress = `academy@uaguides.com`; allowedemaildomains = `uaguides.com`). Ім'я відправника — «Академія ВАГ» (профіль адміністратора).
+- **Перевірка**: тестовий лист Moodle (`admin/testoutgoingmailconf.php`) потрапив у **Вхідні** Yahoo, хоча до налаштування SMTP лист підтвердження реєстрації опинявся у «Спамі».
+- Ліміт ADM.TOOLS: 500 листів на добу через SMTP. Пароль скриньки змінено 21.11.2026; у панелі він не відображається, тож зберігається у власника.
