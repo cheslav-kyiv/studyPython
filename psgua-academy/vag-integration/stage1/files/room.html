@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Студія ефіру | Вебінари ВАГ</title>
+  <meta name="robots" content="noindex" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script>
+    tailwind.config = { theme: { extend: {
+      fontFamily: { jakarta: ['Plus Jakarta Sans', 'sans-serif'] },
+      colors: { vagblue: '#0f2f5f', vaggreen: '#10b981', ink: '#0b1220', panel: '#111a2e', line: '#22304d' }
+    } } }
+  </script>
+  <style>
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    :focus-visible { outline: 3px solid #10b981; outline-offset: 2px; border-radius: 8px; }
+    .ctl { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:.25rem; min-width:4.25rem; padding:.6rem .5rem; border-radius:1rem; background:#1b2742; color:#e2e8f0; font-size:.7rem; font-weight:700; transition:background .15s; }
+    .ctl:hover { background:#24345a; }
+    .ctl .ico { font-size:1.35rem; line-height:1; }
+    .ctl[aria-pressed="true"] { background:#10b981; color:#fff; }
+    .ctl.off { background:#7f1d1d; color:#fff; }
+    .ctl.danger { background:#dc2626; color:#fff; }
+    .ctl:disabled { opacity:.4; cursor:not-allowed; }
+    .tab[aria-selected="true"] { color:#fff; border-color:#10b981; }
+    .field { width:100%; padding:.75rem 1rem; border-radius:.75rem; border:1px solid #22304d; background:#0b1220; color:#e2e8f0; }
+    .field:focus { outline:none; box-shadow:0 0 0 3px rgba(16,185,129,.45); }
+    .rowbtn { width:2rem; height:2rem; border-radius:.6rem; background:#1b2742; display:inline-flex; align-items:center; justify-content:center; font-size:.9rem; }
+    .rowbtn:hover { background:#2a3b63; }
+    .rec-dot { animation: pulse 1.2s infinite; }
+    @keyframes pulse { 50% { opacity:.3; } }
+    @media (prefers-reduced-motion: reduce) { * { animation:none !important; transition:none !important; } }
+    #stage iframe { width:100%; height:100%; border:0; }
+
+    /* ---- Висота екрана: на телефонах 100vh більша за видиму область через адресний рядок ---- */
+    .vh-full { height: 100vh; height: 100dvh; }
+    .ctlbar { position: relative; z-index: 46; padding-bottom: max(.75rem, env(safe-area-inset-bottom)); padding-left: max(.75rem, env(safe-area-inset-left)); padding-right: max(.75rem, env(safe-area-inset-right)); }
+
+    /* ---- Бічна панель: на комп'ютері — колонка праворуч ---- */
+    .side { width: 24rem; flex-shrink: 0; }
+    .side.closed { display: none !important; }
+    .side-close { display: none; }
+    #cSide.has-new::after { content:''; position:absolute; top:.35rem; right:.6rem; width:.6rem; height:.6rem; border-radius:50%; background:#10b981; }
+    #cSide { position: relative; }
+
+    /* ---- Компактний режим: телефони та планшети ---- */
+    @media (max-width: 1023px), (max-height: 520px) {
+      .side { position: fixed; z-index: 45; display: none !important; box-shadow: 0 -10px 40px rgba(0,0,0,.5); }
+      .side.open { display: flex !important; }
+      .side-close { display: inline-flex; }
+      /* вертикальний екран: панель знизу */
+      .side { left: 0; right: 0; bottom: var(--ctlbar-h, 4.5rem); width: auto; height: min(60dvh, calc(100dvh - var(--ctlbar-h, 4.5rem) - 3.5rem)); border-left: 0; border-top: 1px solid #22304d; border-radius: 1.25rem 1.25rem 0 0; }
+    }
+    @media (max-height: 520px) {
+      /* горизонтальний телефон: панель праворуч на всю висоту */
+      .side { top: 0; bottom: var(--ctlbar-h, 3.5rem); left: auto; right: 0; width: min(22rem, 70vw); height: auto; border-radius: 0; border-top: 0; border-left: 1px solid #22304d; }
+      #studio > header { padding-top: .3rem; padding-bottom: .3rem; }
+      #studio > header p.text-xs { display: none; }
+      .ctlbar { padding-top: .35rem; padding-bottom: max(.35rem, env(safe-area-inset-bottom)); }
+    }
+    @media (max-width: 640px), (max-height: 520px) {
+      .ctl { min-width: 2.75rem; padding: .5rem .45rem; border-radius: .8rem; }
+      .ctl .lbl { display: none; }
+      .ctl .ico { font-size: 1.25rem; }
+      .ctlbar > div { gap: .35rem; }
+      .ctlbar .w-px { display: none; }
+      #stTitle { font-size: .85rem; }
+    }
+    @media (max-width: 400px) {
+      .ctl { min-width: 2.55rem; padding: .45rem .3rem; }
+      .ctlbar { padding-left: .4rem; padding-right: .4rem; }
+    }
+  </style>
+</head>
+<body class="bg-ink text-slate-200 vh-full overflow-hidden">
+
+  <div id="sr" class="sr-only" aria-live="assertive"></div>
+
+  <!-- ============ ЕКРАН 1: ПІДГОТОВКА (перевірка камери/мікрофона) ============ -->
+  <section id="prejoin" class="vh-full overflow-y-auto">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 py-8">
+      <a href="index.html" class="text-sm text-slate-400 hover:text-white">← До розкладу</a>
+      <div class="mt-6 mb-8">
+        <span id="pjRole" class="inline-block text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full bg-emerald-900/60 text-emerald-300"></span>
+        <h1 id="pjTitle" class="text-2xl md:text-4xl font-extrabold text-white mt-3"></h1>
+        <p id="pjMeta" class="text-slate-400 mt-2"></p>
+      </div>
+
+      <div class="grid lg:grid-cols-5 gap-8">
+        <div class="lg:col-span-3">
+          <div class="relative aspect-video bg-black rounded-3xl overflow-hidden border border-line">
+            <video id="pjVideo" autoplay muted playsinline class="w-full h-full object-cover -scale-x-100"></video>
+            <div id="pjNoCam" class="absolute inset-0 hidden flex-col items-center justify-center text-slate-400 gap-2">
+              <span class="text-5xl" aria-hidden="true">📷</span><span id="pjNoCamText">Камеру вимкнено</span>
+            </div>
+            <div class="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-3">
+              <button id="pjMic" type="button" class="ctl" aria-pressed="true" aria-label="Мікрофон"><span class="ico">🎙️</span>Мікрофон</button>
+              <button id="pjCam" type="button" class="ctl" aria-pressed="true" aria-label="Камера"><span class="ico">📹</span>Камера</button>
+            </div>
+          </div>
+          <div class="mt-4 flex items-center gap-3">
+            <span class="text-sm text-slate-400 w-28">Рівень звуку</span>
+            <div class="flex-1 h-2 bg-slate-800 rounded-full overflow-hidden" aria-hidden="true"><div id="pjLevel" class="h-full bg-vaggreen" style="width:0%"></div></div>
+          </div>
+        </div>
+
+        <form id="pjForm" class="lg:col-span-2 bg-panel border border-line rounded-3xl p-6 space-y-4">
+          <label class="block"><span class="text-sm font-bold">Ваше ім’я (бачитимуть інші) *</span>
+            <input id="pjName" required autocomplete="name" class="field mt-2" placeholder="Олена Петренко"></label>
+          <label class="block"><span class="text-sm font-bold">Email (для сертифіката)</span>
+            <input id="pjEmail" type="email" autocomplete="email" class="field mt-2" placeholder="name@example.com"></label>
+          <label class="block"><span class="text-sm font-bold">Камера</span><select id="pjCamSel" class="field mt-2"></select></label>
+          <label class="block"><span class="text-sm font-bold">Мікрофон</span><select id="pjMicSel" class="field mt-2"></select></label>
+          <div id="pjHostAuth" class="host-only hidden space-y-4 border-t border-line pt-4">
+            <p class="text-sm font-bold text-emerald-300">🔐 Вхід ведучого</p>
+            <label class="block"><span class="text-sm font-bold">Логін ведучого *</span>
+              <input id="pjLogin" autocomplete="username" autocapitalize="none" class="field mt-2"></label>
+            <label class="block"><span class="text-sm font-bold">Пароль *</span>
+              <input id="pjPass" type="password" autocomplete="current-password" class="field mt-2"></label>
+          </div>
+          <p id="pjHint" class="text-xs text-slate-400"></p>
+          <p id="pjErr" class="text-sm text-amber-300 hidden" role="alert"></p>
+          <div id="pjResend" class="hidden bg-slate-800/70 border border-line rounded-2xl p-4 space-y-3">
+            <p class="text-sm text-slate-200"><b>Вхід — за персональним посиланням</b> з листа-підтвердження. Не можете знайти лист? Введіть email, з яким реєструвалися:</p>
+            <div class="flex gap-2"><label class="sr-only" for="pjResendEmail">Email</label>
+              <input id="pjResendEmail" type="email" autocomplete="email" class="field" placeholder="name@example.com">
+              <button id="pjResendBtn" type="button" class="bg-vagblue hover:bg-blue-800 text-white px-4 rounded-xl font-bold text-sm whitespace-nowrap">Надіслати</button></div>
+            <p id="pjResendMsg" class="text-xs text-slate-400" role="status"></p>
+            <p class="text-xs text-slate-400">Ще не зареєстровані? <a href="index.html#register" class="text-emerald-400 underline">Зареєструватися</a></p>
+          </div>
+          <button id="pjJoin" type="submit" class="w-full bg-vaggreen hover:bg-emerald-600 text-white font-extrabold py-4 rounded-xl">Увійти в студію</button>
+          <p id="pjWait" class="text-sm text-slate-400 text-center hidden"></p>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ЕКРАН 2: СТУДІЯ ============ -->
+  <section id="studio" class="hidden vh-full flex flex-col">
+    <!-- Верхня панель -->
+    <header class="flex items-center gap-3 px-4 py-3 border-b border-line bg-panel">
+      <div class="min-w-0 flex-1">
+        <p id="stTitle" class="font-extrabold text-white truncate"></p>
+        <p class="text-xs text-slate-400"><span id="stRoleLabel"></span> • в ефірі <span id="stTimer">00:00</span> • <span id="stServer" class="font-bold"></span></p>
+      </div>
+      <div class="flex items-center gap-2 text-xs font-bold">
+        <span id="bRec" class="hidden items-center gap-1 bg-red-600 text-white px-3 py-1 rounded-full"><span class="rec-dot">●</span> ЗАПИС</span>
+        <span id="bLive" class="hidden bg-red-500/20 text-red-300 px-3 py-1 rounded-full">📡 ТРАНСЛЯЦІЯ</span>
+        <span id="bLobby" class="hidden bg-amber-500/20 text-amber-300 px-3 py-1 rounded-full">🚪 Зал очікування</span>
+        <span class="bg-slate-800 px-3 py-1 rounded-full" title="Учасників">👥 <span id="bCount">1</span></span>
+      </div>
+    </header>
+
+    <div class="flex-1 flex min-h-0">
+      <!-- Сцена (відео Jitsi) -->
+      <div id="stage" class="flex-1 bg-black min-w-0"></div>
+
+      <!-- Бічна панель -->
+      <aside id="side" class="side bg-panel border-l border-line flex flex-col" aria-label="Панель учасників і чату">
+        <div class="flex items-center border-b border-line px-2" role="tablist" aria-label="Панелі студії">
+          <button class="tab px-3 py-3 text-sm font-bold text-slate-400 border-b-2 border-transparent" role="tab" data-tab="people" aria-selected="true">Учасники</button>
+          <button class="tab px-3 py-3 text-sm font-bold text-slate-400 border-b-2 border-transparent host-only" role="tab" data-tab="lobby">Очікують <span id="knockCount" class="hidden bg-amber-500 text-black rounded-full px-1.5 text-xs">0</span></button>
+          <button class="tab px-3 py-3 text-sm font-bold text-slate-400 border-b-2 border-transparent" role="tab" data-tab="chat">Чат <span id="chatDot" class="hidden text-vaggreen">●</span></button>
+          <button class="tab px-3 py-3 text-sm font-bold text-slate-400 border-b-2 border-transparent host-only" role="tab" data-tab="script">Сценарій</button>
+          <button id="sideClose" class="ml-auto rowbtn side-close" aria-label="Закрити панель">✕</button>
+        </div>
+
+        <!-- Учасники -->
+        <div data-panel="people" class="flex-1 overflow-y-auto p-4 space-y-3">
+          <div id="modWarn" class="hidden host-only text-xs bg-amber-500/15 text-amber-200 rounded-xl p-3"></div>
+          <input id="pplSearch" type="search" class="field" placeholder="Пошук учасника" aria-label="Пошук учасника">
+          <div class="host-only grid grid-cols-2 gap-2">
+            <button id="inviteBtn" type="button" class="bg-vagblue hover:bg-blue-800 text-white text-sm font-bold py-2 rounded-xl">➕ Запросити</button>
+            <button id="muteAllBtn" type="button" class="bg-slate-700 hover:bg-slate-600 text-sm font-bold py-2 rounded-xl">🔇 Вимкнути всім</button>
+          </div>
+          <ul id="pplList" class="space-y-1" aria-label="Список учасників"></ul>
+        </div>
+
+        <!-- Зал очікування -->
+        <div data-panel="lobby" class="hidden flex-1 overflow-y-auto p-4 space-y-3">
+          <label class="flex items-center justify-between bg-slate-800/60 rounded-xl p-3">
+            <span class="text-sm"><b class="block text-white">Зал очікування</b>Нові учасники чекають вашого дозволу</span>
+            <input id="lobbyToggle" type="checkbox" class="w-6 h-6 accent-emerald-500">
+          </label>
+          <div id="knockList" class="space-y-2"></div>
+          <p id="knockEmpty" class="text-sm text-slate-500">Ніхто не очікує.</p>
+          <button id="admitAll" type="button" class="hidden w-full bg-vaggreen text-white font-bold py-2 rounded-xl">Впустити всіх</button>
+        </div>
+
+        <!-- Чат -->
+        <div data-panel="chat" class="hidden flex-1 flex flex-col min-h-0">
+          <ul id="chatList" class="flex-1 overflow-y-auto p-4 space-y-3 text-sm" aria-live="polite"></ul>
+          <div class="host-only flex flex-wrap gap-1 px-4 pb-2">
+            <button type="button" class="qmsg text-xs bg-slate-800 hover:bg-slate-700 px-2 py-1 rounded-lg" data-q="codeword">🔑 Кодове слово</button>
+            <button type="button" class="qmsg text-xs bg-slate-800 hover:bg-slate-700 px-2 py-1 rounded-lg" data-q="cert">📜 Сертифікат</button>
+            <button type="button" class="qmsg text-xs bg-slate-800 hover:bg-slate-700 px-2 py-1 rounded-lg" data-q="break">☕ Перерва 5 хв</button>
+            <button type="button" class="qmsg text-xs bg-slate-800 hover:bg-slate-700 px-2 py-1 rounded-lg" data-q="qa">❓ Час запитань</button>
+          </div>
+          <form id="chatForm" class="p-3 border-t border-line flex gap-2">
+            <label class="sr-only" for="chatInput">Повідомлення</label>
+            <input id="chatInput" class="field" placeholder="Повідомлення для всіх…" autocomplete="off">
+            <button class="bg-vaggreen text-white px-4 rounded-xl font-bold" aria-label="Надіслати">➤</button>
+          </form>
+        </div>
+
+        <!-- Сценарій ведучого -->
+        <div data-panel="script" class="hidden flex-1 overflow-y-auto p-4 space-y-4">
+          <div>
+            <div class="flex justify-between text-xs text-slate-400 mb-1"><span>Хронометраж</span><span id="runInfo"></span></div>
+            <div class="h-2 bg-slate-800 rounded-full overflow-hidden"><div id="runBar" class="h-full bg-vaggreen" style="width:0%"></div></div>
+          </div>
+          <ol id="agendaList" class="space-y-2"></ol>
+          <label class="block"><span class="text-sm font-bold">Кодове слово для сертифіката</span>
+            <input id="codeword" class="field mt-2" placeholder="напр. МАЯК"></label>
+          <label class="block"><span class="text-sm font-bold">Нотатки ведучого (бачите лише ви)</span>
+            <textarea id="notes" rows="6" class="field mt-2" placeholder="Ключові тези, імена, нагадування…"></textarea></label>
+        </div>
+      </aside>
+    </div>
+
+    <!-- Нижня панель керування -->
+    <footer class="ctlbar border-t border-line bg-panel px-3 py-3 overflow-x-auto">
+      <div class="flex items-center gap-2 justify-center min-w-max mx-auto">
+        <button id="cMic" class="ctl" type="button" aria-pressed="true" title="Мікрофон (M)"><span class="ico">🎙️</span><span class="lbl">Мікрофон</span></button>
+        <button id="cCam" class="ctl" type="button" aria-pressed="true" title="Камера (V)"><span class="ico">📹</span><span class="lbl">Камера</span></button>
+        <button id="cShare" class="ctl" type="button" aria-pressed="false" title="Показати екран (S)"><span class="ico">🖥️</span><span class="lbl">Екран</span></button>
+        <button id="cHand" class="ctl" type="button" aria-pressed="false" title="Підняти руку (H)"><span class="ico">✋</span><span class="lbl">Рука</span></button>
+        <button id="cTile" class="ctl" type="button" aria-pressed="false" title="Плитка / доповідач (T)"><span class="ico">🔲</span><span class="lbl">Плитка</span></button>
+        <button id="cCaptions" class="ctl" type="button" aria-pressed="false" title="Субтитри (якщо сервер підтримує)"><span class="ico">🔤</span><span class="lbl">Субтитри</span></button>
+        <button id="cSide" class="ctl" type="button" aria-pressed="true" title="Панель учасників і чату"><span class="ico">👥</span><span class="lbl">Панель</span></button>
+
+        <span class="w-px h-10 bg-line mx-1 host-only" aria-hidden="true"></span>
+        <div class="relative host-only">
+          <button id="cRec" class="ctl" type="button" aria-haspopup="menu" aria-expanded="false" title="Запис і трансляція"><span class="ico">⏺️</span><span class="lbl">Запис</span></button>
+          <div id="recMenu" class="hidden absolute bottom-full mb-2 left-1/2 -translate-x-1/2 w-80 bg-panel border border-line rounded-2xl p-2 shadow-2xl z-50" role="menu">
+            <button type="button" role="menuitem" data-rec="local" class="w-full text-left p-3 rounded-xl hover:bg-slate-800">
+              <b class="block text-white">💾 Запис на мій комп’ютер</b><span class="text-xs text-slate-400">Записує цю вкладку зі звуком у файл .webm. Працює на будь-якому сервері (Chrome/Edge).</span></button>
+            <button type="button" role="menuitem" data-rec="server" class="w-full text-left p-3 rounded-xl hover:bg-slate-800">
+              <b class="block text-white">☁️ Запис на сервері</b><span class="text-xs text-slate-400">Потрібен JaaS або власний Jitsi з Jibri.</span></button>
+            <button type="button" role="menuitem" data-rec="stream" class="w-full text-left p-3 rounded-xl hover:bg-slate-800">
+              <b class="block text-white">📡 Трансляція на YouTube</b><span class="text-xs text-slate-400">Потрібен ключ трансляції YouTube і підтримка на сервері.</span></button>
+          </div>
+        </div>
+        <button id="cLobby" class="ctl host-only" type="button" aria-pressed="false" title="Зал очікування"><span class="ico">🚪</span><span class="lbl">Вхід</span></button>
+        <button id="cEnd" class="ctl host-only" type="button" title="Завершити вебінар для всіх"><span class="ico">⏹️</span><span class="lbl">Завершити</span></button>
+        <span class="w-px h-10 bg-line mx-1" aria-hidden="true"></span>
+        <button id="cLeave" class="ctl danger" type="button" title="Вийти"><span class="ico">📞</span><span class="lbl">Вийти</span></button>
+      </div>
+    </footer>
+  </section>
+
+  <!-- ============ ЕКРАН 3: ПІСЛЯ ВИХОДУ ============ -->
+  <section id="bye" class="hidden vh-full flex items-center justify-center px-6">
+    <div class="max-w-lg text-center">
+      <div class="text-6xl mb-4" aria-hidden="true">👋</div>
+      <h1 class="text-3xl font-extrabold text-white mb-3">Дякуємо за участь!</h1>
+      <p id="byeText" class="text-slate-400 mb-8">Не забудьте подати заявку на сертифікат з кодовим словом, яке озвучили під час ефіру.</p>
+      <div class="flex flex-col sm:flex-row gap-3 justify-center">
+        <a id="byeCert" href="index.html#certificate" class="bg-vaggreen text-white font-bold px-6 py-3 rounded-xl">📜 Отримати сертифікат</a>
+        <button id="byeRejoin" type="button" class="border border-line px-6 py-3 rounded-xl font-bold">↩ Повернутися в ефір</button>
+      </div>
+      <p class="text-slate-400 text-sm mt-8">Хочете заглибитися в тему? <a href="index.html#academy" class="text-emerald-400 underline font-bold">Онлайн-курси Академії ВАГ →</a></p>
+    </div>
+  </section>
+
+  <!-- Діалог запрошення -->
+  <dialog id="inviteDlg" class="bg-panel text-slate-200 rounded-3xl p-0 w-[min(520px,calc(100%-2rem))] backdrop:bg-black/70">
+    <form method="dialog" class="p-6 space-y-4">
+      <div class="flex justify-between items-center"><h2 class="text-xl font-extrabold text-white">Запросити учасника</h2><button class="rowbtn" aria-label="Закрити">✕</button></div>
+      <label class="block"><span class="text-sm font-bold">Посилання на реєстрацію</span>
+        <span class="block text-xs text-slate-400">Учасники заходять за персональними посиланнями, які отримують після реєстрації.</span>
+        <div class="flex gap-2 mt-2"><input id="invLink" readonly class="field text-xs"><button type="button" data-copy="invLink" class="bg-vagblue px-4 rounded-xl font-bold text-sm">Копіювати</button></div></label>
+      <label class="block"><span class="text-sm font-bold">Посилання для співведучого</span>
+        <div class="flex gap-2 mt-2"><input id="invHost" readonly class="field text-xs"><button type="button" data-copy="invHost" class="bg-slate-700 px-4 rounded-xl font-bold text-sm">Копіювати</button></div>
+        <span class="text-xs text-amber-300">Відкриває інтерфейс ведучого. Права модератора все одно видає сервер (або ви кнопкою ⭐).</span></label>
+      <label class="block"><span class="text-sm font-bold">Надіслати запрошення на email</span>
+        <div class="flex gap-2 mt-2"><input id="invEmail" type="email" class="field" placeholder="colleague@example.com"><button type="button" id="invSend" class="bg-vaggreen px-4 rounded-xl font-bold text-sm text-white">Лист</button></div></label>
+    </form>
+  </dialog>
+
+  <!-- Сповіщення -->
+  <div id="toasts" class="fixed top-16 right-4 z-50 space-y-2 w-80 max-w-[calc(100%-2rem)]"></div>
+
+  <script src="webinars-data.js?v=2026-10-18b"></script>
+  <script src="schedule-loader.js?v=2"></script>
+<script>
+(async () => {
+await loadSchedule();   // розклад з Google-таблиці (або запасна копія)
+/* =====================================================================
+   СТУДІЯ ЕФІРУ ВАГ — на базі Jitsi IFrame API
+   room.html?w=<id>          — учасник
+   room.html?w=<id>&host=1   — ведучий (інтерфейс керування)
+   ⚠️ Параметр host=1 лише вмикає інтерфейс. Реальні права (вимкнути
+   мікрофон іншим, видалити, запис) має тільки МОДЕРАТОР кімнати, якого
+   визначає сервер Jitsi (вхід/JWT). Без прав кнопки не спрацюють.
+   ===================================================================== */
+const $ = (s, el = document) => el.querySelector(s);
+const $$ = (s, el = document) => [...el.querySelectorAll(s)];
+const esc = s => String(s ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const store = {
+  get(k, d) { try { return JSON.parse(localStorage.getItem(k)) ?? d; } catch { return d; } },
+  set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} }
+};
+const params = new URLSearchParams(location.search);
+const IS_HOST = params.get('host') === '1';
+const W = WEBINARS.find(w => w.id === params.get('w')) || WEBINARS[0];
+if (!W) {
+  document.body.innerHTML = '<main class="vh-full flex items-center justify-center p-6 text-center"><div><p class="text-xl font-bold text-white mb-3">Вебінар не знайдено</p><a href="index.html" class="text-emerald-400 underline">← До розкладу</a></div></main>';
+  return;
+}
+const start = new Date(W.start), end = new Date(start.getTime() + W.durationMin * 60000);
+const fmtT = d => d.toLocaleTimeString('uk-UA', { timeZone: CONFIG.TZ, hour: '2-digit', minute: '2-digit' });
+const fmtD = d => d.toLocaleDateString('uk-UA', { timeZone: CONFIG.TZ, day: 'numeric', month: 'long' });
+
+function announce(msg) { $('#sr').textContent = ''; setTimeout(() => $('#sr').textContent = msg, 50); }
+function toast(msg, kind = 'info', ms = 4500) {
+  const colors = { info: 'bg-slate-800 border-line', ok: 'bg-emerald-900 border-emerald-700', warn: 'bg-amber-900 border-amber-700', err: 'bg-red-900 border-red-700' };
+  const el = document.createElement('div');
+  el.className = `border ${colors[kind]} text-sm rounded-xl px-4 py-3 shadow-xl`;
+  el.textContent = msg;
+  $('#toasts').appendChild(el); announce(msg);
+  setTimeout(() => el.remove(), ms);
+}
+
+$$('.host-only').forEach(el => { if (!IS_HOST) el.remove(); });
+document.title = `${IS_HOST ? 'Студія ведучого' : 'Ефір'}: ${W.title} | ВАГ`;
+
+/* =====================================================================
+   1. ПІДГОТОВКА: перевірка камери та мікрофона
+   ===================================================================== */
+$('#pjRole').textContent = IS_HOST ? 'Студія ведучого' : 'Вхід в ефір';
+$('#pjTitle').textContent = W.title;
+$('#pjMeta').textContent = `${fmtD(start)}, ${fmtT(start)}–${fmtT(end)} (Київ) • 🎤 ${W.speaker}`;
+$('#pjName').value = store.get('vag_name', '');
+$('#pjEmail').value = store.get('vag_email', '');
+
+const pre = { stream: null, mic: !IS_HOST ? false : true, cam: !IS_HOST ? false : true, ctx: null, raf: 0 };
+$('#pjHint').textContent = IS_HOST
+  ? 'Порада: увійдіть за 20 хвилин до старту, увімкніть зал очікування та перевірте звук.'
+  : 'Ви заходите з вимкненим мікрофоном і камерою — так прийнято на вебінарах. Увімкнути можна будь-коли.';
+
+function setPreBtn(btn, on) {
+  btn.setAttribute('aria-pressed', on); btn.classList.toggle('off', !on);
+}
+async function startPreview() {
+  stopPreview();
+  const camId = $('#pjCamSel').value, micId = $('#pjMicSel').value;
+  try {
+    pre.stream = await navigator.mediaDevices.getUserMedia({
+      video: camId ? { deviceId: { exact: camId } } : true,
+      audio: micId ? { deviceId: { exact: micId } } : true
+    });
+  } catch (e) {
+    try { pre.stream = await navigator.mediaDevices.getUserMedia({ audio: true }); }
+    catch { pre.stream = null; }
+    const err = $('#pjErr'); err.classList.remove('hidden');
+    err.textContent = 'Немає доступу до камери або мікрофона. Дозвольте доступ у браузері (значок 🔒 в адресному рядку). Увійти можна і без них — лише дивитися та писати в чат.';
+  }
+  $('#pjVideo').srcObject = pre.stream;
+  applyPreToggles();
+  await fillDevices();
+  meter();
+}
+function stopPreview() {
+  cancelAnimationFrame(pre.raf);
+  pre.stream?.getTracks().forEach(t => t.stop());
+  pre.ctx?.close().catch(() => {}); pre.ctx = null;
+}
+function applyPreToggles() {
+  pre.stream?.getAudioTracks().forEach(t => t.enabled = pre.mic);
+  pre.stream?.getVideoTracks().forEach(t => t.enabled = pre.cam);
+  const hasCam = !!pre.stream?.getVideoTracks().length;
+  $('#pjNoCam').classList.toggle('hidden', pre.cam && hasCam);
+  $('#pjNoCam').classList.toggle('flex', !(pre.cam && hasCam));
+  $('#pjNoCamText').textContent = hasCam ? 'Камеру вимкнено' : 'Камера недоступна';
+  setPreBtn($('#pjMic'), pre.mic); setPreBtn($('#pjCam'), pre.cam);
+}
+async function fillDevices() {
+  const devs = await navigator.mediaDevices.enumerateDevices().catch(() => []);
+  const fill = (sel, kind, cur) => {
+    const list = devs.filter(d => d.kind === kind);
+    sel.innerHTML = list.length ? list.map((d, i) => `<option value="${esc(d.deviceId)}">${esc(d.label || (kind === 'videoinput' ? 'Камера ' : 'Мікрофон ') + (i + 1))}</option>`).join('') : '<option value="">Не знайдено</option>';
+    if (cur) sel.value = cur;
+  };
+  const curCam = pre.stream?.getVideoTracks()[0]?.getSettings().deviceId;
+  const curMic = pre.stream?.getAudioTracks()[0]?.getSettings().deviceId;
+  fill($('#pjCamSel'), 'videoinput', curCam); fill($('#pjMicSel'), 'audioinput', curMic);
+}
+function meter() {
+  const track = pre.stream?.getAudioTracks()[0]; if (!track) return;
+  try {
+    pre.ctx = new AudioContext();
+    const an = pre.ctx.createAnalyser(); an.fftSize = 512;
+    pre.ctx.createMediaStreamSource(new MediaStream([track])).connect(an);
+    const buf = new Uint8Array(an.fftSize);
+    const loop = () => {
+      an.getByteTimeDomainData(buf);
+      let peak = 0; for (const v of buf) peak = Math.max(peak, Math.abs(v - 128));
+      $('#pjLevel').style.width = (pre.mic ? Math.min(100, peak / 64 * 100) : 0) + '%';
+      pre.raf = requestAnimationFrame(loop);
+    };
+    loop();
+  } catch {}
+}
+$('#pjMic').onclick = () => { pre.mic = !pre.mic; applyPreToggles(); };
+$('#pjCam').onclick = () => { pre.cam = !pre.cam; applyPreToggles(); };
+$('#pjCamSel').onchange = startPreview;
+$('#pjMicSel').onchange = startPreview;
+
+// Учасників пускаємо лише у вікно входу (ведучих — завжди)
+function joinAllowed() {
+  if (IS_HOST) return true;
+  const opens = start.getTime() - CONFIG.JOIN_WINDOW_MIN * 60000;
+  return Date.now() >= opens && Date.now() < end.getTime() + 30 * 60000;
+}
+function updateWait() {
+  const ok = joinAllowed(), w = $('#pjWait');
+  $('#pjJoin').disabled = !ok; $('#pjJoin').classList.toggle('opacity-50', !ok);
+  w.classList.toggle('hidden', ok);
+  if (!ok) {
+    const opens = new Date(start.getTime() - CONFIG.JOIN_WINDOW_MIN * 60000);
+    w.textContent = Date.now() < opens ? `Вхід відкриється ${fmtD(opens)} о ${fmtT(opens)}.` : 'Цей вебінар уже завершився. Запис з’явиться в архіві.';
+  }
+}
+updateWait(); setInterval(updateWait, 20000);
+
+const USE_TOKENS = !!CONFIG.VIDEO.tokenEndpoint;
+// Персональний токен учасника: з посилання в листі (…&t=…), зберігаємо на час сесії
+let ACCESS_T = params.get('t') || '';
+try { if (ACCESS_T) sessionStorage.setItem('vag_t_' + W.id, ACCESS_T); else ACCESS_T = sessionStorage.getItem('vag_t_' + W.id) || ''; } catch (e) {}
+if (ACCESS_T && history.replaceState) {                       // прибираємо токен з адресного рядка
+  const clean = new URL(location.href); clean.searchParams.delete('t'); history.replaceState(null, '', clean.toString());
+}
+let SERVER_ROOM = '';
+function showResend() {
+  $('#pjResend').classList.remove('hidden');
+  $('#pjResendEmail').value = $('#pjEmail').value;
+}
+$('#pjResendBtn').onclick = async () => {
+  const email = $('#pjResendEmail').value.trim(), msg = $('#pjResendMsg');
+  if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) { msg.textContent = 'Перевірте email.'; return; }
+  msg.textContent = 'Надсилаємо…';
+  try { await fetch(CONFIG.FORM_ENDPOINT + '?resend=1&w=' + encodeURIComponent(W.id) + '&email=' + encodeURIComponent(email)); } catch (e) {}
+  msg.textContent = 'Якщо ця адреса зареєстрована на вебінар, ми надіслали лист із персональним посиланням. Перевірте також «Спам».';
+};
+if (IS_HOST && USE_TOKENS) $('#pjHostAuth').classList.remove('hidden');
+
+async function getToken(name, email) {
+  const body = { webinarId: W.id, t: ACCESS_T, name, email, role: IS_HOST ? 'host' : 'guest' };
+  if (IS_HOST) { body.login = $('#pjLogin').value.trim(); body.password = $('#pjPass').value; }
+  const res = await fetch(CONFIG.VIDEO.tokenEndpoint, {
+    method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body), cache: 'no-store'
+  });
+  const text = await res.text();
+  let data = null;
+  try { data = JSON.parse(text); } catch {}
+  if (!data) {
+    const snippet = text.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 160);
+    console.warn('[VAG] jaas-token.php response:', res.status, text.slice(0, 2000));
+    throw new Error(`jaas-token.php відповів не JSON (код ${res.status}): ${snippet || 'порожня відповідь'}`);
+  }
+  if (!res.ok || !data.ok || !data.jwt) {
+    const err = new Error(data.error || `Сервер ключів: код ${res.status}`); err.code = data.code; throw err;
+  }
+  SERVER_ROOM = data.room || '';
+  return data.jwt;
+}
+
+$('#pjForm').addEventListener('submit', async e => {
+  e.preventDefault();
+  const name = $('#pjName').value.trim();
+  if (!name) { $('#pjName').focus(); return; }
+  if (!joinAllowed()) return;
+  store.set('vag_name', name); store.set('vag_email', $('#pjEmail').value.trim());
+  const devices = {
+    camLabel: $('#pjCamSel').value ? $('#pjCamSel').selectedOptions[0]?.textContent : undefined,
+    micLabel: $('#pjMicSel').value ? $('#pjMicSel').selectedOptions[0]?.textContent : undefined
+  };
+  let jwt;
+  if (USE_TOKENS) {
+    const btn = $('#pjJoin'), err = $('#pjErr');
+    if (IS_HOST && (!$('#pjLogin').value.trim() || !$('#pjPass').value)) { $('#pjLogin').focus(); return; }
+    btn.disabled = true; btn.textContent = 'Перевіряємо…'; err.classList.add('hidden');
+    try { jwt = await getToken(name, $('#pjEmail').value.trim()); }
+    catch (ex) {
+      err.textContent = '⛔ ' + ex.message; err.classList.remove('hidden');
+      if (ex.code === 'token_required' || ex.code === 'token_invalid') showResend();
+      btn.disabled = false; btn.textContent = 'Увійти в студію';
+      return;
+    }
+    if (IS_HOST) $('#pjPass').value = '';
+  }
+  stopPreview();
+  enterStudio(name, $('#pjEmail').value.trim(), devices, jwt);
+});
+
+if (navigator.mediaDevices?.getUserMedia) startPreview();
+else { $('#pjErr').classList.remove('hidden'); $('#pjErr').textContent = 'Браузер не підтримує доступ до камери. Використайте актуальний Chrome, Edge, Firefox або Safari.'; }
+
+/* =====================================================================
+   2. СТУДІЯ: підключення Jitsi
+   ===================================================================== */
+let api = null, myId = null, isMod = false, joinedAt = 0;
+const S = { mic: false, cam: false, share: false, hand: false, tile: false, captions: false, lobby: false, rec: null, people: new Map(), hands: new Set(), knocking: new Map() };
+
+function loadJitsi() {
+  return new Promise((res, rej) => {
+    if (window.JitsiMeetExternalAPI) return res();
+    const s = document.createElement('script');
+    s.src = CONFIG.VIDEO.jaasAppId
+      ? `https://8x8.vc/${CONFIG.VIDEO.jaasAppId}/external_api.js`
+      : `https://${CONFIG.VIDEO.domain}/external_api.js`;
+    s.onload = res; s.onerror = () => rej(new Error('external_api.js'));
+    document.head.appendChild(s);
+  });
+}
+
+async function enterStudio(name, email, devices, jwt) {
+  $('#prejoin').classList.add('hidden');
+  $('#studio').classList.remove('hidden'); $('#studio').classList.add('flex');
+  $('#stTitle').textContent = W.title;
+  $('#stRoleLabel').textContent = IS_HOST ? 'Ведучий' : 'Учасник';
+  try { await loadJitsi(); }
+  catch {
+    $('#stage').innerHTML = `<div class="h-full flex flex-col items-center justify-center text-center p-6 gap-4">
+      <p class="text-lg text-white font-bold">Не вдалося завантажити відеосервер.</p>
+      <p class="text-slate-400">Перевірте з’єднання або відкрийте кімнату напряму:</p>
+      <a class="bg-vaggreen text-white px-6 py-3 rounded-xl font-bold" target="_blank" rel="noopener" href="https://${esc(CONFIG.VIDEO.domain)}/${esc(roomNameFor(W))}">Відкрити кімнату</a></div>`;
+    return;
+  }
+
+  const opts = {
+    roomName: SERVER_ROOM ? (CONFIG.VIDEO.jaasAppId ? CONFIG.VIDEO.jaasAppId + '/' : '') + SERVER_ROOM : roomNameFor(W),
+    parentNode: $('#stage'),
+    width: '100%', height: '100%',
+    lang: 'uk',
+    userInfo: { displayName: name, email: email || undefined },
+    devices: { audioInput: devices.micLabel, videoInput: devices.camLabel },
+    configOverwrite: {
+      prejoinConfig: { enabled: false },     // свій екран підготовки вже був
+      prejoinPageEnabled: false,              // для старіших версій Jitsi
+      disableDeepLinking: true,
+      startWithAudioMuted: !pre.mic,
+      startWithVideoMuted: !pre.cam,
+      toolbarButtons: [],                     // ховаємо панель Jitsi — керуємо своєю
+      subject: W.title,
+      hideConferenceSubject: true,
+      disableInviteFunctions: true,
+      enableNoisyMicDetection: true
+    },
+    interfaceConfigOverwrite: { SHOW_JITSI_WATERMARK: false, SHOW_WATERMARK_FOR_GUESTS: false, MOBILE_APP_PROMO: false }
+  };
+  if (jwt) opts.jwt = jwt;
+
+  // Діагностика: показуємо, через який сервер іде ефір
+  const srv = $('#stServer');
+  if (CONFIG.VIDEO.jaasAppId) {
+    srv.textContent = jwt ? '🟢 JaaS (8x8)' : '🟠 JaaS без ключа';
+    srv.className = 'font-bold ' + (jwt ? 'text-emerald-400' : 'text-amber-300');
+  } else {
+    srv.textContent = '🟠 ' + CONFIG.VIDEO.domain + (CONFIG.VIDEO.domain === 'meet.jit.si' ? ' (тест, ~5 хв)' : '');
+    srv.className = 'font-bold text-amber-300';
+    if (CONFIG.VIDEO.domain === 'meet.jit.si') toast('Тестовий сервер meet.jit.si: вбудований дзвінок обірветься приблизно через 5 хвилин.', 'warn', 9000);
+  }
+  console.info('[VAG] video:', CONFIG.VIDEO.domain, 'appId:', CONFIG.VIDEO.jaasAppId || '—', 'jwt:', !!jwt, 'room:', opts.roomName);
+
+  api = new JitsiMeetExternalAPI(CONFIG.VIDEO.domain, opts);
+  bindEvents();
+}
+
+/* ---------- Події Jitsi ---------- */
+function bindEvents() {
+  api.addListener('videoConferenceJoined', e => {
+    myId = e.id; joinedAt = Date.now();
+    if (e.role === 'moderator') setMod(true);
+    toast(IS_HOST ? 'Ви в студії. Перевірте зал очікування та запис.' : 'Ви в ефірі. Мікрофон вимкнено.', 'ok');
+    refreshPeople();
+    if (IS_HOST) setTimeout(() => { if (!isMod) showModWarn(); }, 4000);
+  });
+  api.addListener('participantRoleChanged', e => {
+    if (e.id === myId) setMod(e.role === 'moderator');
+    refreshPeople();
+  });
+  api.addListener('participantJoined', e => { refreshPeople(); if (IS_HOST) toast(`➕ ${e.displayName || 'Учасник'} приєднується`); });
+  api.addListener('participantLeft', e => { S.hands.delete(e.id); refreshPeople(); });
+  api.addListener('displayNameChange', refreshPeople);
+  api.addListener('participantKickedOut', e => {
+    if (e.kicked?.local) { toast('Ведучий видалив вас з ефіру.', 'err', 8000); showBye(); }
+    else refreshPeople();
+  });
+
+  api.addListener('audioMuteStatusChanged', e => { S.mic = !e.muted; renderControls(); });
+  api.addListener('videoMuteStatusChanged', e => { S.cam = !e.muted; renderControls(); });
+  api.addListener('screenSharingStatusChanged', e => { S.share = e.on; renderControls(); announce(e.on ? 'Демонстрацію екрана увімкнено' : 'Демонстрацію екрана вимкнено'); });
+  api.addListener('tileViewChanged', e => { S.tile = e.enabled; renderControls(); });
+  api.addListener('raiseHandUpdated', e => {
+    const up = !!e.handRaised;
+    up ? S.hands.add(e.id) : S.hands.delete(e.id);
+    if (e.id === myId) { S.hand = up; renderControls(); }
+    else if (up && IS_HOST) toast(`✋ ${nameOf(e.id)} піднімає руку`);
+    renderPeople();
+  });
+  api.addListener('participantMuted', e => {
+    if (e.id === myId && e.isMuted) toast(e.mediaType === 'video' ? 'Ведучий вимкнув вашу камеру' : 'Ведучий вимкнув ваш мікрофон', 'warn');
+  });
+  api.addListener('micError', () => toast('Проблема з мікрофоном. Перевірте дозволи браузера.', 'err'));
+  api.addListener('cameraError', () => toast('Проблема з камерою. Перевірте дозволи браузера.', 'err'));
+
+  api.addListener('recordingStatusChanged', e => {
+    if (e.error) { toast(`Запис/трансляція: помилка (${e.error}). Ймовірно, сервер не підтримує цю функцію.`, 'err', 8000); }
+    if (e.mode === 'stream') $('#bLive').classList.toggle('hidden', !e.on), $('#bLive').classList.toggle('inline-flex', e.on);
+    else if (S.rec !== 'local') setRecBadge(e.on);
+    if (e.on) toast(e.mode === 'stream' ? '📡 Трансляцію розпочато' : '⏺ Запис на сервері розпочато', 'ok');
+    if (!e.on && S.rec === e.mode) S.rec = null;
+    renderControls();
+  });
+
+  api.addListener('lobbyModeChanged', e => { S.lobby = e.enabled; renderControls(); });
+  api.addListener('knockingParticipant', e => {
+    const p = e.participant; S.knocking.set(p.id, p.name || 'Гість');
+    renderKnocking(); toast(`🚪 ${p.name || 'Гість'} чекає на вхід`, 'warn');
+  });
+
+  api.addListener('incomingMessage', e => addChat(e.nick || 'Учасник', e.message, false, e.privateMessage));
+  api.addListener('outgoingMessage', e => addChat('Ви', e.message, true, e.privateMessage));
+
+  api.addListener('readyToClose', showBye);
+  api.addListener('videoConferenceLeft', () => { if (!$('#bye').classList.contains('hidden')) return; showBye(); });
+}
+
+function setMod(v) {
+  isMod = v;
+  $('#stRoleLabel').textContent = IS_HOST ? (v ? 'Ведучий • модератор' : 'Ведучий • без прав модератора') : (v ? 'Співведучий' : 'Учасник');
+  if (v) $('#modWarn')?.classList.add('hidden');
+  renderControls(); renderPeople();
+}
+function showModWarn() {
+  const w = $('#modWarn'); if (!w) return;
+  w.classList.remove('hidden');
+  w.innerHTML = 'У вас поки немає прав модератора, тому керувати учасниками й записом не вийде. ' +
+    (CONFIG.VIDEO.domain === 'meet.jit.si'
+      ? 'На meet.jit.si модератором стає той, хто увійде через Google/GitHub у вікні відео.'
+      : (CONFIG.VIDEO.jaasAppId
+        ? 'Перевірте jaas-config.php: AppID, Key ID і приватний ключ мають бути з того самого JaaS-акаунта.'
+        : 'Перевірте налаштування модераторів на сервері Jitsi.'));
+}
+
+/* ---------- Учасники ---------- */
+function nameOf(id) { return S.people.get(id)?.displayName || 'Учасник'; }
+
+async function refreshPeople() {
+  if (!api) return;
+  let list = [];
+  try {
+    const info = await api.getRoomsInfo();
+    const main = info.rooms?.find(r => r.isMainRoom) || info.rooms?.[0];
+    list = main?.participants || [];
+  } catch {
+    try { list = api.getParticipantsInfo().map(p => ({ id: p.participantId, displayName: p.displayName || p.formattedDisplayName, role: '' })); } catch {}
+  }
+  S.people = new Map(list.map(p => [p.id, p]));
+  $('#bCount').textContent = S.people.size || 1;
+  renderPeople();
+}
+
+function renderPeople() {
+  const q = ($('#pplSearch')?.value || '').toLowerCase();
+  const arr = [...S.people.values()]
+    .filter(p => !q || (p.displayName || '').toLowerCase().includes(q))
+    .sort((a, b) => (S.hands.has(b.id) - S.hands.has(a.id)) || (a.id === myId ? -1 : b.id === myId ? 1 : 0) || (a.displayName || '').localeCompare(b.displayName || '', 'uk'));
+  const canManage = IS_HOST && isMod;
+  $('#pplList').innerHTML = arr.map(p => {
+    const me = p.id === myId, mod = p.role === 'moderator';
+    const initials = (p.displayName || '?').split(' ').map(x => x[0]).slice(0, 2).join('').toUpperCase();
+    return `<li class="flex items-center gap-3 p-2 rounded-xl hover:bg-slate-800/60">
+      <span class="w-9 h-9 shrink-0 rounded-full bg-vagblue flex items-center justify-center text-xs font-bold" aria-hidden="true">${esc(initials)}</span>
+      <span class="flex-1 min-w-0">
+        <span class="block truncate text-sm font-bold text-white">${esc(p.displayName || 'Учасник')}${me ? ' (ви)' : ''}</span>
+        <span class="text-xs text-slate-400">${mod ? '⭐ модератор' : 'учасник'}${S.hands.has(p.id) ? ' • <span class="text-amber-300">✋ рука</span>' : ''}</span>
+      </span>
+      ${canManage && !me ? `<span class="flex gap-1 shrink-0">
+        ${S.hands.has(p.id) ? `<button class="rowbtn" data-act="unmuteAsk" data-id="${esc(p.id)}" title="Дати слово (попросити ввімкнути мікрофон)" aria-label="Дати слово: ${esc(p.displayName)}">🎙️</button>` : ''}
+        <button class="rowbtn" data-act="muteA" data-id="${esc(p.id)}" title="Вимкнути мікрофон" aria-label="Вимкнути мікрофон: ${esc(p.displayName)}">🔇</button>
+        <button class="rowbtn" data-act="muteV" data-id="${esc(p.id)}" title="Вимкнути камеру" aria-label="Вимкнути камеру: ${esc(p.displayName)}">🚫</button>
+        <button class="rowbtn" data-act="pin" data-id="${esc(p.id)}" title="Показати на головному екрані" aria-label="Закріпити: ${esc(p.displayName)}">📌</button>
+        ${!mod ? `<button class="rowbtn" data-act="mod" data-id="${esc(p.id)}" title="Зробити модератором" aria-label="Зробити модератором: ${esc(p.displayName)}">⭐</button>` : ''}
+        <button class="rowbtn hover:!bg-red-700" data-act="kick" data-id="${esc(p.id)}" title="Видалити з ефіру" aria-label="Видалити: ${esc(p.displayName)}">✕</button>
+      </span>` : ''}
+    </li>`;
+  }).join('') || '<li class="text-sm text-slate-500">Поки нікого немає.</li>';
+}
+
+$('#pplList').addEventListener('click', e => {
+  const b = e.target.closest('[data-act]'); if (!b || !api) return;
+  const id = b.dataset.id, n = nameOf(id);
+  switch (b.dataset.act) {
+    case 'muteA': api.executeCommand('muteRemoteParticipant', id, 'audio'); toast(`🔇 Мікрофон ${n} вимкнено`); break;
+    case 'muteV': api.executeCommand('muteRemoteParticipant', id, 'video'); toast(`Камеру ${n} вимкнено`); break;
+    case 'unmuteAsk': api.executeCommand('askToUnmute', id); toast(`Запит увімкнути мікрофон надіслано: ${n}`); break;
+    case 'pin': api.executeCommand('pinParticipant', id); api.executeCommand('setTileView', false); break;
+    case 'mod': if (confirm(`Надати права модератора: ${n}?`)) api.executeCommand('grantModerator', id); break;
+    case 'kick': if (confirm(`Видалити ${n} з ефіру?`)) { api.executeCommand('kickParticipant', id); toast(`${n} видалено`, 'warn'); } break;
+  }
+});
+$('#pplSearch').addEventListener('input', renderPeople);
+
+/* ---------- Зал очікування ---------- */
+function renderKnocking() {
+  const box = $('#knockList'); if (!box) return;
+  const arr = [...S.knocking.entries()];
+  $('#knockEmpty').classList.toggle('hidden', arr.length > 0);
+  $('#admitAll').classList.toggle('hidden', arr.length < 2);
+  const kc = $('#knockCount'); kc.textContent = arr.length; kc.classList.toggle('hidden', !arr.length);
+  box.innerHTML = arr.map(([id, n]) => `
+    <div class="flex items-center gap-2 bg-slate-800/60 rounded-xl p-3">
+      <span class="flex-1 text-sm font-bold text-white truncate">${esc(n)}</span>
+      <button class="bg-vaggreen text-white text-xs font-bold px-3 py-2 rounded-lg" data-knock="${esc(id)}" data-ok="1">Впустити</button>
+      <button class="bg-slate-700 text-xs font-bold px-3 py-2 rounded-lg" data-knock="${esc(id)}" data-ok="0">Відхилити</button>
+    </div>`).join('');
+}
+function answerKnock(id, ok) { api.executeCommand('answerKnockingParticipant', id, ok); S.knocking.delete(id); renderKnocking(); }
+if (IS_HOST) {
+  $('#knockList').addEventListener('click', e => { const b = e.target.closest('[data-knock]'); if (b) answerKnock(b.dataset.knock, b.dataset.ok === '1'); });
+  $('#admitAll').onclick = () => [...S.knocking.keys()].forEach(id => answerKnock(id, true));
+  $('#lobbyToggle').onchange = e => setLobby(e.target.checked);
+}
+function setLobby(on) {
+  if (!requireMod()) { $('#lobbyToggle').checked = S.lobby; return; }
+  api.executeCommand('toggleLobby', on);
+  toast(on ? '🚪 Зал очікування увімкнено: нових учасників впускаєте ви' : 'Зал очікування вимкнено', 'ok');
+}
+
+/* ---------- Чат ---------- */
+function addChat(from, text, mine, priv) {
+  const li = document.createElement('li');
+  li.className = mine ? 'ml-8' : 'mr-8';
+  const t = new Date().toLocaleTimeString('uk-UA', { hour: '2-digit', minute: '2-digit' });
+  li.innerHTML = `<div class="text-xs text-slate-400 mb-1">${esc(from)}${priv ? ' • особисто' : ''} • ${t}</div>
+    <div class="${mine ? 'bg-vagblue' : 'bg-slate-800'} rounded-2xl px-3 py-2 text-slate-100 break-words">${esc(text)}</div>`;
+  $('#chatList').appendChild(li); li.scrollIntoView({ block: 'end' });
+  if (!mine && activeTab !== 'chat') $('#chatDot').classList.remove('hidden');
+  if (!mine && !sideVisible()) $('#cSide').classList.add('has-new');
+}
+$('#chatForm').addEventListener('submit', e => {
+  e.preventDefault();
+  const v = $('#chatInput').value.trim(); if (!v || !api) return;
+  api.executeCommand('sendChatMessage', v); $('#chatInput').value = '';
+});
+const QUICK = {
+  codeword: () => { const c = $('#codeword').value.trim(); if (!c) { toast('Спершу вкажіть кодове слово у вкладці «Сценарій»', 'warn'); return null; } return `🔑 Кодове слово для сертифіката: ${c}`; },
+  cert: () => `📜 Заявка на сертифікат: ${CONFIG.SITE_URL}#certificate`,
+  break: () => '☕ Перерва 5 хвилин. Не виходьте з кімнати — продовжимо незабаром!',
+  qa: () => '❓ Час запитань! Пишіть у чат або піднімайте руку ✋ — дамо слово.'
+};
+$$('.qmsg').forEach(b => b.onclick = () => { const m = QUICK[b.dataset.q](); if (m && api) api.executeCommand('sendChatMessage', m); });
+
+/* ---------- Сценарій ведучого ---------- */
+if (IS_HOST) {
+  const key = 'vag_host_' + W.id;
+  const saved = store.get(key, {});
+  $('#codeword').value = saved.codeword || '';
+  $('#notes').value = saved.notes || '';
+  const save = () => store.set(key, { codeword: $('#codeword').value, notes: $('#notes').value });
+  $('#codeword').oninput = save; $('#notes').oninput = save;
+
+  const items = (W.agenda || []).map(a => typeof a === 'string' ? { title: a, min: 0 } : a);
+  let acc = 0;
+  $('#agendaList').innerHTML = items.map((a, i) => {
+    const from = acc; acc += a.min || 0;
+    return `<li class="agenda-item flex gap-3 p-3 rounded-xl bg-slate-800/50" data-from="${from}" data-to="${acc}">
+      <span class="text-xs font-bold text-slate-400 w-14 shrink-0">${a.min ? `${from}–${acc} хв` : '—'}</span>
+      <span class="text-sm">${esc(a.title)}</span></li>`;
+  }).join('');
+}
+function tickRun() {
+  if (!joinedAt) return;
+  const sec = Math.floor((Date.now() - joinedAt) / 1000);
+  const mm = String(Math.floor(sec / 60)).padStart(2, '0'), ss = String(sec % 60).padStart(2, '0');
+  $('#stTimer').textContent = `${mm}:${ss}`;
+  if (!IS_HOST) return;
+  // хронометраж рахуємо від запланованого старту (або від входу, якщо раніше)
+  const ref = Math.max(start.getTime(), joinedAt);
+  const min = Math.max(0, (Date.now() - ref) / 60000);
+  $('#runBar').style.width = Math.min(100, min / W.durationMin * 100) + '%';
+  $('#runBar').classList.toggle('bg-red-500', min > W.durationMin);
+  $('#runInfo').textContent = Date.now() < start.getTime() ? `старт о ${fmtT(start)}` : `${Math.floor(min)} / ${W.durationMin} хв`;
+  $$('.agenda-item').forEach(li => {
+    const cur = Date.now() >= start.getTime() && min >= +li.dataset.from && min < +li.dataset.to;
+    li.classList.toggle('ring-2', cur); li.classList.toggle('ring-vaggreen', cur);
+    li.classList.toggle('opacity-50', Date.now() >= start.getTime() && min >= +li.dataset.to);
+  });
+}
+setInterval(tickRun, 1000);
+
+/* =====================================================================
+   3. КНОПКИ КЕРУВАННЯ
+   ===================================================================== */
+function requireMod() {
+  if (isMod) return true;
+  toast('Потрібні права модератора.', 'warn'); showModWarn(); return false;
+}
+function setCtl(id, on, labelOn, labelOff, offIsDanger = false) {
+  const b = $(id); if (!b) return;
+  b.setAttribute('aria-pressed', on);
+  b.classList.toggle('off', offIsDanger && !on);
+  $('.lbl', b).textContent = on ? labelOn : labelOff;
+}
+function renderControls() {
+  setCtl('#cMic', S.mic, 'Мікрофон', 'Увімкнути', true);
+  $('#cMic .ico').textContent = S.mic ? '🎙️' : '🔇';
+  setCtl('#cCam', S.cam, 'Камера', 'Увімкнути', true);
+  $('#cCam .ico').textContent = S.cam ? '📹' : '🚫';
+  setCtl('#cShare', S.share, 'Зупинити', 'Екран');
+  setCtl('#cHand', S.hand, 'Опустити', 'Рука');
+  setCtl('#cTile', S.tile, 'Доповідач', 'Плитка');
+  setCtl('#cCaptions', S.captions, 'Субтитри', 'Субтитри');
+  if (IS_HOST) {
+    setCtl('#cLobby', S.lobby, 'Зал увімк.', 'Вхід');
+    $('#lobbyToggle').checked = S.lobby;
+    $('#bLobby').classList.toggle('hidden', !S.lobby); $('#bLobby').classList.toggle('inline-flex', S.lobby);
+    const recOn = !!S.rec;
+    $('#cRec').classList.toggle('off', recOn);
+    $('#cRec .lbl').textContent = recOn ? 'Стоп' : 'Запис';
+    $('#cRec .ico').textContent = recOn ? '⏹️' : '⏺️';
+    ['#cLobby', '#cEnd', '#muteAllBtn'].forEach(s => $(s)?.classList.toggle('opacity-60', !isMod));
+  }
+}
+
+$('#cMic').onclick = () => api?.executeCommand('toggleAudio');
+$('#cCam').onclick = () => api?.executeCommand('toggleVideo');
+$('#cShare').onclick = () => api?.executeCommand('toggleShareScreen');
+$('#cHand').onclick = () => api?.executeCommand('toggleRaiseHand');
+$('#cTile').onclick = () => api?.executeCommand('toggleTileView');
+$('#cCaptions').onclick = () => {
+  S.captions = !S.captions;
+  api?.executeCommand('setSubtitles', S.captions, true);
+  renderControls();
+  toast(S.captions ? 'Субтитри увімкнено (якщо сервер їх підтримує)' : 'Субтитри вимкнено');
+};
+$('#cSide').onclick = () => toggleSide();
+$('#sideClose').onclick = () => toggleSide(false);
+$('#cLeave').onclick = () => { if (confirm('Вийти з ефіру?')) { stopLocalRec(); api ? api.executeCommand('hangup') : showBye(); } };
+
+if (IS_HOST) {
+  $('#muteAllBtn').onclick = () => { if (requireMod() && confirm('Вимкнути мікрофони всім учасникам?')) { api.executeCommand('muteEveryone', 'audio'); toast('🔇 Мікрофони учасників вимкнено'); } };
+  $('#cLobby').onclick = () => setLobby(!S.lobby);
+  $('#cEnd').onclick = () => {
+    if (!requireMod()) return;
+    if (confirm('Завершити вебінар для ВСІХ учасників?')) { stopLocalRec(); api.executeCommand('endConference'); }
+  };
+  $('#inviteBtn').onclick = () => {
+    const base = new URL('room.html', location.href);
+    $('#invLink').value = new URL('index.html#register', location.href).href;
+    $('#invHost').value = `${base.href}?w=${encodeURIComponent(W.id)}&host=1`;
+    $('#inviteDlg').showModal();
+  };
+  $$('[data-copy]').forEach(b => b.onclick = async () => {
+    const v = $('#' + b.dataset.copy).value;
+    try { await navigator.clipboard.writeText(v); toast('Посилання скопійовано', 'ok'); } catch { $('#' + b.dataset.copy).select(); }
+  });
+  $('#invSend').onclick = () => {
+    const to = $('#invEmail').value.trim(); if (!to) return;
+    const subj = `Запрошення на вебінар ВАГ: ${W.title}`;
+    const body = `Вітаємо!\n\nЗапрошуємо на вебінар «${W.title}» — ${fmtD(start)} о ${fmtT(start)} (Київ).\n\nЗареєструйтеся тут — після реєстрації ви отримаєте персональне посилання на ефір: ${$('#invLink').value}\n\nДо зустрічі!\nВсеукраїнська асоціація гідів`;
+    location.href = `mailto:${encodeURIComponent(to)}?subject=${encodeURIComponent(subj)}&body=${encodeURIComponent(body)}`;
+  };
+
+  /* ---- Меню запису ---- */
+  const menu = $('#recMenu'), recBtn = $('#cRec');
+  recBtn.onclick = () => {
+    if (S.rec) return stopRecording();
+    const open = menu.classList.toggle('hidden') === false;
+    recBtn.setAttribute('aria-expanded', open);
+    if (open) $('[data-rec]', menu).focus();
+  };
+  document.addEventListener('click', e => { if (!e.target.closest('#recMenu,#cRec')) { menu.classList.add('hidden'); recBtn.setAttribute('aria-expanded', 'false'); } });
+  menu.addEventListener('click', async e => {
+    const b = e.target.closest('[data-rec]'); if (!b) return;
+    menu.classList.add('hidden'); recBtn.setAttribute('aria-expanded', 'false');
+    const mode = b.dataset.rec;
+    if (mode === 'local') return startLocalRec();
+    if (!requireMod()) return;
+    if (mode === 'server') { api.executeCommand('startRecording', { mode: 'file' }); S.rec = 'file'; }
+    if (mode === 'stream') {
+      const key = prompt('Ключ трансляції YouTube (YouTube Studio → Трансляція):'); if (!key) return;
+      api.executeCommand('startRecording', { mode: 'stream', youtubeStreamKey: key.trim() }); S.rec = 'stream';
+    }
+    api.executeCommand('sendChatMessage', mode === 'stream' ? '📡 Розпочато трансляцію вебінару.' : '⏺ Розпочато запис вебінару.');
+    renderControls();
+  });
+}
+
+function stopRecording() {
+  if (S.rec === 'local') return stopLocalRec();
+  if (S.rec) api.executeCommand('stopRecording', S.rec);
+  S.rec = null; renderControls();
+}
+
+/* ---------- Локальний запис (вкладка + звук) ---------- */
+let rec = null, recChunks = [], recStreams = [];
+async function startLocalRec() {
+  if (!navigator.mediaDevices?.getDisplayMedia || !window.MediaRecorder) { toast('Браузер не підтримує запис. Використайте Chrome або Edge.', 'err'); return; }
+  try {
+    const display = await navigator.mediaDevices.getDisplayMedia({
+      video: { frameRate: 30 }, audio: true,
+      preferCurrentTab: true, selfBrowserSurface: 'include', systemAudio: 'include'
+    });
+    recStreams = [display];
+    // Змішуємо звук вкладки (голоси учасників) і ваш мікрофон
+    const ctx = new AudioContext(), dest = ctx.createMediaStreamDestination();
+    if (display.getAudioTracks().length) ctx.createMediaStreamSource(display).connect(dest);
+    else toast('Звук вкладки не захоплено — у вікні вибору позначте «Надати доступ до аудіо вкладки».', 'warn', 8000);
+    try {
+      const mic = await navigator.mediaDevices.getUserMedia({ audio: { echoCancellation: true } });
+      recStreams.push(mic); ctx.createMediaStreamSource(mic).connect(dest);
+    } catch {}
+    const mixed = new MediaStream([...display.getVideoTracks(), ...dest.stream.getAudioTracks()]);
+    const mime = ['video/webm;codecs=vp9,opus', 'video/webm;codecs=vp8,opus', 'video/webm', 'video/mp4'].find(t => MediaRecorder.isTypeSupported(t)) || '';
+    rec = new MediaRecorder(mixed, mime ? { mimeType: mime, videoBitsPerSecond: 2_500_000 } : undefined);
+    recChunks = [];
+    rec.ondataavailable = e => e.data.size && recChunks.push(e.data);
+    rec.onstop = () => {
+      const ext = (rec.mimeType || '').includes('mp4') ? 'mp4' : 'webm';
+      const blob = new Blob(recChunks, { type: rec.mimeType || 'video/webm' });
+      const a = Object.assign(document.createElement('a'), { href: URL.createObjectURL(blob), download: `VAG-${W.id}-${new Date().toISOString().slice(0, 16).replace(/[:T]/g, '-')}.${ext}` });
+      document.body.appendChild(a); a.click(); a.remove();
+      recStreams.forEach(s => s.getTracks().forEach(t => t.stop())); ctx.close().catch(() => {});
+      toast(`💾 Запис збережено (${(blob.size / 1048576).toFixed(0)} МБ)`, 'ok', 7000);
+      rec = null; S.rec = null; setRecBadge(false); renderControls();
+    };
+    display.getVideoTracks()[0].addEventListener('ended', stopLocalRec);
+    rec.start(5000);
+    S.rec = 'local'; setRecBadge(true); renderControls();
+    api?.executeCommand('sendChatMessage', '⏺ Ведучий розпочав запис вебінару.');
+    toast('⏺ Запис розпочато. Не закривайте цю вкладку до завершення.', 'ok', 6000);
+  } catch (e) {
+    toast('Запис скасовано або доступ не надано.', 'warn');
+  }
+}
+function stopLocalRec() { if (rec && rec.state !== 'inactive') rec.stop(); }
+function setRecBadge(on) { $('#bRec').classList.toggle('hidden', !on); $('#bRec').classList.toggle('inline-flex', on); }
+window.addEventListener('beforeunload', e => { if (rec && rec.state === 'recording') { e.preventDefault(); e.returnValue = ''; } });
+
+/* ---------- Бічна панель та вкладки ---------- */
+let activeTab = 'people';
+function selectTab(t) {
+  activeTab = t;
+  $$('.tab').forEach(b => b.setAttribute('aria-selected', b.dataset.tab === t));
+  $$('[data-panel]').forEach(p => { const on = p.dataset.panel === t; p.classList.toggle('hidden', !on); if (p.dataset.panel === 'chat') p.classList.toggle('flex', on); });
+  if (t === 'chat') { $('#chatDot').classList.add('hidden'); setTimeout(() => $('#chatInput').focus(), 50); }
+}
+$$('.tab').forEach(b => b.onclick = () => selectTab(b.dataset.tab));
+const COMPACT = matchMedia('(max-width: 1023px), (max-height: 520px)');
+function sideVisible() {
+  const side = $('#side');
+  return COMPACT.matches ? side.classList.contains('open') : !side.classList.contains('closed');
+}
+function toggleSide(force) {
+  const side = $('#side');
+  const show = force ?? !sideVisible();
+  if (COMPACT.matches) side.classList.toggle('open', show);
+  else side.classList.toggle('closed', !show);
+  $('#cSide').setAttribute('aria-pressed', show);
+  if (show) $('#cSide').classList.remove('has-new');
+}
+// Панель на телефоні відкривається НАД панеллю кнопок: передаємо в CSS її висоту
+const ctlbar = document.querySelector('footer.ctlbar');
+const setCtlH = () => document.documentElement.style.setProperty('--ctlbar-h', ctlbar.offsetHeight + 'px');
+if (window.ResizeObserver) new ResizeObserver(setCtlH).observe(ctlbar);
+window.addEventListener('resize', setCtlH);
+// Синхронізуємо кнопку при повороті екрана
+COMPACT.addEventListener?.('change', () => $('#cSide').setAttribute('aria-pressed', sideVisible()));
+
+/* ---------- Гарячі клавіші (коли фокус не в полі введення і не у відео) ---------- */
+document.addEventListener('keydown', e => {
+  if (!api || e.ctrlKey || e.metaKey || e.altKey || /INPUT|TEXTAREA|SELECT/.test(document.activeElement.tagName)) return;
+  const k = e.key.toLowerCase();
+  const map = { m: '#cMic', 'ь': '#cMic', v: '#cCam', 'м': '#cCam', s: '#cShare', 'і': '#cShare', h: '#cHand', 'р': '#cHand', t: '#cTile', 'е': '#cTile' };
+  if (map[k] && $(map[k])) { e.preventDefault(); $(map[k]).click(); }
+});
+
+/* ---------- Після виходу ---------- */
+function showBye() {
+  stopLocalRec();
+  try { api?.dispose(); } catch {}
+  api = null;
+  $('#studio').classList.add('hidden'); $('#studio').classList.remove('flex');
+  $('#bye').classList.remove('hidden'); $('#bye').classList.add('flex');
+  if (IS_HOST) {
+    $('#byeText').textContent = 'Ефір завершено. Не забудьте додати запис в архів (recordingUrl) і розіслати форму сертифіката.';
+    $('#byeCert').textContent = '📋 До чекліста організатора'; $('#byeCert').href = 'index.html#organizers';
+  }
+}
+$('#byeRejoin').onclick = () => location.reload();
+
+$('#cSide').setAttribute('aria-pressed', sideVisible());
+if (!navigator.mediaDevices?.getDisplayMedia) $('#cShare').remove(); // на більшості телефонів показ екрана недоступний
+renderControls();
+
+})();
+</script>
+</body>
+</html>
